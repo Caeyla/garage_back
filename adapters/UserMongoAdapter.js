@@ -8,11 +8,11 @@ const UserSchema = new mongoose.Schema({
 
 class UserMongoAdapter  {
   constructor() {
-    this.model = mongoose.model('User', UserSchema);
+    this.UserModel = mongoose.model('User', UserSchema);
   }
 
   async create(user) {
-    const newUser = new this.model(user);
+    const newUser = new this.UserModel(user);
     await newUser.save();
   }
 
@@ -24,6 +24,7 @@ class UserMongoAdapter  {
   async deleteAll() {
     await this.model.deleteMany({});
   }
+
 }
 
 module.exports = UserMongoAdapter;
