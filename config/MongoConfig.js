@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 
 const connectToDb = (dbUrl) => { 
         mongoose.connect(dbUrl, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false
+
         }).then(() => {
             console.log('MongoDB Connected ! ');
         })

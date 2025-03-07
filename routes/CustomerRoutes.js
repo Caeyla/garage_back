@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Customer = require('../models/Customer');
+const Customer = require('../domain/models/Customer');
 // set url prefix to /customers
 
 router.get('/', async (req, res) => {
