@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const User = require('../domain/models/User');
 
 const UserSchema = new mongoose.Schema({
-  name: String,
-  password: String
+  name: { type: String, required: true, unique: true },
+  password: { type: String, required: true }
 });
 
 class UserMongoAdapter  {
