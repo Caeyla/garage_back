@@ -26,10 +26,12 @@ jobs:
       - name: Run tests
         run: npm test
 
-      # - name: Build
-      #   run: npm run build
+      - name: Build
+        if: github.ref == 'refs/heads/main'
+        run: npm run build
 
-      # - name: Deploy
-      #   run: npm run deploy
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        run: npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
