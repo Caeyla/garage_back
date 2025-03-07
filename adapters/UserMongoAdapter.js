@@ -17,10 +17,14 @@ class UserMongoAdapter  {
   }
 
   async findByName(name) {
-    const user = await this.UserModel.findOne({ name });
+    const user = await this.model.findOne({ name });
     return new User(user.name, user.password);
   }
-   
+
+  async deleteAll() {
+    await this.model.deleteMany({});
+  }
+
 }
 
 module.exports = UserMongoAdapter;
