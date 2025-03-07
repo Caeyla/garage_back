@@ -5,7 +5,7 @@ const Manager = require('../domain/models/Manager');
 router.get('/', async (req, res) => {
     try {
         const managers = await Manager.findAll();
-        return res.json(managers);
+        res.json(managers);
     } catch (err) {
         res.json({ message: err });
     }
