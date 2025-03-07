@@ -7,6 +7,10 @@ class Customer {
         this.userId = userId;
     }
 
+    sayHello() {
+        return `Hello, ${this.name}!`;
+    }
+
 }
 
 module.exports = Customer;
