@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Manager = require('../domain/models/Manager');
+const Employee = require('../domain/models/Employee');
 
 router.get('/', async (req, res) => {
     try {
-        const managers = await Manager.findAll();
-        res.json(managers);
+        const employees = await Employee.findAll();
+        res.json(employees);
     } catch (err) {
         res.json({ message: err });
     }
