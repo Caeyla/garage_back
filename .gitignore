@@ -1,4 +1,4 @@
 node_modules
-# TODO : Add gitignore for .github
 .github
 .env
+.todo

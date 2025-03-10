@@ -1,9 +1,17 @@
 const User = require('./User');
+const userType = require('../enumeration/UserType');
 
-class Customer extends User {
-    constructor(id, name, firstName, email, password, isActive, phone) {
-        super(id, name, firstName, email, password, isActive);
-        this.phone = phone;
+class Employee extends User{
+    constructor(id,name,firstName,email,password,income,isActive,unvailableDates,type) {
+        super(id,name,firstName,email,password,isActive);
+        this.unvailableDates = unvailableDates;   
+        this.income = income;
+        this.type = type
+    }
+
+    register(employeeAdapter){
+        super.register();
+        employeeAdapter.create(this);
     }
 
     static get Builder() {
@@ -14,33 +22,38 @@ class Customer extends User {
                 this.firstName = "";
                 this.email = "";
                 this.password = "";
-                this.isActive = true;
-                this.phone = "";
+                this.income = 0;
+                this.isActive = false;
+                this.unvailableDates = [];
+                this.type = undefined
             }
-
+    
             setId(id) { this.id = id; return this; }
             setName(name) { this.name = name; return this; }
             setFirstName(firstName) { this.firstName = firstName; return this; }
             setEmail(email) { this.email = email; return this; }
             setPassword(password) { this.password = password; return this; }
+            setIncome(income) { this.income = income; return this; }
             setIsActive(isActive) { this.isActive = isActive; return this; }
-            setPhone(phone) { this.phone = phone; return this; }
-
+            setUnavailableDates(dates) { this.unvailableDates = dates; return this; }
+            setType(type) { this.type = type; return this; }
             build() {
-                return new Customer(
+                return new Employee(
                     this.id,
                     this.name,
                     this.firstName,
                     this.email,
                     this.password,
+                    this.income,
                     this.isActive,
-                    this.phone
+                    this.unvailableDates,
+                    this.type
                 );
             }
         }
         return Builder;
     }
-
+    
 }
 
-module.exports = Customer;
+module.exports = Employee;
