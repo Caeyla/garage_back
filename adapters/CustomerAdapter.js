@@ -4,10 +4,10 @@ const Customer = require('../domain/models/Customer');
 const CustomerSchema = new mongoose.Schema({
   name: { type: String, required: true},
   password: { type: String, required: true },
-  firstname:{type:String, required:true},
+  firstName:{type:String, required:true},
   email:{type:String, required:true, unique:true},
   password:{type:String, required:true},
-  birthday:{type:Date, required:true},
+  birthDate:{type:Date, required:true},
   isActive:{type:Boolean, require:true}
 });
 
@@ -16,19 +16,26 @@ class CustomerAdapter  {
     this.model = mongoose.model('Customer', CustomerSchema);
   }
 
-  create(customer) {
-    const newCustomer = new this.model(customer);
-    newCustomer.save().then((data) => console.log(data)).catch((err) => console.log(err));
+  async create({
+    name,
+    firstName,
+    email,
+    password,
+    birthDate,
+    phone
+  }) {
+    const newCustomer = new this.model({
+      name,
+      firstName,
+      email,
+      password,
+      birthDate,
+      phone
+    });
+    await newCustomer.save();
+    return { id: newCustomer._id };
   }
 
-  async findByName(name) {
-    const customer = await this.model.findOne({ name });
-    return new Customer(customer.name, customer.password);
-  }
-
-  async deleteAll() {
-    await this.model.deleteMany({});
-  }
 
 }
 

@@ -18,7 +18,7 @@ class UserCreateUseCase {
         this.exceptThatUserTypeExists(userType);
         this.expectThatEmailHasValidFormat(email);
     
-        const hashedPassword = await bcrypt.hash(password,SALT_ROUNDS);
+        const hashedPassword = bcrypt.hashSync(password,SALT_ROUNDS);
 
         if(userType === UserType.CUSTOMER) {
             return this.handleCreateCustomer(

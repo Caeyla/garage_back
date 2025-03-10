@@ -2,6 +2,9 @@ const UserCreateUseCase = require("../../../domain/usecases/user/UserCreateUseCa
 const CustomerAdapter = require("../../../adapters/CustomerAdapter");
 const EmployeeAdapter = require("../../../adapters/EmployeeAdapter");
 const UserType = require("../../../domain/enumeration/UserType");
+const bcrypt = require("bcrypt");
+const SecurityConstant = require("../../../constant/SecurityConstant");
+const SALT_ROUNDS = SecurityConstant.SALT_ROUNDS;
 
 describe("common user create use case tests ", () => {
     let customerAdapter;
@@ -16,6 +19,24 @@ describe("common user create use case tests ", () => {
 
     afterEach(() => {
         jest.clearAllMocks();
+    });
+
+    it("should hash password before creating user", async () => {
+        const password = "password";
+        const hashSpy = jest.spyOn(bcrypt, "hashSync");
+        const createUserUseCase = new UserCreateUseCase(customerAdapter, employeeAdapter);
+        jest.spyOn(createUserUseCase, "handleCreateCustomer").mockImplementation(() => Promise.resolve());
+        await createUserUseCase.create({
+            name: "John",
+            firstName: "Doe",
+            email: "0aK9w@example.com",
+            password: password,
+            userType: UserType.CUSTOMER,
+            extraData: {
+                phone: "1234567890",
+            },        
+        });
+        expect(hashSpy).toHaveBeenCalledWith(password, SALT_ROUNDS);
     });
 
     it("it should throw error if user type does not exist", async () => {
