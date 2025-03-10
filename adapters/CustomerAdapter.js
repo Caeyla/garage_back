@@ -16,9 +16,9 @@ class CustomerAdapter  {
     this.model = mongoose.model('Customer', CustomerSchema);
   }
 
-  async create(customer) {
+  create(customer) {
     const newCustomer = new this.model(customer);
-    await newCustomer.save();
+    newCustomer.save().then((data) => console.log(data)).catch((err) => console.log(err));
   }
 
   async findByName(name) {

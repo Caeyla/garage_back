@@ -1,13 +1,9 @@
-// Import the User class
 const User = require('./User');
-class Customer extends User {
-    constructor(id,name,firstName,email,password,isActive,phone) {
-        super(id,name,firstName,email,password,isActive);
-        this.phone = phone;
-    }
 
-    sayHello() {
-        return `Hello, ${this.name}!`;
+class Customer extends User {
+    constructor(id, name, firstName, email, password, isActive, phone) {
+        super(id, name, firstName, email, password, isActive);
+        this.phone = phone;
     }
 
     static get Builder() {
@@ -18,7 +14,7 @@ class Customer extends User {
                 this.firstName = "";
                 this.email = "";
                 this.password = "";
-                this.isActive = false;
+                this.isActive = true;
                 this.phone = "";
             }
 

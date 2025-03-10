@@ -1,6 +1,8 @@
 
 const UserType = {
-    MANAGER : 'ADMIN',
+    MANAGER : 'MANAGER',
     CUSTOMER : 'USER',
     MECHANIC : 'MECHANIC',
 }
+
+module.exports = UserType
