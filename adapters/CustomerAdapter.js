@@ -2,16 +2,15 @@ const mongoose = require('mongoose');
 const Customer = require('../domain/models/Customer');
 
 const CustomerSchema = new mongoose.Schema({
-  name: { type: String, required: true},
+  name: { type: String, required: true },
   password: { type: String, required: true },
-  firstName:{type:String, required:true},
-  email:{type:String, required:true, unique:true},
-  password:{type:String, required:true},
-  birthDate:{type:Date, required:true},
-  isActive:{type:Boolean, require:true}
+  firstName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  isActive: { type: Boolean, require: true }
 });
 
-class CustomerAdapter  {
+class CustomerAdapter {
   constructor() {
     this.model = mongoose.model('Customer', CustomerSchema);
   }

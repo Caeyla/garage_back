@@ -21,20 +21,25 @@ class EmployeeAdapter {
     this.model = mongoose.model('Employee', EmployeeSchema);
   }
 
-  async create(employee) {
-    const newEmployee = new this.model(employee);
+  async create({
+    name,
+    firstName,
+    email,
+    password,
+    income,
+    type
+  }) {
+    const newEmployee = new this.model({
+      name,
+      firstName,
+      email,
+      password,
+      income,
+      type
+    });
     await newEmployee.save();
+    return { id: newEmployee._id };
   }
-
-  async findByName(name) {
-    const employee = await this.model.findOne({ name });
-    return new Employee(employee.name, employee.password);
-  }
-
-  async deleteAll() {
-    await this.model.deleteMany({});
-  }
-
 }
 
 module.exports = EmployeeAdapter;

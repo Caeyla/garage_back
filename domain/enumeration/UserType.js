@@ -1,7 +1,7 @@
 
 const UserType = {
     MANAGER : 'MANAGER',
-    CUSTOMER : 'USER',
+    CUSTOMER : 'CUSTOMER',
     MECHANIC : 'MECHANIC',
 }
 
