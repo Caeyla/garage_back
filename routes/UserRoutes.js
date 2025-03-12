@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../domain/models/User');
+const CreateUserDto = require('../dto/request/CreateUserDto');
+const {userCreateUseCase} = require('../config/Container');
 
-router.post('/', async (req, res) => {
+
+router.post('/register', async (req, res) => {
     try {
-        const users = await User.findAll();
-        res.json(users);
+        const createUserDto = new  CreateUserDto(req.body);
+        let id = await userCreateUseCase.create(createUserDto);
+        res.status(201).json(id);
     } catch (err) {
-        res.json({ message: err });
+        res.status(500).json({ message : err });
     }
 });
 

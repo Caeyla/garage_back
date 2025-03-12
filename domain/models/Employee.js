@@ -1,5 +1,4 @@
 const User = require('./User');
-const userType = require('../enumeration/UserType');
 
 class Employee extends User{
     constructor(id,name,firstName,email,password,income,isActive,unvailableDates,type) {

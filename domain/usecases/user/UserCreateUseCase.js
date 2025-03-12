@@ -12,30 +12,30 @@ class UserCreateUseCase {
         this.employeeAdapter = employeeAdapter;
     }
 
-    async create({name,firstName,email,password,userType,extraData}) {
+    async create(createUserDto) {
 
-        this.expectThatRequiredFieldsArePresent({name,firstName,email,password,userType});
-        this.exceptThatUserTypeExists(userType);
-        this.expectThatEmailHasValidFormat(email);
+        this.expectThatRequiredFieldsArePresent(createUserDto);
+        this.exceptThatUserTypeExists(createUserDto.userType);
+        this.expectThatEmailHasValidFormat(createUserDto.email);
     
-        const hashedPassword = bcrypt.hashSync(password,SALT_ROUNDS);
+        const hashedPassword = bcrypt.hashSync(createUserDto.password,SALT_ROUNDS);
 
-        if(userType === UserType.CUSTOMER) {
+        if(createUserDto.userType  === UserType.CUSTOMER) {
             return this.handleCreateCustomer(
-                name,
-                firstName,
-                email,
+                createUserDto.name,
+                createUserDto.firstName,
+                createUserDto.email,
                 hashedPassword,
-                extraData
+                createUserDto.extraData
             );
-        } else if(userType === UserType.MANAGER || userType === UserType.MECHANIC) {
+        } else if(createUserDto.userType === UserType.MANAGER || createUserDto.userType === UserType.MECHANIC) {
             return this.handleCreateEmployee(
-                name,
-                firstName,
-                email,
+                createUserDto.name,
+                createUserDto.firstName,
+                createUserDto.email,
                 hashedPassword,
-                extraData,
-                userType
+                createUserDto.userType,
+                createUserDto.extraData
             );
         } 
     }
@@ -63,7 +63,7 @@ class UserCreateUseCase {
             .setUnavailableDates(extraData.unavailableDates)
             .setType(userType)
             .build();
-        return this.employeeAdapter.create(employee);
+        return await this.employeeAdapter.create(employee);
     }
 
     exceptThatUserTypeExists(userType) {
