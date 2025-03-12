@@ -4,19 +4,19 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const apptest= express();
+const app= express();
 
-apptest.use(cors());
-apptest.use(express.json());
+app.use(cors());
+app.use(express.json());
 
 //config
-initRoutes(apptest);
+initRoutes(app);
 db(process.env.MONGO_URI);
 
 const PORT = process.env.PORT || 5000;
 
-apptest.listen(PORT , () => {
+app.listen(PORT , () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
 
-module.exports = apptest;
+module.exports = app;
