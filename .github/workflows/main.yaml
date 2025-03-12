@@ -29,10 +29,11 @@ jobs:
         run: npm test
 
   Deploy-Production:
-    needs: build  # Correction ici
+    needs: build
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'  # Only deploy if on main branch
     steps:
-      - uses: actions/checkout@v3  # Gardé uniquement ici
+      - uses: actions/checkout@v3  
       
       - name: Install Vercel CLI
         run: npm install --global vercel
