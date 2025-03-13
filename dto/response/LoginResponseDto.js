@@ -1,7 +1,6 @@
 class LoginResponseDto {
-    constructor(token,expirationDate,userType) {
+    constructor(token,userType) {
         this.jwt = token;
-        this.duration = expirationDate;
         this.role = userType;
     }
 }

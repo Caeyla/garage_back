@@ -3,6 +3,7 @@ const UserType = require("../../enumeration/UserType");
 const SecurityConstant = require("../../../constant/SecurityConstant");
 const Customer = require("../../models/Customer");
 const Employee = require("../../models/Employee");
+const UserService = require("../../services/UserService");
 
 const SALT_ROUNDS = SecurityConstant.SALT_ROUNDS;
 
@@ -13,9 +14,8 @@ class UserCreateUseCase {
     }
 
     async create(createUserDto) {
-
-        this.expectThatRequiredFieldsArePresent(createUserDto);
         this.exceptThatUserTypeExists(createUserDto.userType);
+        UserService.expectThatRequiredFieldsArePresent(createUserDto);
         this.expectThatEmailHasValidFormat(createUserDto.email);
     
         const hashedPassword = bcrypt.hashSync(createUserDto.password,SALT_ROUNDS);
@@ -80,11 +80,6 @@ class UserCreateUseCase {
         }
     }
 
-    expectThatRequiredFieldsArePresent({name,firstName,email,password,userType}) {
-        if(!name || !firstName || !email || !password || !userType) {
-            throw new Error("name, firstName, email, password and userType are required");
-        }
-    }
 }
 
 module.exports = UserCreateUseCase;
