@@ -21,14 +21,7 @@ class EmployeeAdapter {
     this.model = mongoose.model('Employee', EmployeeSchema);
   }
 
-  async create({
-    name,
-    firstName,
-    email,
-    password,
-    income,
-    type
-  }) {
+  async create({name,firstName,email,password,income,type}) {
     const newEmployee = new this.model({
       name,
       firstName,
@@ -39,6 +32,10 @@ class EmployeeAdapter {
     });
     await newEmployee.save();
     return { id: newEmployee._id };
+  }
+
+  async findByEmail(email) {
+    return await this.model.findOne({ email });
   }
 }
 

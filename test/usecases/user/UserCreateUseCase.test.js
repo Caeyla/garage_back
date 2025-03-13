@@ -33,7 +33,7 @@ describe("common user create use case tests ", () => {
             password: password,
             userType: UserType.CUSTOMER,
             extraData: {
-                phone: "1234567890",
+                phone: "1234567890"
             },        
         });
         expect(hashSpy).toHaveBeenCalledWith(password, SALT_ROUNDS);
@@ -72,7 +72,10 @@ describe("common user create use case tests ", () => {
             email: null,
             password: "password",
             userType: UserType.CUSTOMER,
-        })).rejects.toThrow(new Error("name, firstName, email, password and userType are required"));
+            extraData: {
+                phone: null
+            }
+        })).rejects.toThrow(new Error("firstname, email, phone"));
     })
 })
 

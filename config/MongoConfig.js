@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
-const connectToDb = (dbUrl) => { 
-        mongoose.connect(dbUrl, {
+const connectToDb = (MONGO_URI) => { 
+    if(!MONGO_URI) {
+        throw new Error('MONGO_URI is not defined');
+    }
+        mongoose.connect(MONGO_URI, {
 
         }).then(() => {
             console.log('MongoDB Connected ! ');

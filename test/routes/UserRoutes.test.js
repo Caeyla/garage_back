@@ -2,13 +2,17 @@ const request = require('supertest');
 const appTest = require('../appTest');
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const CustomerAdapter = require('../../adapters/CustomerAdapter');
+const EmployeeAdapter = require('../../adapters/EmployeeAdapter');
+const UserCreateUseCase = require('../../domain/usecases/user/UserCreateUseCase');
+const UserType = require('../../domain/enumeration/UserType');
 
 
 let mongoServer;
 let server;
 
 beforeAll(async () => {
-    server = await appTest.listen(5000, () => {
+    server = appTest.listen(5000, () => {
         console.log(`Server is running on port 5000 `);
     });
     mongoServer = await MongoMemoryServer.create();
@@ -22,7 +26,7 @@ afterAll(async () => {
     server.close();
 });
 
-describe("Customer registration ", () => {
+describe("Registration ", () => {
     it("Should register user customer", async () => {
         const response = await request(appTest)
             .post('/user/register')
@@ -40,10 +44,6 @@ describe("Customer registration ", () => {
         expect(response.body.id).toBeDefined();
     });
 
-
-});
-
-describe("Mechanic registration", () => {
     it('Should register user mechanic',async () => {
         const response = await request(appTest)
             .post('/user/register')
@@ -62,4 +62,60 @@ describe("Mechanic registration", () => {
         expect(response.status).toBe(201);
         expect(response.body.id).toBeDefined();
     });
+
+});
+
+describe("Login", () => {
+    const password = "password";
+    const userCreateUseCase = new UserCreateUseCase(
+        new CustomerAdapter(),
+        new EmployeeAdapter()
+    );
+
+    it("Should login user customer", async () => {
+        const emailCutsomer = "customer@example.com";
+        await userCreateUseCase.create({
+            name: "John",
+            firstName: "Doe",
+            email: emailCutsomer,
+            password: password,
+            userType: UserType.CUSTOMER,
+            extraData: {
+                phone: "1234567890",
+            }
+        });
+        const response = await request(appTest)
+            .post('/user/login')
+            .send({
+                email: emailCutsomer,
+                password: password
+            });
+        expect(response.status).toBe(200);
+        expect(response.body.jwt).toBeDefined();
+        expect(response.body.role).toBe(UserType.CUSTOMER);
+    });
+
+    it("Should login user employee", async () => {
+        const email = "employee@example.com";
+        await userCreateUseCase.create({
+            name: "John",
+            firstName: "Doe",
+            email: email,
+            password: "password",
+            userType: UserType.MECHANIC,
+            extraData: {
+                income: 1000,
+                unavailableDates: ["2023-01-01", "2023-01-02"]
+            },
+        });
+        const response = await request(appTest)
+            .post('/user/login')
+            .send({
+                email: email,
+                password: password
+            });
+        expect(response.status).toBe(200);
+        expect(response.body.jwt).toBeDefined();
+        expect(response.body.role).toBe(UserType.MECHANIC);
+    })
 });

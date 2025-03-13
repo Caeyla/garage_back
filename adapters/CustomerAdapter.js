@@ -15,14 +15,7 @@ class CustomerAdapter {
     this.model = mongoose.model('Customer', CustomerSchema);
   }
 
-  async create({
-    name,
-    firstName,
-    email,
-    password,
-    birthDate,
-    phone
-  }) {
+  async create({name,firstName,email,password,birthDate,phone}) {
     const newCustomer = new this.model({
       name,
       firstName,
@@ -33,6 +26,10 @@ class CustomerAdapter {
     });
     await newCustomer.save();
     return { id: newCustomer._id };
+  }
+
+  async findByEmail(email) {
+    return this.model.findOne({ email });
   }
 
 

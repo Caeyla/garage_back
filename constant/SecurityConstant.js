@@ -1,5 +1,10 @@
+require('dotenv').config();
 const SALT_ROUNDS = 10;
+const TOKEN_DURATION = 1;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 module.exports = {
-    SALT_ROUNDS
+    SALT_ROUNDS,
+    TOKEN_DURATION,
+    SECRET_KEY
 }
