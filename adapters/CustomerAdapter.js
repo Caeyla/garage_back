@@ -7,7 +7,8 @@ const CustomerSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  isActive: { type: Boolean, require: true }
+  isActive: { type: Boolean, required: true, default: true },
+  phone: {type: String, required: true}
 });
 
 class CustomerAdapter {
@@ -29,7 +30,11 @@ class CustomerAdapter {
   }
 
   async findByEmail(email) {
-    return this.model.findOne({ email });
+    return await this.model.findOne({ email });
+  }
+
+  async findById(id) {
+    return await this.model.findById(id);
   }
 
 

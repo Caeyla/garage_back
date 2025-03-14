@@ -27,7 +27,7 @@ describe("employee adapter tests", () => {
       password: "password",
       birthDate: "1990-01-01",
       income: 1000,
-      type: "MECHANIC",
+      userType: "MECHANIC",
       unavailableDates: ["2023-01-01", "2023-01-02"]
     });
     expect(result.id).toBeInstanceOf(ObjectId);
@@ -42,7 +42,7 @@ describe("employee adapter tests", () => {
       password: "password",
       birthDate: "1990-01-01",
       income: "1234567890",
-      type: "MECHANIC",
+      userType: "MECHANIC",
       unavailableDates: ["2023-01-01", "2023-01-02"]
     });
 

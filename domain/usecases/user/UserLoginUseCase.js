@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
 const SecurityConstant = require("../../../constant/SecurityConstant");
-const jwt = require('jsonwebtoken');
-const LoginResponseDto = require('../../../dto/response/LoginResponseDto');
+const LoginResponseDto = require('../../../dto/user/LoginResponseDto');
 const UserType = require("../../../domain/enumeration/UserType");
+const JwtService = require("../../services/JwtService");
 
 
 class UserLoginUseCase {
@@ -25,7 +25,7 @@ class UserLoginUseCase {
         
         const expirationDate = this.getExpirationDate();
         const userType = this.getUserType(user);
-        const token = this.generateToken(user,userType,expirationDate);
+        const token = JwtService.generateToken(user,userType,expirationDate);
 
 
         return new LoginResponseDto(
@@ -35,23 +35,9 @@ class UserLoginUseCase {
     }
 
 
-    generateToken(user,userType,expirationDate) {
-        if(!SecurityConstant.SECRET_KEY){
-            throw new Error("Secret key is not set");
-        }
-        return jwt.sign({
-            id: user.id,
-            userType: userType,
-            expirationDate: expirationDate 
-        },
-        SecurityConstant.SECRET_KEY,
-        {expiresIn: SecurityConstant.TOKEN_DURATION+'h'}
-        );
-    }
-
     getUserType(user) {
-        if(user.type){
-            return user.type;
+        if(user.userType){
+            return user.userType;
         }
         return UserType.CUSTOMER;
     }

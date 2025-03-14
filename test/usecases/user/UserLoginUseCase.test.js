@@ -42,7 +42,7 @@ describe("user login use case tests ", () => {
         const spyOnEmployeeAdapter = jest.spyOn(employeeAdapter, "findByEmail").mockReturnValue({
             email: email,
             password: cryptedPassword,
-            type: UserType.MECHANIC
+            userType: UserType.MECHANIC
         });
         
         const result = await userLoginUseCase.login(email, password);
