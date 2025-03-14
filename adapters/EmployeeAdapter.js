@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Employee = require('../domain/models/Employee');
+
 
 
 const EmployeeSchema = new mongoose.Schema({
@@ -8,7 +8,7 @@ const EmployeeSchema = new mongoose.Schema({
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   income: { type: Number, required: true },
-  type: { type: String, required: true },
+  userType: { type: String, required: true },
   isActive: { type: Boolean, required: true, default: true }
   // unvailableDate:[unvailables]
 },
@@ -21,14 +21,14 @@ class EmployeeAdapter {
     this.model = mongoose.model('Employee', EmployeeSchema);
   }
 
-  async create({name,firstName,email,password,income,type}) {
+  async create({name,firstName,email,password,income,userType}) {
     const newEmployee = new this.model({
       name,
       firstName,
       email,
       password,
       income,
-      type
+      userType
     });
     await newEmployee.save();
     return { id: newEmployee._id };
@@ -36,6 +36,10 @@ class EmployeeAdapter {
 
   async findByEmail(email) {
     return await this.model.findOne({ email });
+  }
+
+  async findById(id) {
+    return await this.model.findById(id);
   }
 }
 

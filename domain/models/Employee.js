@@ -1,11 +1,11 @@
 const User = require('./User');
 
 class Employee extends User{
-    constructor(id,name,firstName,email,password,income,isActive,unvailableDates,type) {
+    constructor(id,name,firstName,email,password,income,isActive,unvailableDates,userType) {
         super(id,name,firstName,email,password,isActive);
         this.unvailableDates = unvailableDates;   
         this.income = income;
-        this.type = type
+        this.userType = userType
     }
 
     register(employeeAdapter){
