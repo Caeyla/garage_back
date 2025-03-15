@@ -1,5 +1,5 @@
 class Vehicle {
-    constructor(id, registrationNumber, typeVehicle, brand, model, yearOfManufacture, transmission) {
+    constructor(id, registrationNumber, typeVehicle, brand, model, yearOfManufacture, transmission,customerId) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.typeVehicle = typeVehicle;
@@ -7,6 +7,11 @@ class Vehicle {
         this.model = model;
         this.yearOfManufacture = yearOfManufacture;
         this.transmission = transmission;
+        this.customerId = customerId
+    }
+
+    setCustomerId(customerId){
+        this.customerId = customerId
     }
 
     static get Builder() {
@@ -19,6 +24,7 @@ class Vehicle {
                 this.model = "";
                 this.yearOfManufacture = "";
                 this.transmission = "";
+                this.customerId = null;
             }
 
             setId(id) { this.id = id; return this; }
@@ -28,6 +34,7 @@ class Vehicle {
             setModel(model) { this.model = model; return this; }
             setYearOfManufacture(yearOfManufacture) { this.yearOfManufacture = yearOfManufacture; return this; }
             setTransmission(transmission) { this.transmission = transmission; return this; }
+            setCustomerId(customerId) { this.customerId = customerId; return this; }
 
             build() {
                 return new Vehicle(
@@ -37,7 +44,8 @@ class Vehicle {
                     this.brand,
                     this.model,
                     this.yearOfManufacture,
-                    this.transmission
+                    this.transmission,
+                    this.customerId
                 );
             }
         }

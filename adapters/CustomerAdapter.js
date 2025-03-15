@@ -8,15 +8,19 @@ const CustomerSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   isActive: { type: Boolean, required: true, default: true },
-  phone: {type: String, required: true}
-});
+  phone: { type: String, required: true }
+},
+  {
+    timestamps: true
+  }
+);
 
 class CustomerAdapter {
   constructor() {
     this.model = mongoose.model('Customer', CustomerSchema);
   }
 
-  async create({name,firstName,email,password,birthDate,phone}) {
+  async create({ name, firstName, email, password, birthDate, phone }) {
     const newCustomer = new this.model({
       name,
       firstName,
@@ -37,8 +41,8 @@ class CustomerAdapter {
     return await this.model.findById(id);
   }
 
-  async update(id,updatesToCustomer) {
-    return await this.model.updateOne({ _id: id }, { $set: {...updatesToCustomer} });
+  async update(id, updatesToCustomer) {
+    return await this.model.updateOne({ _id: id }, { $set: { ...updatesToCustomer } });
   }
 
 }
