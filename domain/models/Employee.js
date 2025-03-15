@@ -8,11 +8,6 @@ class Employee extends User{
         this.userType = userType
     }
 
-    register(employeeAdapter){
-        super.register();
-        employeeAdapter.create(this);
-    }
-
     static get Builder() {
         class Builder {
             constructor() {

@@ -13,29 +13,29 @@ class UserCreateUseCase {
         this.employeeAdapter = employeeAdapter;
     }
 
-    async create(createUserDto) {
-        this.exceptThatUserTypeExists(createUserDto.userType);
-        UserService.expectThatRequiredFieldsArePresent(createUserDto);
-        this.expectThatEmailHasValidFormat(createUserDto.email);
+    async create(userRequestDto) {
+        this.exceptThatUserTypeExists(userRequestDto.userType);
+        UserService.expectThatRequiredFieldsArePresent(userRequestDto);
+        this.expectThatEmailHasValidFormat(userRequestDto.email);
     
-        const hashedPassword = bcrypt.hashSync(createUserDto.password,SALT_ROUNDS);
+        const hashedPassword = bcrypt.hashSync(userRequestDto.password,SALT_ROUNDS);
 
-        if(createUserDto.userType  === UserType.CUSTOMER) {
+        if(userRequestDto.userType  === UserType.CUSTOMER) {
             return this.handleCreateCustomer(
-                createUserDto.name,
-                createUserDto.firstName,
-                createUserDto.email,
+                userRequestDto.name,
+                userRequestDto.firstName,
+                userRequestDto.email,
                 hashedPassword,
-                createUserDto.extraData
+                userRequestDto.extraData
             );
-        } else if(createUserDto.userType === UserType.MANAGER || createUserDto.userType === UserType.MECHANIC) {
+        } else if(userRequestDto.userType === UserType.MANAGER || userRequestDto.userType === UserType.MECHANIC) {
             return this.handleCreateEmployee(
-                createUserDto.name,
-                createUserDto.firstName,
-                createUserDto.email,
+                userRequestDto.name,
+                userRequestDto.firstName,
+                userRequestDto.email,
                 hashedPassword,
-                createUserDto.userType,
-                createUserDto.extraData
+                userRequestDto.userType,
+                userRequestDto.extraData
             );
         } 
     }

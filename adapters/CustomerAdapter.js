@@ -37,6 +37,9 @@ class CustomerAdapter {
     return await this.model.findById(id);
   }
 
+  async update(id,updatesToCustomer) {
+    return await this.model.updateOne({ _id: id }, { $set: {...updatesToCustomer} });
+  }
 
 }
 
