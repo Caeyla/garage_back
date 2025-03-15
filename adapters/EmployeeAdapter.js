@@ -41,6 +41,10 @@ class EmployeeAdapter {
   async findById(id) {
     return await this.model.findById(id);
   }
+
+  async update(id,updatesToEmployee){
+    return await this.model.updateOne({ _id: id }, { $set: {...updatesToEmployee} });
+  }
 }
 
 module.exports = EmployeeAdapter;

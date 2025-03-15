@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const CreateUserDto = require('../dto/user/CreateUserDto');
-const {userCreateUseCase,userLoginUseCase,userRetrieveUseCase} = require('../config/Container');
+const UserRequestDto = require('../dto/user/UserRequestDto');
+const {userCreateUseCase,userLoginUseCase,userRetrieveUseCase,userUpdateUseCase} = require('../config/Container');
 
 
 
 router.post('/register', async (req, res) => {
     try {
-        const createUserDto = new  CreateUserDto(req.body);
-        let id = await userCreateUseCase.create(createUserDto);
+        const userRequestDto = new  UserRequestDto(req.body);
+        let id = await userCreateUseCase.create(userRequestDto);
         res.status(201).json(id);
     } catch (err) {
         res.status(500).json({ message : err.message });
@@ -34,4 +34,14 @@ router.get('/information/:token', async(req,res) => {
     }
 });
 
+router.patch('/information/:userId', async(req,res) => {
+    try{
+        const userId = req.params.userId;
+        const userUpdateInformation = new UserRequestDto(req.body);
+        userUpdateUseCase.update(userId,userUpdateInformation);
+        res.status(200).json({message : "User information updated"});
+    }catch(err){
+        res.status(500).json({ message : err.message });
+    }
+});
 module.exports = router;
