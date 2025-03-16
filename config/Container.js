@@ -8,6 +8,9 @@ const UserRetrieveUseCase = require("../domain/usecases/user/UserRetrieveUseCase
 const UserUpdateteUseCase = require("../domain/usecases/user/UserUpdateUseCase");
 
 const VehicleCreateUseCase = require("../domain/usecases/vehicle/VehicleCreateUseCase");
+const VehicleUpdateUseCase = require("../domain/usecases/vehicle/VehicleUpdateUseCase");
+const VehicleRetrieveUseCase = require("../domain/usecases/vehicle/VehicleRetrieveUseCase");
+
 
 
 const customerAdapter = new CustomerAdapter();
@@ -20,11 +23,15 @@ const userRetrieveUseCase = new UserRetrieveUseCase(customerAdapter, employeeAda
 const userUpdateUseCase =  new UserUpdateteUseCase(customerAdapter, employeeAdapter);
 
 const vehicleCreateUseCase = new VehicleCreateUseCase(vehicleAdapter,customerAdapter);
+const vehicleRetrieveUseCase = new VehicleRetrieveUseCase(vehicleAdapter,customerAdapter);
+const vehicleUpdateUseCase = new VehicleUpdateUseCase(vehicleAdapter,customerAdapter);
 
 module.exports = {
     userCreateUseCase,
     userLoginUseCase,
     userRetrieveUseCase,
     userUpdateUseCase,
-    vehicleCreateUseCase
+    vehicleCreateUseCase,
+    vehicleUpdateUseCase,
+    vehicleRetrieveUseCase
 }

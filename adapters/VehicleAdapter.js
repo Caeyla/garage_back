@@ -50,6 +50,13 @@ class VehicleAdapter {
     return await this.model.findById(id);
   }
 
+  async findByIdAndCustomerId(id,customerId) {
+    return await this.model.findOne({ _id: id, customerId });
+  }
+
+  async findByCustomerId(customerId) {
+    return await this.model.find({ customerId });
+  }
 }
 
 module.exports = VehicleAdapter;
