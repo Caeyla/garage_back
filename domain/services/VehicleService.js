@@ -1,4 +1,5 @@
-const VehicleType = require("../enumeration/VehicleType")
+const VehicleType = require("../enumeration/VehicleType");
+const Transmission = require("../enumeration/Transmission");
 
 class UserService {
     static expectThatRequiredFieldsArePresent(vehicle) {
@@ -23,6 +24,14 @@ class UserService {
         const vehicleTypes = Object.values(VehicleType);
         if(!vehicleTypes.includes(vehicleType)) {
             throw new Error(`Vehicule type ${vehicleType} does not exist`);
+        }
+    }
+
+    static expectThatTransmissionIsValid(transmission){
+        console.log(transmission)
+        const transmissions = Object.values(Transmission);
+        if(!transmissions.includes(transmission)) {
+            throw new Error(`Transmission ${transmission} does not exist`);
         }
     }
 }

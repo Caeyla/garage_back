@@ -14,7 +14,16 @@ class VehicleUpdateUseCase {
         }
         
         const finalUpdateData = this.getFinalUpdateData(vehicleFromDb,vehicleUpdateData);
-        return await this.vehicleAdapter.update(vehicleId,finalUpdateData);
+        await this.vehicleAdapter.update(vehicleId,finalUpdateData);
+    }
+
+    async remove(customerId,vehicleId) {
+        const vehicleFromDb = this.vehicleAdapter.findByIdAndCustomerId(vehicleId,customerId);
+        if(!vehicleFromDb){
+            throw new CustomError("Vehicle not found",404);
+        }
+        const updateData = { isActive: false };
+        await this.vehicleAdapter.update(vehicleId,updateData);
     }
 
     getFinalUpdateData(vehicleFromDb,vehicleUpdateData){
