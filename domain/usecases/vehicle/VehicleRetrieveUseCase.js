@@ -1,4 +1,5 @@
 const VehicleRetrieveOneResponseDto = require("../../../dto/vehicle/VehicleRetrieveOneResponseDto");
+const VehicleRetrieveManyResponseDto = require("../../../dto/vehicle/VehicleRetrieveManyResponseDto");
 
 class VehicleRetrieveUseCase{
     constructor(vehicleAdapter,customerAdapter){
@@ -8,7 +9,7 @@ class VehicleRetrieveUseCase{
 
     async retrieveByCustomerId(customerId){
         const vehicles = await this.vehicleAdapter.findByCustomerId(customerId);
-        return vehicles;
+        return new VehicleRetrieveManyResponseDto(vehicles);
     }
 
     async retrieveByIdAndCustomerId(vehicleId,customerId){
