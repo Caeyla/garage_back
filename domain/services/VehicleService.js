@@ -2,6 +2,7 @@ const VehicleType = require("../enumeration/VehicleType")
 
 class UserService {
     static expectThatRequiredFieldsArePresent(vehicle) {
+        console.log(vehicle);
         const  errorMessages = [];  
         if(!vehicle.brand){errorMessages.push("brand")}
         if(!vehicle.model){errorMessages.push("model")}
@@ -18,9 +19,10 @@ class UserService {
     }
 
     static expectThatVehicleTypeIsValid(vehicleType){
+        console.log(vehicleType)
         const vehicleTypes = Object.values(VehicleType);
         if(!vehicleTypes.includes(vehicleType)) {
-            throw new Error(`User type ${vehicleType} does not exist`);
+            throw new Error(`Vehicule type ${vehicleType} does not exist`);
         }
     }
 }

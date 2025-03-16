@@ -16,6 +16,7 @@ class VehicleRequestDto {
             .setTypeVehicle(this.typeVehicle)
             .setBrand(this.brand)
             .setModel(this.model)
+            .setKilometers(this.kilometers)
             .setYearOfManufacture(this.yearOfManufacture)
             .setTransmission(this.transmission)
             .build()

@@ -20,17 +20,14 @@ class VehicleAdapter {
     this.model = mongoose.model('Vehicle', VehicleSchema);
   }
 
-  async create({
+  async create(customerId,{
     brand,
     model,
     registrationNumber,
     kilometers,
     transmission,
     typeVehicle,
-    yearOfManufacture,
-    customerId
-  }) {
-    const customerIdAsObjectId = new mongoose.Types.ObjectId(customerId);
+    yearOfManufacture}) {
     const newVehicle = new this.model({
       brand,
       model,
@@ -39,9 +36,10 @@ class VehicleAdapter {
       transmission,
       typeVehicle,
       yearOfManufacture,
-      customerIdAsObjectId
+      customerId
     });
-    return await newVehicle.save();
+    await newVehicle.save();
+    return { id: newVehicle._id };
   }
 
   async update(id,updatesToVehicle) {

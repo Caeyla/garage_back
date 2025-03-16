@@ -11,8 +11,8 @@ router.post('/vehicle', async (req, res) => {
         const id = JwtService.decodeTokenFromRequest(req).id;
         console.log(id);
         const vehicleRequestDto = new VehicleRequestDto(req.body)
-        vehicleCreateUseCase.create(id,vehicleRequestDto);
-        res.status(201);
+        const response = await vehicleCreateUseCase.create(id,vehicleRequestDto);
+        res.status(201).json(response);
     } catch (err) {
         res.json({ message: err.message });
     }

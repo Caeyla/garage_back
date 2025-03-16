@@ -8,9 +8,9 @@ class VehicleCreateUseCase {
 
     async create(customerId,vehicleRequestDto) {
         await this.expectThatCustomerExist(customerId);
-        vehicle = vehicleRequestDto.toVehicleModel();
+        const vehicle = vehicleRequestDto.toVehicleModel();
         VehicleService.expectThatRequiredFieldsArePresent(vehicle)
-        VehicleService.expectThatVehicleTypeIsValid(vehicle.vehicleType);
+        VehicleService.expectThatVehicleTypeIsValid(vehicle.typeVehicle);
 
         return await this.vehicleAdapter.create(customerId,vehicle);
     }
