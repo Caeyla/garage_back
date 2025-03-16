@@ -28,6 +28,15 @@ class JwtService {
       { expiresIn: SecurityConstant.TOKEN_DURATION + "h" }
     );
   }
+
+  static decodeTokenFromRequest(request){
+    const authHeader = request.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if(!token){
+      return null;
+    }
+    return this.decodeToken(token);
+  }
 }
 
 module.exports = JwtService;

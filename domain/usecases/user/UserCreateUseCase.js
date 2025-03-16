@@ -1,8 +1,6 @@
 const bcrypt = require("bcrypt");
 const UserType = require("../../enumeration/UserType");
 const SecurityConstant = require("../../../constant/SecurityConstant");
-const Customer = require("../../models/Customer");
-const Employee = require("../../models/Employee");
 const UserService = require("../../services/UserService");
 
 const SALT_ROUNDS = SecurityConstant.SALT_ROUNDS;
@@ -21,48 +19,23 @@ class UserCreateUseCase {
         const hashedPassword = bcrypt.hashSync(userRequestDto.password,SALT_ROUNDS);
 
         if(userRequestDto.userType  === UserType.CUSTOMER) {
-            return this.handleCreateCustomer(
-                userRequestDto.name,
-                userRequestDto.firstName,
-                userRequestDto.email,
-                hashedPassword,
-                userRequestDto.extraData
-            );
+            return this.handleCreateCustomer(userRequestDto,hashedPassword);
         } else if(userRequestDto.userType === UserType.MANAGER || userRequestDto.userType === UserType.MECHANIC) {
-            return this.handleCreateEmployee(
-                userRequestDto.name,
-                userRequestDto.firstName,
-                userRequestDto.email,
-                hashedPassword,
-                userRequestDto.userType,
-                userRequestDto.extraData
-            );
+            return this.handleCreateEmployee(userRequestDto,hashedPassword);
         } 
     }
 
-    async handleCreateCustomer(name,firstName,email,password,extraData) {
-        const customer = new Customer.Builder()
-            .setName(name)
-            .setFirstName(firstName)
-            .setEmail(email)
-            .setPassword(password)
-            .setPhone(extraData.phone)
-            .setIsActive(true)
-            .build();
-        return this.customerAdapter.create(customer);
+    async handleCreateCustomer(userRequestDto,hashedPassword) {
+        const customer = userRequestDto.toCustomerModel();
+        customer.setPassword(hashedPassword);
+        customer.setIsActive(true);
+        return await this.customerAdapter.create(customer);
     }
 
-    async handleCreateEmployee(name,firstName,email,password,userType,extraData) {
-        const employee = new Employee.Builder()
-            .setName(name)
-            .setFirstName(firstName)
-            .setEmail(email)
-            .setPassword(password)
-            .setIncome(extraData.income)
-            .setIsActive(true)
-            .setUnavailableDates(extraData.unavailableDates)
-            .setType(userType)
-            .build();
+    async handleCreateEmployee(userRequestDto,hashedPassword) {
+        const employee = userRequestDto.toEmployeeModel();
+        employee.setPassword(hashedPassword);
+        employee.setIsActive(true);
         return await this.employeeAdapter.create(employee);
     }
 

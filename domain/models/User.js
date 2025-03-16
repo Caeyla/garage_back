@@ -40,6 +40,9 @@ class User {
         }
         return Builder;
     }
+    
+    setPassword(password) { this.password = password;}
+    setIsActive(isActive) { this.isActive = isActive;}
 }
 
 module.exports = User;

@@ -6,6 +6,7 @@ const CustomerAdapter = require('../../adapters/CustomerAdapter');
 const EmployeeAdapter = require('../../adapters/EmployeeAdapter');
 const UserCreateUseCase = require('../../domain/usecases/user/UserCreateUseCase');
 const UserType = require('../../domain/enumeration/UserType');
+const UserRequestDto = require('../../dto/user/UserRequestDto');
 
 
 let mongoServer;
@@ -16,7 +17,7 @@ beforeAll(async () => {
         console.log(`Server is running on port 5000 `);
     });
     mongoServer = await MongoMemoryServer.create();
-    const mongoUri = mongoServer.getUri();  
+    const mongoUri = mongoServer.getUri();
     await mongoose.connect(mongoUri, {});
 });
 
@@ -44,7 +45,7 @@ describe("Registration ", () => {
         expect(response.body.id).toBeDefined();
     });
 
-    it('Should register user mechanic',async () => {
+    it('Should register user mechanic', async () => {
         const response = await request(appTest)
             .post('/user/register')
             .send({
@@ -74,16 +75,18 @@ describe("Login", () => {
 
     it("Should login user customer", async () => {
         const emailCutsomer = "customer@example.com";
-        await userCreateUseCase.create({
-            name: "John",
-            firstName: "Doe",
-            email: emailCutsomer,
-            password: password,
-            userType: UserType.CUSTOMER,
-            extraData: {
-                phone: "1234567890",
-            }
-        });
+        await userCreateUseCase.create(
+            new UserRequestDto({
+                name: "John",
+                firstname: "Doe",
+                email: emailCutsomer,
+                password: password,
+                userType: UserType.CUSTOMER,
+                extraData: {
+                    phone: "1234567890",
+                }
+            })
+        );
         const response = await request(appTest)
             .post('/user/login')
             .send({
@@ -97,17 +100,19 @@ describe("Login", () => {
 
     it("Should login user employee", async () => {
         const email = "employee@example.com";
-        await userCreateUseCase.create({
-            name: "John",
-            firstName: "Doe",
-            email: email,
-            password: "password",
-            userType: UserType.MECHANIC,
-            extraData: {
-                income: 1000,
-                unavailableDates: ["2023-01-01", "2023-01-02"]
-            },
-        });
+        await userCreateUseCase.create(
+            new UserRequestDto({
+                name: "John",
+                firstname: "Doe",
+                email: email,
+                password: "password",
+                userType: UserType.MECHANIC,
+                extraData: {
+                    income: 1000,
+                    unavailableDates: ["2023-01-01", "2023-01-02"]
+                }
+            })
+        );
         const response = await request(appTest)
             .post('/user/login')
             .send({
