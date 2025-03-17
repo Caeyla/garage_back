@@ -4,7 +4,7 @@ class UserRetrieveDto {
     constructor(userType,user) {
         console.log(user);
         this.id = user.id;
-        this.name = user.name;
+        this.lastname = user.name;
         this.firstname = user.firstName;
         this.email = user.email;
         //Because customer have no user type on his model

@@ -30,7 +30,7 @@ describe("common user create use case tests ", () => {
         jest.spyOn(createUserUseCase, "handleCreateCustomer").mockImplementation(() => Promise.resolve());
         await createUserUseCase.create(
             new UserRequestDto({
-            name: "John",
+            lastname: "John",
             firstname: "Doe",
             email: "0aK9w@example.com",
             password: password,
@@ -45,7 +45,7 @@ describe("common user create use case tests ", () => {
     it("it should throw error if user type does not exist", async () => {
         await expect(createUserUseCase.create(
             new UserRequestDto({
-                name: "John",
+                lastname: "John",
                 firstname: "Doe",
                 email: "0aK9w@example.com",
                 password: "password",
@@ -60,7 +60,7 @@ describe("common user create use case tests ", () => {
     it("should throw error if email is not valid", async () => {
         await expect(createUserUseCase.create(
             new UserRequestDto({
-                name: "John",
+                lastname: "John",
                 firstname: "Doe",
                 email: "invalid-email.com",
                 password: "password",
@@ -74,7 +74,7 @@ describe("common user create use case tests ", () => {
     it("should throw error if required fields are not present", async () => {
         await expect(createUserUseCase.create(
             new UserRequestDto({
-                name: "John",
+                lastname: "John",
                 firstname: undefined,
                 email: null,
                 password: "password",
@@ -107,7 +107,7 @@ describe("Employee create use case tests ", () => {
     it("should create manager", async () => {
         const result = await createUserUseCase.create(
             new UserRequestDto({
-                name: "John",
+                lastname: "John",
                 firstname: "Doe",
                 email: "0aK9w@example.com",
                 password: "password",
@@ -125,7 +125,7 @@ describe("Employee create use case tests ", () => {
     it("should create mechanic", async () => {
         const result = await createUserUseCase.create(
             new UserRequestDto({
-                name: "John",
+                lastname: "John",
                 firstname: "Doe",
                 email: "0aK9w@example.com",
                 password: "password",
@@ -160,7 +160,7 @@ describe("customer create use case tests ", () => {
     it("should create customer", async () => {
         const result = await createUserUseCase.create(
             new UserRequestDto({
-                name: "John",
+                lastname: "John",
                 firstname: "Doe",
                 email: "0aK9w@example.com",
                 password: "password",

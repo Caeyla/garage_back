@@ -32,7 +32,7 @@ describe("Registration ", () => {
         const response = await request(appTest)
             .post('/user/register')
             .send({
-                name: "John",
+                lastname: "John",
                 firstname: "Doe",
                 email: "0aK1w@example.com",
                 password: "password",
@@ -49,7 +49,7 @@ describe("Registration ", () => {
         const response = await request(appTest)
             .post('/user/register')
             .send({
-                name: "John",
+                lastname: "John",
                 firstname: "Doe",
                 email: "0aK9w@example.com",
                 password: "password",
@@ -77,7 +77,7 @@ describe("Login", () => {
         const emailCutsomer = "customer@example.com";
         await userCreateUseCase.create(
             new UserRequestDto({
-                name: "John",
+                lastname: "John",
                 firstname: "Doe",
                 email: emailCutsomer,
                 password: password,
@@ -102,7 +102,7 @@ describe("Login", () => {
         const email = "employee@example.com";
         await userCreateUseCase.create(
             new UserRequestDto({
-                name: "John",
+                lastname: "John",
                 firstname: "Doe",
                 email: email,
                 password: "password",
