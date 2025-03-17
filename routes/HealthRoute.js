@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-
+const handleErrorThrowing = require('../error/CustomErrorUtil');
 
 router.get('/', async (req, res) => {
     try {
         res.status(200).json({
             status: "OK"
         });
-    } catch (err) {
-        res.status(500).json({ message : err });
+    } catch (error) {
+        handleErrorThrowing(res,error);
     }
 });
 

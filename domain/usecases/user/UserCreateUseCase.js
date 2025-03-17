@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const UserType = require("../../enumeration/UserType");
 const SecurityConstant = require("../../../constant/SecurityConstant");
 const UserService = require("../../services/UserService");
-
+const CustomError = require("../../../error/CustomError");
 const SALT_ROUNDS = SecurityConstant.SALT_ROUNDS;
 
 class UserCreateUseCase {
@@ -42,14 +42,14 @@ class UserCreateUseCase {
     exceptThatUserTypeExists(userType) {
         const userTypes = Object.values(UserType);
         if(!userTypes.includes(userType)) {
-            throw new Error(`User type ${userType} does not exist`);
+            throw new CustomError(`User type ${userType} does not exist`,500);
         }
     }
 
     expectThatEmailHasValidFormat(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if(!emailRegex.test(email)) {
-            throw new Error(`Email ${email} is not valid`);
+            throw new CustomError(`Email ${email} is not valid`,500);
         }
     }
 

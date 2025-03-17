@@ -2,5 +2,7 @@ node_modules
 .github
 .todo
 .vercel
-secret-key
 .env
+secret-key
+
+env

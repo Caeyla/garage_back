@@ -1,4 +1,5 @@
 const UserType = require("../enumeration/UserType");
+const CustomError = require("../../error/CustomError");
 
 class UserService {
     static expectThatRequiredFieldsArePresent({name,firstName,email,password,extraData,userType}) {
@@ -15,7 +16,8 @@ class UserService {
         }
 
         if(errorMessages.length > 0){
-            throw new Error(errorMessages.join(", "));
+            const requiredFields = errorMessages.join(", ");
+            throw new CustomError(`The following fields are required: ${requiredFields}`,500);
         }
         
     }
