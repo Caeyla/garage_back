@@ -3,7 +3,7 @@ const SecurityConstant = require("../../../constant/SecurityConstant");
 const LoginResponseDto = require('../../../dto/user/LoginResponseDto');
 const UserType = require("../../../domain/enumeration/UserType");
 const JwtService = require("../../services/JwtService");
-
+const CustomError = require("../../../error/CustomError");
 
 class UserLoginUseCase {
     constructor(customerAdapter, employeeAdapter) {
@@ -15,12 +15,12 @@ class UserLoginUseCase {
         const customerUser = await this.customerAdapter.findByEmail(email);
         const employeeUser = await this.employeeAdapter.findByEmail(email);
         if(! customerUser && ! employeeUser) {
-            throw new Error("Invalid email or password");
+            throw new CustomError("Invalid email or password",401);
             
         }
         const user = customerUser || employeeUser;
         if(!bcrypt.compareSync(password, user.password)) {
-            throw new Error("Invalid email or password");
+            throw new CustomError("Invalid email or password",401);
         }
         
         const expirationDate = this.getExpirationDate();

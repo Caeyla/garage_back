@@ -1,5 +1,6 @@
 const VehicleType = require("../enumeration/VehicleType");
 const Transmission = require("../enumeration/Transmission");
+const CustomError = require("../../error/CustomError");
 
 class UserService {
     static expectThatRequiredFieldsArePresent(vehicle) {
@@ -14,7 +15,8 @@ class UserService {
         if(!vehicle.yearOfManufacture){errorMessages.push("yearOfManufacture")}
 
         if(errorMessages.length > 0){
-            throw new Error(errorMessages.join(", "));
+            const requiredFields = errorMessages.join(", ");
+            throw new CustomError(`The following fields are required: ${requiredFields}`,500);
         }
         
     }
@@ -23,7 +25,7 @@ class UserService {
         console.log(vehicleType)
         const vehicleTypes = Object.values(VehicleType);
         if(!vehicleTypes.includes(vehicleType)) {
-            throw new Error(`Vehicule type ${vehicleType} does not exist`);
+            throw new CustomError(`Vehicule type ${vehicleType} does not exist`,500);
         }
     }
 
@@ -31,7 +33,7 @@ class UserService {
         console.log(transmission)
         const transmissions = Object.values(Transmission);
         if(!transmissions.includes(transmission)) {
-            throw new Error(`Transmission ${transmission} does not exist`);
+            throw new CustomError(`Transmission ${transmission} does not exist`,500);
         }
     }
 }

@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const SecurityConstant = require("../../../constant/SecurityConstant");
 const UserRequestDto = require("../../../dto/user/UserRequestDto");
 const SALT_ROUNDS = SecurityConstant.SALT_ROUNDS;
+const CustomError = require("../../../error/CustomError");
 
 describe("common user create use case tests ", () => {
     let customerAdapter;
@@ -53,7 +54,7 @@ describe("common user create use case tests ", () => {
                     phone: "1234567890",
                 },
             }))
-        ).rejects.toThrow(new Error("User type invalid does not exist"));
+        ).rejects.toThrow(new CustomError("User type invalid does not exist",404));
     });
 
     it("should throw error if email is not valid", async () => {
@@ -67,7 +68,7 @@ describe("common user create use case tests ", () => {
                 extraData: {
                     phone: "1234567890",
                 }
-            }))).rejects.toThrow(new Error("Email invalid-email.com is not valid"));
+            }))).rejects.toThrow(new CustomError("Email invalid-email.com is not valid",500));
     })
 
     it("should throw error if required fields are not present", async () => {
@@ -81,7 +82,7 @@ describe("common user create use case tests ", () => {
                 extraData: {
                     phone: null
                 }
-            }))).rejects.toThrow(new Error("firstname, email, phone"));
+            }))).rejects.toThrow(new CustomError("The following fields are required: firstname, email, phone",500));
     })
 })
 
