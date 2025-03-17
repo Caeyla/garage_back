@@ -4,6 +4,7 @@ const UserRequestDto = require('../dto/user/UserRequestDto');
 const {userCreateUseCase,userLoginUseCase,userRetrieveUseCase,userUpdateUseCase} = require('../config/Container');
 const JwtService = require('../domain/services/JwtService');
 const handleErrorThrowing = require('../error/CustomErrorUtil');
+const authenticationMiddleware = require('../config/AuthenticationMiddleware');
 
 
 
@@ -26,7 +27,7 @@ router.post('/login', async(req,res) => {
     }
 });
 
-router.get('/information', async(req,res) => {
+router.get('/information',authenticationMiddleware ,async(req,res) => {
     try{
         const userId = JwtService.decodeTokenFromRequest(req).id;
         const userType = JwtService.decodeTokenFromRequest(req).userType;

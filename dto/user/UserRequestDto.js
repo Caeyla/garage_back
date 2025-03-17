@@ -2,8 +2,8 @@ const Customer = require("../../domain/models/Customer");
 const Employee = require("../../domain/models/Employee");
 
 class UserRequestDto {
-    constructor({name, firstname, email, password, userType, extraData}) {
-        this.name = name;
+    constructor({lastname, firstname, email, password, userType, extraData}) {
+        this.name = lastname;
         this.firstName = firstname;
         this.email = email;
         this.password = password;
