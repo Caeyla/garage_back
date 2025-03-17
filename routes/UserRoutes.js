@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UserRequestDto = require('../dto/user/UserRequestDto');
 const {userCreateUseCase,userLoginUseCase,userRetrieveUseCase,userUpdateUseCase} = require('../config/Container');
+const JwtService = require('../domain/services/JwtService');
 
 
 
@@ -24,10 +25,11 @@ router.post('/login', async(req,res) => {
     }
 });
 
-router.get('/information/:token', async(req,res) => {
+router.get('/information', async(req,res) => {
     try{
-        const token = req.params.token;
-        const userInfo = await userRetrieveUseCase.retrieveByToken(token);
+        const userId = JwtService.decodeTokenFromRequest(req).id;
+        const userType = JwtService.decodeTokenFromRequest(req).userType;
+        const userInfo = await userRetrieveUseCase.retrieveByIdAndUserType(userId,userType);
         res.status(200).json(userInfo);
     }catch(err){
         res.status(500).json({ message : err.message });

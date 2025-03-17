@@ -2,11 +2,13 @@ const UserType = require("../../domain/enumeration/UserType");
 
 class UserRetrieveDto {
     constructor(userType,user) {
+        console.log(user);
         this.id = user.id;
         this.name = user.name;
         this.firstname = user.firstName;
         this.email = user.email;
-        this.userType = user.userType;
+        //Because customer have no user type on his model
+        this.userType = userType;
         if(userType === UserType.CUSTOMER){
             this.extraData = {
                 phone : user.phone

@@ -11,6 +11,7 @@ class VehicleCreateUseCase {
         const vehicle = vehicleRequestDto.toVehicleModel();
         VehicleService.expectThatRequiredFieldsArePresent(vehicle)
         VehicleService.expectThatVehicleTypeIsValid(vehicle.typeVehicle);
+        VehicleService.expectThatTransmissionIsValid(vehicle.transmission);
 
         return await this.vehicleAdapter.create(customerId,vehicle);
     }

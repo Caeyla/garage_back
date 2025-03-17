@@ -1,6 +1,7 @@
 const JwtService = require('../../services/JwtService');
 const UserType = require('../../enumeration/UserType');
-const UserRetrieveDto = require('../../../dto/user/UserRetrieveDto')
+const UserRetrieveDto = require('../../../dto/user/UserRetrieveDto');
+const CustomError = require('../../../error/CustomError');
 
 class UserRetrieveUseCase{
 
@@ -9,18 +10,15 @@ class UserRetrieveUseCase{
         this.employeeAdapter = employeeAdapter;
     }
 
-    async retrieveByToken(token) {
-        const decodedToken= JwtService.decodeToken(token);
-        if(!decodedToken) {
-            throw new Error("Invalid token");
+    async retrieveByIdAndUserType(userId,userType) {
+        if(!userId) {
+            throw new CustomError("User Id required",500);
         }
-        const id = decodedToken.id;
-        const userType = decodedToken.userType;
         let user;
         if(userType === UserType.CUSTOMER) {
-            user =  await this.customerAdapter.findById(id);
+            user =  await this.customerAdapter.findById(userId);
         } else if(userType === UserType.MANAGER || userType === UserType.MECHANIC) {
-            user = await this.employeeAdapter.findById(id);
+            user = await this.employeeAdapter.findById(userId);
         }
 
         return new UserRetrieveDto(userType,user);
