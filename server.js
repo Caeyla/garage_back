@@ -10,11 +10,11 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-if (process.env.SECURITY_ENABLED === 'true') {
-    console.log("here we go");
-    app.all('*', authenticationMiddleware);
-    app.all('*', authorizationMiddleware);
-}
+// if (process.env.SECURITY_ENABLED === 'true') {
+//     console.log("here we go");
+//     app.all('*', authenticationMiddleware);
+//     app.all('*', authorizationMiddleware);
+// }
 
 //config
 initRoutes(app);
