@@ -14,7 +14,8 @@ class VehicleUpdateUseCase {
         }
         
         const finalUpdateData = this.getFinalUpdateData(vehicleFromDb,vehicleUpdateData);
-        const updatedVehicle = await this.vehicleAdapter.update(vehicleId,finalUpdateData);
+        await this.vehicleAdapter.update(vehicleId,finalUpdateData);
+        const updatedVehicle = await this.vehicleAdapter.findByIdAndCustomerId(vehicleId,customerId);
         return new VehicleRetrieveOneResponseDto(updatedVehicle);
     }
 

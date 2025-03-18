@@ -11,8 +11,8 @@ const authenticationMiddleware = require('../middleware/AuthenticationMiddleware
 router.post('/register', async (req, res) => {
     try {
         const userRequestDto = new  UserRequestDto(req.body);
-        let id = await userCreateUseCase.create(userRequestDto);
-        res.status(201).json(id);
+        const response = await userCreateUseCase.create(userRequestDto);
+        res.status(201).json(response);
     } catch (error) {
         handleErrorThrowing(res,error)
     }
@@ -42,8 +42,8 @@ router.patch('/information/:userId', async(req,res) => {
     try{
         const userId = req.params.userId;
         const userUpdateInformation = new UserRequestDto(req.body);
-        userUpdateUseCase.update(userId,userUpdateInformation);
-        res.status(200).json({message : "User information updated"});
+        const response = await userUpdateUseCase.update(userId,userUpdateInformation);
+        res.status(200).json(response);
     }catch(error){
         handleErrorThrowing(res,error);
     }

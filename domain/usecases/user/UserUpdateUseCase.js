@@ -40,7 +40,8 @@ class UserUpdateteUseCase {
             firstName: updateData.firstName || userFromDb.firstName,
             phone: updateData.phone || userFromDb.phone
         }
-        const updatedCustomer = await this.customerAdapter.update(userFromDb._id,customerUpdates);
+        await this.customerAdapter.update(userFromDb._id,customerUpdates);
+        const updatedCustomer = await this.customerAdapter.findById(userFromDb._id);
         return new UserRetrieveDto(UserType.CUSTOMER,updatedCustomer);
     }
 
@@ -51,7 +52,8 @@ class UserUpdateteUseCase {
             income: updateData.income || userFromDb.income,
             unavailableDates: updateData.unavailableDates || userFromDb.unavailableDates
         }
-        const updatedEmployee = await this.employeeAdapter.update(userFromDb._id,employeeUpdates);
+        await this.employeeAdapter.update(userFromDb._id,employeeUpdates);
+        const updatedEmployee = await this.employeeAdapter.findById(userFromDb._id);
         return new UserRetrieveDto(userFromDb.userType,updatedEmployee);
     }
 }
