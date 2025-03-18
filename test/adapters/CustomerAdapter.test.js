@@ -30,7 +30,7 @@ describe("customer adapter tests", () => {
     });
 
     console.log(result);
-    expect(result.id).toBeInstanceOf(ObjectId);
+    expect(result._id).toBeInstanceOf(ObjectId);
   });
 
   it("should find user customer by email", async () => {

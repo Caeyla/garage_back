@@ -1,4 +1,3 @@
-const Vehicle = require("../../domain/models/Vehicle")
 class VehicleRetrieveOneResponseDto {
     constructor({_id,brand,model,registrationNumber,transmission,kilometers,typeVehicle,yearOfManufacture,customerId}) {
         this.id = _id;

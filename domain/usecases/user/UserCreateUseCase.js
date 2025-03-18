@@ -3,6 +3,7 @@ const UserType = require("../../enumeration/UserType");
 const SecurityConstant = require("../../../constant/SecurityConstant");
 const UserService = require("../../services/UserService");
 const CustomError = require("../../../error/CustomError");
+const UserRetrieveDto = require("../../../dto/user/UserRetrieveDto");
 const SALT_ROUNDS = SecurityConstant.SALT_ROUNDS;
 
 class UserCreateUseCase {
@@ -29,14 +30,16 @@ class UserCreateUseCase {
         const customer = userRequestDto.toCustomerModel();
         customer.setPassword(hashedPassword);
         customer.setIsActive(true);
-        return await this.customerAdapter.create(customer);
+        const createdCustomer  = await this.customerAdapter.create(customer);
+        return new UserRetrieveDto(UserType.userType,createdCustomer)
     }
 
     async handleCreateEmployee(userRequestDto,hashedPassword) {
         const employee = userRequestDto.toEmployeeModel();
         employee.setPassword(hashedPassword);
         employee.setIsActive(true);
-        return await this.employeeAdapter.create(employee);
+        const createdEmployee = await this.employeeAdapter.create(employee);
+        return new UserRetrieveDto(userRequestDto.userType,createdEmployee);
     }
 
     exceptThatUserTypeExists(userType) {

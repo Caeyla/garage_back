@@ -29,8 +29,8 @@ class CustomerAdapter {
       birthDate,
       phone
     });
-    await newCustomer.save();
-    return { id: newCustomer._id };
+    return await newCustomer.save();
+    
   }
 
   async findByEmail(email) {

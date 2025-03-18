@@ -7,6 +7,7 @@ const SecurityConstant = require("../../../constant/SecurityConstant");
 const UserRequestDto = require("../../../dto/user/UserRequestDto");
 const SALT_ROUNDS = SecurityConstant.SALT_ROUNDS;
 const CustomError = require("../../../error/CustomError");
+const UserRetrieveDto = require("../../../dto/user/UserRetrieveDto");
 
 describe("common user create use case tests ", () => {
     let customerAdapter;
@@ -119,7 +120,7 @@ describe("Employee create use case tests ", () => {
             })
         );
 
-        expect(result).toEqual({ id: employeeId });
+        expect(result).toBeInstanceOf(UserRetrieveDto);
     });
 
     it("should create mechanic", async () => {
@@ -136,7 +137,7 @@ describe("Employee create use case tests ", () => {
                 }
             })
         );
-        expect(result).toEqual({ id: employeeId });
+        expect(result).toBeInstanceOf(UserRetrieveDto);
     })
 });
 
@@ -170,7 +171,7 @@ describe("customer create use case tests ", () => {
                 }
             })
         );
-        expect(result).toEqual({ id: customerId });
+        expect(result).toBeInstanceOf(UserRetrieveDto);
     });
 
 });

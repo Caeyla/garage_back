@@ -38,8 +38,7 @@ class VehicleAdapter {
       yearOfManufacture,
       customerId
     });
-    await newVehicle.save();
-    return { id: newVehicle._id };
+    return await newVehicle.save();
   }
 
   async update(id,updatesToVehicle) {
