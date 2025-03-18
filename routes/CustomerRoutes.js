@@ -43,8 +43,8 @@ router.patch("/vehicle/:vehicleId", async (req, res) => {
         const vehicleId = req.params.vehicleId;
         const customerId = JwtService.decodeTokenFromRequest(req).id;
         const vehicleRequestDto = new VehicleRequestDto(req.body);
-        await vehicleUpdateUseCase.update(customerId,vehicleId,vehicleRequestDto);
-        res.status(200).json({ message: "Vehicle updated" }); 
+        const response =await vehicleUpdateUseCase.update(customerId,vehicleId,vehicleRequestDto);
+        res.status(200).json({ response}); 
     } catch (error) {
         handleErrorThrowing(res,error);
     }
@@ -54,8 +54,8 @@ router.delete("/vehicle/:vehicleId", async (req, res) => {
     try {
         const vehicleId = req.params.vehicleId;
         const customerId = JwtService.decodeTokenFromRequest(req).id;
-        await vehicleUpdateUseCase.remove(customerId,vehicleId);
-        res.status(200).json({ message: "Vehicle removed" }); 
+        const response = await vehicleUpdateUseCase.remove(customerId,vehicleId);
+        res.status(200).json(response); 
     } catch (error) {
         handleErrorThrowing(res,error);
     }
