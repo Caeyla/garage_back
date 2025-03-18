@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const SecurityConstant = require("../../constant/SecurityConstant");
+const CustomError = require("../../error/CustomError");
 
 class JwtService {
   static isValidToken(token) {
@@ -10,8 +11,12 @@ class JwtService {
     if (!token) {
       return null;
     }
-    const decoded = jwt.verify(token, SecurityConstant.SECRET_KEY);
-    return decoded;
+    try{
+      const decoded = jwt.verify(token, SecurityConstant.SECRET_KEY);
+      return decoded;
+    } catch (error) {
+      throw new CustomError(error.message,401);
+    }
   }
 
   static generateToken(user, userType, expirationDate) {

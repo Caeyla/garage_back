@@ -31,8 +31,8 @@ router.get("/vehicle/:vehicleId", async (req, res) => {
 router.get("/vehicles", async (req, res) => {
     try {
         const customerId = JwtService.decodeTokenFromRequest(req).id;
-        const vehicles = await vehicleRetrieveUseCase.retrieveByCustomerId(customerId);
-        res.status(200).json(vehicles); 
+        const response = await vehicleRetrieveUseCase.retrieveByCustomerId(customerId);
+        res.status(200).json(response.vehicles); 
     } catch (error) {
         handleErrorThrowing(res,error);
     }

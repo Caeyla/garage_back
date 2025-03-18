@@ -4,7 +4,7 @@ const UserRequestDto = require('../dto/user/UserRequestDto');
 const {userCreateUseCase,userLoginUseCase,userRetrieveUseCase,userUpdateUseCase} = require('../config/Container');
 const JwtService = require('../domain/services/JwtService');
 const handleErrorThrowing = require('../error/CustomErrorUtil');
-const authenticationMiddleware = require('../config/AuthenticationMiddleware');
+const authenticationMiddleware = require('../middleware/AuthenticationMiddleware');
 
 
 

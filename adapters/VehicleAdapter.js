@@ -14,7 +14,7 @@ const VehicleSchema = new mongoose.Schema({
   {
     timestamps: true
   });
-
+  
 class VehicleAdapter {
   constructor() {
     this.model = mongoose.model('Vehicle', VehicleSchema);
