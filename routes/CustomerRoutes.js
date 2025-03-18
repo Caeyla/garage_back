@@ -5,6 +5,18 @@ const JwtService = require('../domain/services/JwtService');
 const {vehicleCreateUseCase,vehicleUpdateUseCase,vehicleRetrieveUseCase} = require('../config/Container');
 const handleErrorThrowing = require('../error/CustomErrorUtil');
 
+/*********************************************************/
+// CUSTOMER ENDPOINTS        
+/**************************************************** **/
+
+router.post('/appointment', async (req, res) => {
+    
+});
+
+
+/*********************************************************/
+// VEHICLE ENDPOINTS        
+/**************************************************** **/
 
 router.post('/vehicle', async (req, res) => {
     try {
@@ -61,6 +73,9 @@ router.delete("/vehicle/:vehicleId", async (req, res) => {
     }
 });
 
+/*********************************************************/
+// END OF VEHICLE ENDPOINTS        
+/**************************************************** **/
 
 
 module.exports = router;
