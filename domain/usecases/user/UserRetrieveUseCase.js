@@ -1,4 +1,3 @@
-const JwtService = require('../../services/JwtService');
 const UserType = require('../../enumeration/UserType');
 const UserRetrieveDto = require('../../../dto/user/UserRetrieveDto');
 const CustomError = require('../../../error/CustomError');

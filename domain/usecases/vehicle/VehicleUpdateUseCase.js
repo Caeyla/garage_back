@@ -1,5 +1,5 @@
 const CustomError = require("../../../error/CustomError");
-const VehicleService = require("../../services/VehicleService");
+const VehicleRetrieveOneResponseDto = require("../../../dto/vehicle/VehicleRetrieveOneResponseDto");
 class VehicleUpdateUseCase {
     constructor(vehicleAdapter,customerAdapter) {
         this.vehicleAdapter = vehicleAdapter;
@@ -14,7 +14,8 @@ class VehicleUpdateUseCase {
         }
         
         const finalUpdateData = this.getFinalUpdateData(vehicleFromDb,vehicleUpdateData);
-        await this.vehicleAdapter.update(vehicleId,finalUpdateData);
+        const updatedVehicle = await this.vehicleAdapter.update(vehicleId,finalUpdateData);
+        return new VehicleRetrieveOneResponseDto(updatedVehicle);
     }
 
     async remove(customerId,vehicleId) {
@@ -23,7 +24,8 @@ class VehicleUpdateUseCase {
             throw new CustomError("Vehicle not found",404);
         }
         const updateData = { isActive: false };
-        await this.vehicleAdapter.update(vehicleId,updateData);
+        const updatedVehicle = await this.vehicleAdapter.update(vehicleId,updateData);
+        return { id: updatedVehicle._id};
     }
 
     getFinalUpdateData(vehicleFromDb,vehicleUpdateData){

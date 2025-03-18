@@ -1,5 +1,6 @@
 const CustomError = require("../../../error/CustomError");
 const VehicleService = require("../../services/VehicleService");
+const VehicleRetrieveOneResponseDto = require("../../../dto/vehicle/VehicleRetrieveOneResponseDto");
 class VehicleCreateUseCase {
     constructor(vehicleAdapter,customerAdapter) {
         this.vehicleAdapter = vehicleAdapter;
@@ -13,7 +14,8 @@ class VehicleCreateUseCase {
         VehicleService.expectThatVehicleTypeIsValid(vehicle.typeVehicle);
         VehicleService.expectThatTransmissionIsValid(vehicle.transmission);
 
-        return await this.vehicleAdapter.create(customerId,vehicle);
+        const createdVehicle = await this.vehicleAdapter.create(customerId,vehicle);
+        return new VehicleRetrieveOneResponseDto(createdVehicle);
     }
 
     async expectThatCustomerExist(customerId){

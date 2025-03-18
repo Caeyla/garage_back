@@ -1,5 +1,6 @@
 const UserType = require("../../enumeration/UserType");
 const CustomError = require("../../../error/CustomError");
+const UserRetrieveDto = require("../../../dto/user/UserRetrieveDto");
 
 class UserUpdateteUseCase {
     constructor(customerAdapter, employeeAdapter) {
@@ -39,7 +40,8 @@ class UserUpdateteUseCase {
             firstName: updateData.firstName || userFromDb.firstName,
             phone: updateData.phone || userFromDb.phone
         }
-        return await this.customerAdapter.update(userFromDb._id,customerUpdates);
+        const updatedCustomer = await this.customerAdapter.update(userFromDb._id,customerUpdates);
+        return new UserRetrieveDto(UserType.CUSTOMER,updatedCustomer);
     }
 
     async handleUpdateEmployee(userFromDb,updateData) {
@@ -49,7 +51,8 @@ class UserUpdateteUseCase {
             income: updateData.income || userFromDb.income,
             unavailableDates: updateData.unavailableDates || userFromDb.unavailableDates
         }
-        return await this.employeeAdapter.update(userFromDb._id,employeeUpdates);
+        const updatedEmployee = await this.employeeAdapter.update(userFromDb._id,employeeUpdates);
+        return new UserRetrieveDto(userFromDb.userType,updatedEmployee);
     }
 }
 

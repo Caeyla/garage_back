@@ -30,7 +30,7 @@ describe("employee adapter tests", () => {
       userType: "MECHANIC",
       unavailableDates: ["2023-01-01", "2023-01-02"]
     });
-    expect(result.id).toBeInstanceOf(ObjectId);
+    expect(result._id).toBeInstanceOf(ObjectId);
   });
 
   it("should find user employee by email", async () => {

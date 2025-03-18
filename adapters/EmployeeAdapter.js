@@ -30,8 +30,7 @@ class EmployeeAdapter {
       income,
       userType
     });
-    await newEmployee.save();
-    return { id: newEmployee._id };
+    return await newEmployee.save();
   }
 
   async findByEmail(email) {
