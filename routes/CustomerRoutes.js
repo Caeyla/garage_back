@@ -43,8 +43,8 @@ router.patch("/vehicle/:vehicleId", async (req, res) => {
         const vehicleId = req.params.vehicleId;
         const customerId = JwtService.decodeTokenFromRequest(req).id;
         const vehicleRequestDto = new VehicleRequestDto(req.body);
-        const response =await vehicleUpdateUseCase.update(customerId,vehicleId,vehicleRequestDto);
-        res.status(200).json({ response}); 
+        const response = await vehicleUpdateUseCase.update(customerId,vehicleId,vehicleRequestDto);
+        res.status(200).json(response); 
     } catch (error) {
         handleErrorThrowing(res,error);
     }
