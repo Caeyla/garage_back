@@ -4,7 +4,7 @@ const AppointmentSchema = new mongoose.Schema({
   customerId: { type: mongoose.Types.ObjectId, required: true ,ref : "Customer"},
   vehicleId: { type: mongoose.Types.ObjectId, required: true ,ref : "Vehicle"},
   prestationIds : [{ type: mongoose.Types.ObjectId, required: true ,ref : "Prestation"}],
-  appointmentDate : { type: DateTime, required: true },
+  appointmentDate : { type: Date, required: true },
   appointmentParentId : { type: mongoose.Types.ObjectId, required: false ,ref : "Appointment"},
   status : { type: Number, required: true }
 },
@@ -18,12 +18,13 @@ class AppointmentAdapter {
     this.model = mongoose.model('Appointment', AppointmentSchema);
   }
 
-  async create({ customerId,vehicleId,prestationIds,appointmentDate }) {
+  async create({ customerId,vehicleId,prestationIds,appointmentDate,status }) {
     const newAppointment = new this.model({
       customerId,
       vehicleId,
       prestationIds,
-      appointmentDate
+      appointmentDate,
+      status
     });
     return await newAppointment.save();
 

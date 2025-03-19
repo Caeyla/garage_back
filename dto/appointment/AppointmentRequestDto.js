@@ -1,7 +1,6 @@
 const Appointment = require("../../domain/models/Appointment");
-class appointmentRequestDto{
-    constructor({customerId,vehicleId,prestationIds,appointmentDate}) {
-        this.customerId = customerId;
+class AppointmentRequestDto{
+    constructor({vehicleId,prestationIds,appointmentDate}) {
         this.vehicleId = vehicleId;
         this.prestationIds = prestationIds;
         this.appointmentDate = appointmentDate;
@@ -9,7 +8,6 @@ class appointmentRequestDto{
 
     toAppointmentModel(){
         return new Appointment.Builder()
-            .setCustomerId(this.customerId)
             .setVehicleId(this.vehicleId)
             .setPrestationIds(this.prestationIds)
             .setAppointmentDate(this.appointmentDate)
@@ -17,4 +15,4 @@ class appointmentRequestDto{
     }
 }
 
-module.exports = appointmentRequestDto;
+module.exports = AppointmentRequestDto;

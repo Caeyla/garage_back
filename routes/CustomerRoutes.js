@@ -15,7 +15,7 @@ router.post('/appointment', async (req, res) => {
     try {
         const customerId = JwtService.decodeTokenFromRequest(req).id;
         const appointmentRequestDto = new AppointmentRequestDto(req.body);
-        const response = await appointmentCreateUseCase.create(customerId,appointmentRequestDto);
+        const response = await appointmentCreateUseCase.create(appointmentRequestDto,customerId);
         res.status(201).json(response);
     } catch (error) {
         handleErrorThrowing(res,error);
