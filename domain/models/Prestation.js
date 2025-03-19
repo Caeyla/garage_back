@@ -1,7 +1,8 @@
 class Prestation {
-    constructor(id, name, price,duration) {
+    constructor(id, name,description,price,duration) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.price = price;
         this.duration = duration;
     }
