@@ -1,0 +1,47 @@
+const CustomError = require('../../../error/CustomError');
+const AppointmentRetrieveOneResponseDto = require('../../../dto/appointment/AppointmentRetrieveOneResponseDto');
+class AppointmentCreateUseCase {
+    constructor(appointmentAdapter,vehicleAdapter,prestationAdapter) {
+        this.appointmentAdapter = appointmentAdapter;
+        this.vehicleAdapter = vehicleAdapter;
+        this.prestationAdapter = prestationAdapter;
+    }
+
+    async create(appointmentRequestDto,customerId) {
+        this.checkIfPrestationsExist(appointmentRequestDto.prestationIds);
+        this.checkIfVehicleExists(appointmentRequestDto.vehicleId,customerId);
+        
+        const newAppointment = appointmentRequestDto.toAppointmentModel();
+        newAppointment.setCustomerId(customerId);
+        newAppointment.setStatus(0);
+        const savedAppointment =  await this.appointmentAdapter.create(newAppointment);
+        return new AppointmentRetrieveOneResponseDto(savedAppointment);
+    }
+
+    async checkIfVehicleExists(vehicleId, customerId) {
+        const vehicle = await this.vehicleAdapter.findByIdAndCustomerId(vehicleId, customerId);
+        if (!vehicle) {
+            throw new CustomError("Vehicle not found for the customer "+customerId, 404);
+        }
+    }
+
+    async checkIfPrestationsExist(prestationIds) {
+        if(!prestationIds || prestationIds.length === 0){
+            throw new CustomError("Prestations must be provided", 500);
+        }
+        const prestations = await this.prestationAdapter.findByIds(prestationIds);
+        const prestationNotfound = [];
+        if(prestations.length !== prestationIds.length){
+            for(const prestation of prestations){
+                if(!prestationIds.includes(prestation.id)){
+                    prestationNotfound.push(prestation.name);
+                }
+            }
+        }
+        if(prestationNotfound.length > 0){
+            throw new CustomError("Prestations not found: "+prestationNotfound.join(", "), 404);
+        }
+    }
+}
+
+module.exports = AppointmentCreateUseCase;

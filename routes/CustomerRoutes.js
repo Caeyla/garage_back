@@ -4,7 +4,51 @@ const VehicleRequestDto = require("../dto/vehicle/VehicleRequestDto");
 const JwtService = require('../domain/services/JwtService');
 const {vehicleCreateUseCase,vehicleUpdateUseCase,vehicleRetrieveUseCase} = require('../config/Container');
 const handleErrorThrowing = require('../error/CustomErrorUtil');
+const AppointmentRequestDto = require("../dto/appointment/AppointmentRequestDto");
+const {appointmentCreateUseCase,appointmentRetrieveUseCase} = require('../config/Container');
 
+/*********************************************************/
+// APPOINTMENT ENDPOINTS        
+/**************************************************** **/
+
+router.post('/appointment', async (req, res) => {
+    try {
+        const customerId = JwtService.decodeTokenFromRequest(req).id;
+        const appointmentRequestDto = new AppointmentRequestDto(req.body);
+        const response = await appointmentCreateUseCase.create(appointmentRequestDto,customerId);
+        res.status(201).json(response);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.get("/appointments", async (req, res) => {
+    try {
+        const customerId = JwtService.decodeTokenFromRequest(req).id;
+        const response = await appointmentRetrieveUseCase.retrieveByCustomerId(customerId);
+        res.status(200).json(response.appointments); 
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.get("/appointment/:appointmentId", async (req, res) => {
+    try {
+        const appointmentId = req.params.appointmentId;
+        const customerId = JwtService.decodeTokenFromRequest(req).id;
+        const response = await appointmentRetrieveUseCase.retrieveByIdAndCustomerId(appointmentId,customerId);
+        res.status(200).json(response); 
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+
+
+
+/*********************************************************/
+// VEHICLE ENDPOINTS        
+/**************************************************** **/
 
 router.post('/vehicle', async (req, res) => {
     try {
@@ -61,6 +105,9 @@ router.delete("/vehicle/:vehicleId", async (req, res) => {
     }
 });
 
+/*********************************************************/
+// END OF VEHICLE ENDPOINTS        
+/**************************************************** **/
 
 
 module.exports = router;

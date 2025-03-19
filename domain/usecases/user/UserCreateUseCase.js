@@ -31,7 +31,7 @@ class UserCreateUseCase {
         customer.setPassword(hashedPassword);
         customer.setIsActive(true);
         const createdCustomer  = await this.customerAdapter.create(customer);
-        return new UserRetrieveDto(UserType.userType,createdCustomer)
+        return new UserRetrieveDto(UserType.CUSTOMER,createdCustomer)
     }
 
     async handleCreateEmployee(userRequestDto,hashedPassword) {
