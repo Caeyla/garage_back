@@ -1,5 +1,6 @@
 const PrestationRetrieveOneResponseDto = require("../../../dto/prestation/PrestationRetrieveOneResponseDto");
 const PrestationRetrieveManyResponseDto = require("../../../dto/prestation/PrestationRetrieveManyResponseDto");
+const CustomError = require("../../../error/CustomError");
 class PrestationUseCase {
 
     constructor(prestationAdapter) {
@@ -18,6 +19,9 @@ class PrestationUseCase {
 
     async retrieveById(id) {
         const prestation = await this.prestationAdapter.findById(id);
+        if(!prestation) {
+            throw new CustomError("Prestation not found",404);
+        }
         return new PrestationRetrieveOneResponseDto(prestation);
     }
 
