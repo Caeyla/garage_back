@@ -1,6 +1,7 @@
 const AppointmentRetrieveOneResponseDto = require("../../../dto/appointment/AppointmentRetrieveOneResponseDto");
 const AppointmentRetrieveManyResponseDto = require("../../../dto/appointment/AppointmentRetrieveManyResponseDto");
 const CustomError = require("../../../error/CustomError");
+const AppointmentStatus = require("../../enumeration/AppointmentStatus");
 
 class AppointmentRetrieveUseCase {
     constructor(appointmentAdapter) {
@@ -15,8 +16,21 @@ class AppointmentRetrieveUseCase {
         return new AppointmentRetrieveOneResponseDto(appointment);
     }
 
-    async retrieveByCustomerId(customerId) {
-        const appointments = await this.appointmentAdapter.findByCustomerId(customerId);
+    async retrieveRemainingAppointmentByCustomerId(customerId) {
+        const filter = {
+            customerId,
+            status: { $eq: AppointmentStatus.SCHEDULED }
+        };
+        const appointments = await this.appointmentAdapter.findByCustomerIdAndFilter(filter);
+        return new AppointmentRetrieveManyResponseDto(appointments);
+    }
+        
+    async retrieveAppointmentHistoricByCustomerId(customerId) {
+        const filter = {
+            customerId,
+            status: { $lt: AppointmentStatus.SCHEDULED }
+        };
+        const appointments = await this.appointmentAdapter.findByCustomerIdAndFilter(filter);
         return new AppointmentRetrieveManyResponseDto(appointments);
     }
 

@@ -1,5 +1,5 @@
 class VehicleRetrieveOneResponseDto {
-    constructor({_id,brand,model,registrationNumber,transmission,kilometers,typeVehicle,yearOfManufacture,customerId}) {
+    constructor({_id,brand,model,registrationNumber,transmission,kilometers,typeVehicle,yearOfManufacture,customerId,picture}) {
         this.id = _id;
         this.brand = brand;
         this.model = model;
@@ -8,7 +8,8 @@ class VehicleRetrieveOneResponseDto {
         this.kilometers = kilometers;
         this.type = typeVehicle; 
         this.yearOfManufacture = yearOfManufacture;
-        this.customerId = customerId
+        this.customerId = customerId,
+        this.picture = picture
     }
     
 }

@@ -1,6 +1,7 @@
 const VehicleType = require("../enumeration/VehicleType");
 const Transmission = require("../enumeration/Transmission");
 const CustomError = require("../../error/CustomError");
+const Sizing = require("../../constant/Sizing");
 
 class UserService {
     static expectThatRequiredFieldsArePresent(vehicle) {
@@ -19,6 +20,12 @@ class UserService {
             throw new CustomError(`The following fields are required: ${requiredFields}`,500);
         }
         
+    }
+
+    static expectThatVehiclePictureSizeIsValid(picture){
+        if(Buffer.byteLength(picture, 'base64') < Sizing.IMAGE_SIZE){
+            throw new CustomError(`Picture must be less than 5MB`,500);
+        }
     }
 
     static expectThatVehicleTypeIsValid(vehicleType){

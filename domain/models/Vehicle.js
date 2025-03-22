@@ -1,5 +1,5 @@
 class Vehicle {
-    constructor(id, registrationNumber, typeVehicle, brand, model, yearOfManufacture, transmission,kilometers,customerId) {
+    constructor(id, registrationNumber, typeVehicle, brand, model, yearOfManufacture, transmission,kilometers,customerId,picture) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.typeVehicle = typeVehicle;
@@ -8,7 +8,8 @@ class Vehicle {
         this.yearOfManufacture = yearOfManufacture;
         this.kilometers = kilometers;
         this.transmission = transmission;
-        this.customerId = customerId
+        this.customerId = customerId;
+        this.picture = picture;
     }
 
     setCustomerId(customerId){
@@ -27,6 +28,7 @@ class Vehicle {
                 this.kilometers = null;
                 this.transmission = "";
                 this.customerId = null;
+                this.picture = null;
             }
 
             setId(id) { this.id = id; return this; }
@@ -38,6 +40,7 @@ class Vehicle {
             setYearOfManufacture(yearOfManufacture) { this.yearOfManufacture = yearOfManufacture; return this; }
             setTransmission(transmission) { this.transmission = transmission; return this; }
             setCustomerId(customerId) { this.customerId = customerId; return this; }
+            setPicture(picture) { this.picture = picture; return this; }
 
             build() {
                 return new Vehicle(
@@ -49,7 +52,8 @@ class Vehicle {
                     this.yearOfManufacture,
                     this.transmission,
                     this.kilometers,
-                    this.customerId
+                    this.customerId,
+                    this.picture
                 );
             }
         }
