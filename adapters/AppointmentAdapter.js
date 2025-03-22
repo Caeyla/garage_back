@@ -26,20 +26,29 @@ class AppointmentAdapter {
       appointmentDate,
       status
     });
-    return await newAppointment.save();
-
+    await newAppointment.save();
+    return await this.model.findById(newAppointment._id)
+      .populate("vehicleId")
+      .populate("prestationIds");
   }
 
   async findByIdAndCustomerId(id,customerId) {
-    return await this.model.findOne({ _id: id, customerId });
+    return await this.model
+        .findOne({ _id: id, customerId })
+        .populate("vehicleId")
+        .populate("PrestationIds");
   }
 
   async findByCustomerId(customerId) {
-    return await this.model.find({ customerId });
+    return await this.model.find({ customerId })
+        .populate("vehicleId")
+        .populate("prestationIds");
   }
 
   async findByVehicleId(vehicleId) {
-    return await this.model.find({ vehicleId });
+    return await this.model.find({ vehicleId })
+        .populate("Vehicle")
+        .populate("Prestation");
   }
 
   async update(id, updateAppointment) {
