@@ -9,7 +9,8 @@ const VehicleSchema = new mongoose.Schema({
     typeVehicle: { type: String, required: true },
     yearOfManufacture: { type: String, required: true },
     isActive: { type: Boolean, required: true, default: true },
-    customerId: { type: mongoose.Types.ObjectId, required: true ,ref : "Customer"}
+    customerId: { type: mongoose.Types.ObjectId, required: true ,ref : "Customer"},
+    picture: { type: String, required: false }
   },
   {
     timestamps: true
@@ -27,7 +28,9 @@ class VehicleAdapter {
     kilometers,
     transmission,
     typeVehicle,
-    yearOfManufacture}) {
+    yearOfManufacture,
+    picture
+  }) {
     const newVehicle = new this.model({
       brand,
       model,
@@ -36,7 +39,8 @@ class VehicleAdapter {
       transmission,
       typeVehicle,
       yearOfManufacture,
-      customerId
+      customerId,
+      picture
     });
     return await newVehicle.save();
   }

@@ -1,6 +1,6 @@
 const Vehicle = require("../../domain/models/Vehicle")
 class VehicleRequestDto {
-    constructor({brand,model,registrationNumber,transmission,kilometers,type,yearOfManufacture}) {
+    constructor({brand,model,registrationNumber,transmission,kilometers,type,yearOfManufacture,picture}) {
         this.brand = brand;
         this.model = model;
         this.registrationNumber = registrationNumber;
@@ -8,6 +8,7 @@ class VehicleRequestDto {
         this.kilometers = kilometers;
         this.typeVehicle = type; 
         this.yearOfManufacture = yearOfManufacture;
+        this.picture = picture
     }
 
     toVehicleModel(){
@@ -19,6 +20,7 @@ class VehicleRequestDto {
             .setKilometers(this.kilometers)
             .setYearOfManufacture(this.yearOfManufacture)
             .setTransmission(this.transmission)
+            .setPicture(this.picture)
             .build()
     }
     
