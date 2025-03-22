@@ -12,7 +12,7 @@ class AppointmentUpdateUseCase{
         const appointmentFromDb = await  this.appointmentAdapter.findByIdAndCustomerId(appointmentId,customerId,Scope.BASIC);
         
         this.checkIfAppointmentExists(appointmentFromDb);
-        //this.checkIfAppointmentIsNotCancelled(appointmentFromDb);
+        this.checkIfAppointmentIsNotCancelled(appointmentFromDb);
 
         const updateData = { status: AppointmentStatus.CANCELED};
         await this.appointmentAdapter.update(appointmentId,updateData);
@@ -20,6 +20,7 @@ class AppointmentUpdateUseCase{
 
         return new AppointmentRetrieveOneResponseDto(updatedAppointment);
     }
+
 
     checkIfAppointmentExists(appointment) {
         if(!appointment) {

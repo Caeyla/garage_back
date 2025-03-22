@@ -25,7 +25,17 @@ router.post('/appointment', async (req, res) => {
 router.get("/appointments", async (req, res) => {
     try {
         const customerId = JwtService.decodeTokenFromRequest(req).id;
-        const response = await appointmentRetrieveUseCase.retrieveByCustomerId(customerId);
+        const response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(customerId);
+        res.status(200).json(response.appointments); 
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.get("/appointments/historic", async(req,res) => {
+    try {
+        const customerId = JwtService.decodeTokenFromRequest(req).id;
+        const response = await appointmentRetrieveUseCase.retrieveAppointmentHistoricByCustomerId(customerId);
         res.status(200).json(response.appointments); 
     } catch (error) {
         handleErrorThrowing(res,error);

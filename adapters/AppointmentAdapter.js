@@ -39,8 +39,8 @@ class AppointmentAdapter {
     return this.handleScope(scope, query);
   }
 
-  async findByCustomerId(customerId, scope = Scope.EXTENDED) {
-    const query = this.model.find({ customerId });
+  async findByCustomerIdAndFilter(filter, scope = Scope.EXTENDED) {
+    const query = this.model.find({ ...filter });
     return this.handleScope(scope, query);
   }
 
