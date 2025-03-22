@@ -37,7 +37,7 @@ const PrestationUseCase = require("../domain/usecases/prestation/PrestationUseCa
 /****************************************************************************/
 const AppointmentCreateUseCase = require("../domain/usecases/appointment/AppointmentCreateUseCase");
 const AppointmentRetrieveUseCase = require("../domain/usecases/appointment/AppointmentRetrieveUseCase");
-
+const AppointmentUpdateUseCase = require("../domain/usecases/appointment/AppointmentUpdateUseCase");
 /****************************************************************************/
 // ADAPTER INSTANCE
 /****************************************************************************/
@@ -77,6 +77,7 @@ const prestationUseCase = new PrestationUseCase(prestationAdapter);
 
 const appointmentCreateUseCase = new AppointmentCreateUseCase(appointmentAdapter,vehicleAdapter,prestationAdapter);
 const appointmentRetrieveUseCase = new AppointmentRetrieveUseCase(appointmentAdapter);
+const appointmentUpdateUseCase = new AppointmentUpdateUseCase(appointmentAdapter);
 
 module.exports = {
     userCreateUseCase,
@@ -88,5 +89,6 @@ module.exports = {
     vehicleRetrieveUseCase,
     prestationUseCase,
     appointmentCreateUseCase,
-    appointmentRetrieveUseCase
+    appointmentRetrieveUseCase,
+    appointmentUpdateUseCase
 }

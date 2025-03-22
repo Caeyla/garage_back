@@ -1,5 +1,6 @@
 const AppointmentStatus = {
-    PENDING: 5,
-    PAID : 10,
+    SCHEDULED: 10,
+    PAID : 5,
     CANCELED: 0
 }
+module.exports = AppointmentStatus;

@@ -1,5 +1,6 @@
 const CustomError = require('../../../error/CustomError');
 const AppointmentRetrieveOneResponseDto = require('../../../dto/appointment/AppointmentRetrieveOneResponseDto');
+const AppointmentStatus = require('../../enumeration/AppointmentStatus');
 class AppointmentCreateUseCase {
     constructor(appointmentAdapter,vehicleAdapter,prestationAdapter) {
         this.appointmentAdapter = appointmentAdapter;
@@ -13,7 +14,7 @@ class AppointmentCreateUseCase {
         
         const newAppointment = appointmentRequestDto.toAppointmentModel();
         newAppointment.setCustomerId(customerId);
-        newAppointment.setStatus(0);
+        newAppointment.setStatus(AppointmentStatus.SCHEDULED);
         const savedAppointment =  await this.appointmentAdapter.create(newAppointment);
         return new AppointmentRetrieveOneResponseDto(savedAppointment);
     }

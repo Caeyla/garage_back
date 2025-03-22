@@ -5,7 +5,7 @@ const JwtService = require('../domain/services/JwtService');
 const {vehicleCreateUseCase,vehicleUpdateUseCase,vehicleRetrieveUseCase} = require('../config/Container');
 const handleErrorThrowing = require('../error/CustomErrorUtil');
 const AppointmentRequestDto = require("../dto/appointment/AppointmentRequestDto");
-const {appointmentCreateUseCase,appointmentRetrieveUseCase} = require('../config/Container');
+const {appointmentCreateUseCase,appointmentRetrieveUseCase,appointmentUpdateUseCase} = require('../config/Container');
 
 /*********************************************************/
 // APPOINTMENT ENDPOINTS        
@@ -31,6 +31,17 @@ router.get("/appointments", async (req, res) => {
         handleErrorThrowing(res,error);
     }
 });
+
+router.put("/appointment/:appointmentId/cancel", async (req, res) => {
+    try {
+        const appointmentId = req.params.appointmentId;
+        const customerId = JwtService.decodeTokenFromRequest(req).id;
+        const response = await appointmentUpdateUseCase.cancelAppointment(customerId,appointmentId);
+        res.status(200).json(response); 
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+})
 
 router.get("/appointment/:appointmentId", async (req, res) => {
     try {
