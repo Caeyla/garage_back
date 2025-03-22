@@ -5,10 +5,11 @@ class PrestationRetrieveManyResponseDto {
     }
 
     convertToResponseDto(prestations) {
+        const prestationDtos = [];
         for(let i = 0; i < prestations.length; i++){
-            prestations[i] = new PrestationRetrieveOneResponseDto(prestations[i]);
+            prestationDtos[i] = new PrestationRetrieveOneResponseDto(prestations[i]);
         }
-        return prestations;
+        return prestationDtos;
     }
 }
 

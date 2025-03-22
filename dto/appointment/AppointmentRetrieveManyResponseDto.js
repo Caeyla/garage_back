@@ -6,10 +6,11 @@ class AppointmentRetrieveManyResponseDto {
     }
 
     convertToResponseDto(appointments) {
+        const appointmentDtos = [];
         for(let i = 0; i < appointments.length; i++){
-            appointments[i] = new AppointmentRetrieveOneResponseDto(appointments[i]);
+            appointmentDtos[i] = new AppointmentRetrieveOneResponseDto(appointments[i]);
         }
-        return appointments;
+        return appointmentDtos;
     }
 }
 
