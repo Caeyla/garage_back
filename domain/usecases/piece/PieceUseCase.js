@@ -6,8 +6,8 @@ class PieceUseCase{
         this.pieceAdapter = pieceAdapter;
     }
 
-    async createPiece({name,description}) {
-        const createdPiece = await this.pieceAdapter.create({name,description});
+    async createPiece({name,price,description}) {
+        const createdPiece = await this.pieceAdapter.create({name,price,description});
         return new PieceRetrieveOneResponseDto(createdPiece);
     }
 
