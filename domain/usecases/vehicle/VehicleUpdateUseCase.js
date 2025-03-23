@@ -36,7 +36,8 @@ class VehicleUpdateUseCase {
             model: vehicleUpdateData.model || vehicleFromDb.model,
             kilometers: vehicleUpdateData.kilometers || vehicleFromDb.kilometers,
             transmission: vehicleUpdateData.transmission || vehicleFromDb.transmission,
-            yearOfManufacture: vehicleUpdateData.yearOfManufacture || vehicleFromDb.yearOfManufacture
+            yearOfManufacture: vehicleUpdateData.yearOfManufacture || vehicleFromDb.yearOfManufacture,
+            picture: vehicleUpdateData.picture || vehicleFromDb.picture
         }
     }
 
