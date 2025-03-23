@@ -11,6 +11,7 @@ class AppointmentCreateUseCase {
     async create(appointmentRequestDto,customerId) {
         await this.checkIfPrestationsExist(appointmentRequestDto.prestationIds);
         await this.checkIfVehicleExists(appointmentRequestDto.vehicleId,customerId);
+        this.exceptThatAppointmentDateIsValid(appointmentRequestDto.appointmentDate);
         
         const newAppointment = appointmentRequestDto.toAppointmentModel();
         newAppointment.setCustomerId(customerId);
@@ -44,7 +45,16 @@ class AppointmentCreateUseCase {
         }
     }
 
-    expectThatDateIsNotBefor
+    exceptThatAppointmentDateIsValid(appointmentDateAsString){
+        if(!appointmentDateAsString){
+            throw new CustomError("Appointment date must be provided", 500);
+        }
+        const appointmentDate = new Date(appointmentDateAsString);
+        const now = new Date();
+        if(appointmentDate.getTime() < now.getTime()){
+            throw new CustomError("Appointment date must be in the future", 500);
+        }
+    }
 }
 
 module.exports = AppointmentCreateUseCase;
