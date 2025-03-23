@@ -43,6 +43,8 @@ class AppointmentCreateUseCase {
             throw new CustomError("Prestations not found: "+prestationNotfound.join(", "), 404);
         }
     }
+
+    expectThatDateIsNotBefor
 }
 
 module.exports = AppointmentCreateUseCase;
