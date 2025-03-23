@@ -29,19 +29,19 @@ class PrestationAdapter {
   }
 
   async findById(id) {
-    return await this.model.findById(id);
+    return await this.model.findOne({ _id: id, isActive: true });
   }
 
   async findByIds(ids) {
-    return await this.model.find({ _id: { $in: ids } });
+    return await this.model.find({ _id: { $in: ids }, isActive: true });
   }
 
   async findAll() {
-    return await this.model.find();
+    return await this.model.find({ isActive: true });
   }
 
   async update(id, updatesToPrestation) {
-    return await this.model.updateOne({ _id: id }, { $set: { ...updatesToPrestation } });
+    return await this.model.updateOne({ _id: id, isActive: true }, { $set: { ...updatesToPrestation } });
   }
 }
 
