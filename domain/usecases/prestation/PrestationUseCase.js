@@ -17,6 +17,22 @@ class PrestationUseCase {
         return {id};
     }
 
+    async update(id,updatesToPrestation) {
+        const prestationFromDb = await this.prestationAdapter.findById(id);
+        if(!prestationFromDb) {
+            throw new CustomError("Prestation not found",404);
+        }
+        const finalUpdateData = {
+            name: updatesToPrestation.name || prestationFromDb.name,
+            description: updatesToPrestation.description || prestationFromDb.description,
+            price: updatesToPrestation.price || prestationFromDb.price,
+            duration: updatesToPrestation.duration || prestationFromDb.duration
+        }
+        await this.prestationAdapter.update(id,finalUpdateData);
+        const updatedPrestation = await this.prestationAdapter.findById(id);
+        return new PrestationRetrieveOneResponseDto(updatedPrestation);
+    }
+
     async retrieveById(id) {
         const prestation = await this.prestationAdapter.findById(id);
         if(!prestation) {

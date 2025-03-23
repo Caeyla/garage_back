@@ -26,6 +26,27 @@ router.get('/prestation/:prestationId', async (req, res) => {
     }
 });
 
+router.patch('/prestation/:prestationId', async (req, res) => {
+    try {
+        const prestationId = req.params.prestationId;
+        const prestationRequest = new PrestationRequestDto(req.body);
+        const updatedPrestation = await prestationUseCase.update(prestationId,prestationRequest);
+        res.status(200).json(updatedPrestation);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.delete('/prestation/:prestationId', async (req, res) => {
+    try {
+        const prestationId = req.params.prestationId;
+        const deletedPrestation = await prestationUseCase.remove(prestationId);
+        res.status(200).json(deletedPrestation);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+})
+
 router.get('/prestations', async (req, res) => {
     try {
         const prestations = await prestationUseCase.retrieveAll();
