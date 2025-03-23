@@ -28,7 +28,7 @@ class AppointmentRetrieveUseCase {
     async retrieveAppointmentHistoricByCustomerId(customerId) {
         const filter = {
             customerId,
-            status: { $lt: AppointmentStatus.SCHEDULED }
+            status: { $gt: AppointmentStatus.SCHEDULED }
         };
         const appointments = await this.appointmentAdapter.findByCustomerIdAndFilter(filter);
         return new AppointmentRetrieveManyResponseDto(appointments);
