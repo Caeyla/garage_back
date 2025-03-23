@@ -7,6 +7,7 @@ const EmployeeAdapter = require("../adapters/EmployeeAdapter");
 const VehicleAdapter = require("../adapters/VehicleAdapter");
 const PrestationAdapter = require("../adapters/PrestationAdapter");
 const AppointmentAdapter = require("../adapters/AppointmentAdapter");
+const PieceAdapter = require("../adapters/PieceAdapter");
 
 
 /**************************************************************************/
@@ -32,6 +33,13 @@ const VehicleRetrieveUseCase = require("../domain/usecases/vehicle/VehicleRetrie
 
 const PrestationUseCase = require("../domain/usecases/prestation/PrestationUseCase");
 
+/***************************************************************************/
+// PIECE USECASES IMPORT
+/***************************************************************************/
+
+const PieceUseCase = require("../domain/usecases/piece/PieceUseCase");
+
+
 /****************************************************************************/
 // APPOINTMENT USECASES IMPORT
 /****************************************************************************/
@@ -47,6 +55,7 @@ const employeeAdapter = new EmployeeAdapter();
 const vehicleAdapter = new VehicleAdapter();
 const prestationAdapter = new PrestationAdapter();
 const appointmentAdapter = new AppointmentAdapter();
+const pieceAdapter = new PieceAdapter();
 
 /****************************************************************************/
 //  USER USECASES INSTANCE
@@ -72,6 +81,12 @@ const vehicleUpdateUseCase = new VehicleUpdateUseCase(vehicleAdapter,customerAda
 const prestationUseCase = new PrestationUseCase(prestationAdapter);
 
 /****************************************************************************/
+//  PIECE USECASES INSTANCE
+/****************************************************************************/
+
+const pieceUseCase = new PieceUseCase(pieceAdapter);
+
+/****************************************************************************/
 //  APPOINTMENT USECASES INSTANCE
 /****************************************************************************/
 
@@ -90,5 +105,6 @@ module.exports = {
     prestationUseCase,
     appointmentCreateUseCase,
     appointmentRetrieveUseCase,
-    appointmentUpdateUseCase
+    appointmentUpdateUseCase,
+    pieceUseCase
 }

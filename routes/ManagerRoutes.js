@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const handleErrorThrowing = require('../error/CustomErrorUtil');
-const {prestationUseCase} = require('../config/Container');
+const {prestationUseCase,pieceUseCase} = require('../config/Container');
 const PrestationRequestDto = require('../dto/prestation/PrestationRequestDto');
 /*********************************************************/
 // PRESTATION ENDPOINTS        
@@ -35,5 +35,46 @@ router.get('/prestations', async (req, res) => {
     }
 });
 
+/***************************************************************************************/
+// PIECE ENDPOINTS
+/***************************************************************************************/
+
+router.post('/piece', async (req, res) => {
+    try { 
+        const createdPiece = await pieceUseCase.createPiece(req.body);
+        res.status(201).json(createdPiece);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.patch('/piece/:pieceId', async (req, res) => {
+    try {
+        const pieceId = req.params.pieceId;
+        const updatedPiece = await pieceUseCase.updatePiece(pieceId,req.body);
+        res.status(200).json(updatedPiece);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.get('/piece/:pieceId', async (req, res) => {
+    try {
+        const pieceId = req.params.pieceId;
+        const piece = await pieceUseCase.retrievePieceById(pieceId);
+        res.status(200).json(piece);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.get('/pieces', async (req, res) => {
+    try {
+        const pieces = await pieceUseCase.retrieveAllPieces();
+        res.status(200).json(pieces.pieceDtos);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
 
 module.exports = router;
