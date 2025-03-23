@@ -34,15 +34,15 @@ class EmployeeAdapter {
   }
 
   async findByEmail(email) {
-    return await this.model.findOne({ email });
+    return await this.model.findOne({ email, isActive: true });
   }
 
   async findById(id) {
-    return await this.model.findById(id);
+    return await this.model.findOne({ _id: id, isActive: true });
   }
 
   async update(id,updatesToEmployee){
-    return await this.model.updateOne({ _id: id }, { $set: {...updatesToEmployee} });
+    return await this.model.updateOne({ _id: id, isActive: true }, { $set: {...updatesToEmployee} });
   }
 }
 

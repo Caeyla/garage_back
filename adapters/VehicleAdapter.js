@@ -46,19 +46,19 @@ class VehicleAdapter {
   }
 
   async update(id,updatesToVehicle) {
-    return await this.model.updateOne({ _id: id }, { $set: {...updatesToVehicle} });
+    return await this.model.updateOne({ _id: id, isActive: true }, { $set: {...updatesToVehicle} });
   }
 
   async findById(id) {
-    return await this.model.findById(id);
+    return await this.model.findOne({ _id: id, isActive: true });
   }
 
   async findByIdAndCustomerId(id,customerId) {
-    return await this.model.findOne({ _id: id, customerId });
+    return await this.model.findOne({ _id: id, customerId , isActive: true });
   }
 
   async findByCustomerId(customerId) {
-    return await this.model.find({ customerId });
+    return await this.model.find({ customerId , isActive: true });
   }
 }
 

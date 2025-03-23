@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Customer = require('../domain/models/Customer');
 
 const CustomerSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -34,15 +33,15 @@ class CustomerAdapter {
   }
 
   async findByEmail(email) {
-    return await this.model.findOne({ email });
+    return await this.model.findOne({ email, isActive: true });
   }
 
   async findById(id) {
-    return await this.model.findById(id);
+    return await this.model.findOne({ _id: id, isActive: true });
   }
 
   async update(id, updatesToCustomer) {
-    return await this.model.updateOne({ _id: id }, { $set: { ...updatesToCustomer } });
+    return await this.model.updateOne({ _id: id, isActive: true }, { $set: { ...updatesToCustomer } });
   }
 
 }
