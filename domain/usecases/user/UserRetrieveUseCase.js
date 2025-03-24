@@ -9,6 +9,8 @@ class UserRetrieveUseCase{
         this.employeeAdapter = employeeAdapter;
     }
 
+    //TODO : refactor retrieveByIdAndUserType
+
     async retrieveByIdAndUserType(userId,userType) {
         if(!userId) {
             throw new CustomError("User Id required",500);
@@ -20,6 +22,17 @@ class UserRetrieveUseCase{
             user = await this.employeeAdapter.findById(userId);
         }
 
+        return new UserRetrieveDto(userType,user);
+    }
+
+    async retrieveById(id) {
+        const userCustomer = await this.customerAdapter.findById(id);
+        const userEmployee = await this.employeeAdapter.findById(id);
+        if(!userCustomer && !userEmployee) {
+            throw new CustomError("User not found",404);
+        }
+        const user = userCustomer || userEmployee;
+        const userType = user.userType || UserType.CUSTOMER;
         return new UserRetrieveDto(userType,user);
     }
 }

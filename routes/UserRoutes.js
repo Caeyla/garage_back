@@ -38,6 +38,16 @@ router.get('/information',authenticationMiddleware ,async(req,res) => {
     }
 });
 
+router.get('/information/:userId',authenticationMiddleware ,async(req,res) => {
+    try{
+        const userId = req.params.userId;
+        const userInfo = await userRetrieveUseCase.retrieveById(userId);
+        res.status(200).json(userInfo);
+    }catch(error){
+        handleErrorThrowing(res,error);
+    }
+});
+
 router.patch('/information/:userId', async(req,res) => {
     try{
         const userId = req.params.userId;
