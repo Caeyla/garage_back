@@ -35,7 +35,7 @@ class AppointmentCreateUseCase {
         const prestationNotfound = [];
         
         for(const prestationId of prestationIds){
-            if(!prestationsFromDb.find(prestation => prestation.id == prestationId)){
+            if(!prestationsFromDb.find(prestation => prestation._id == prestationId)){
                 prestationNotfound.push(prestationId);
             }
         }

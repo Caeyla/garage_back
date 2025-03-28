@@ -21,7 +21,7 @@ class UserUpdateteUseCase {
                userFromDb,
                updateUserData.toCustomerModel()
             );
-        } 
+        }
     }
 
     async findUserById(id) {
