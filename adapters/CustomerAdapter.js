@@ -29,7 +29,10 @@ class CustomerAdapter {
       phone
     });
     return await newCustomer.save();
-    
+  }
+
+  async retrieveAll() {
+    return await this.model.find({isActive: true });
   }
 
   async findByEmail(email) {

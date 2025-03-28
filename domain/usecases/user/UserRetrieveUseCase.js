@@ -1,6 +1,7 @@
 const UserType = require('../../enumeration/UserType');
 const UserRetrieveDto = require('../../../dto/user/UserRetrieveDto');
 const CustomError = require('../../../error/CustomError');
+const UserRetrieveManyDto = require('../../../dto/user/UserRetrieveManyDto');
 
 class UserRetrieveUseCase{
 
@@ -9,8 +10,17 @@ class UserRetrieveUseCase{
         this.employeeAdapter = employeeAdapter;
     }
 
-    //TODO : refactor retrieveByIdAndUserType
+    async retrieveByUserType(userType) {
+        let users ;
+        if(userType === UserType.CUSTOMER) {
+            users =  await this.customerAdapter.retrieveAll();
+        } else if(userType === UserType.MECHANIC) {
+            users = await this.employeeAdapter.retrieveAllMechanic();
+        }
+        return new UserRetrieveManyDto(userType,users);
+    }
 
+    //TODO : refactor retrieveByIdAndUserType
     async retrieveByIdAndUserType(userId,userType) {
         if(!userId) {
             throw new CustomError("User Id required",500);

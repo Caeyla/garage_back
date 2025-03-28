@@ -1,8 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const handleErrorThrowing = require('../error/CustomErrorUtil');
-const {prestationUseCase,pieceUseCase} = require('../config/Container');
+const {prestationUseCase,pieceUseCase,userRetrieveUseCase} = require('../config/Container');
 const PrestationRequestDto = require('../dto/prestation/PrestationRequestDto');
+const UserType = require('../domain/enumeration/UserType');
+/*********************************************************/
+// VIEW CUSTOMER ENDPOINTS        
+/*******************************************************/
+router.get('/customers', async (req, res) => {
+    try {
+        const customers = await userRetrieveUseCase.retrieveByUserType(UserType.CUSTOMER);
+        res.status(200).json(customers.users);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.get('/mechanics', async (req, res) => {
+    try {
+        const mechanics = await userRetrieveUseCase.retrieveByUserType(UserType.MECHANIC);
+        res.status(200).json(mechanics.users);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
 /*********************************************************/
 // PRESTATION ENDPOINTS        
 /**************************************************** **/
