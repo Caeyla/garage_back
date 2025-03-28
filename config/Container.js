@@ -8,16 +8,16 @@ const VehicleAdapter = require("../adapters/VehicleAdapter");
 const PrestationAdapter = require("../adapters/PrestationAdapter");
 const AppointmentAdapter = require("../adapters/AppointmentAdapter");
 const PieceAdapter = require("../adapters/PieceAdapter");
-
+const SpecialityAdapter = require("../adapters/SpecialityAdapter");
 
 /**************************************************************************/
 // USER USECASES IMPORT
 /**************************************************************************/
+
 const UserCreateUseCase = require("../domain/usecases/user/UserCreateUseCase");
 const UserLoginUseCase = require("../domain/usecases/user/UserLoginUseCase");
 const UserRetrieveUseCase = require("../domain/usecases/user/UserRetrieveUseCase");
 const UserUpdateteUseCase = require("../domain/usecases/user/UserUpdateUseCase");
-
 
 /**************************************************************************/
 // VEHICLE USECASES IMPORT
@@ -39,13 +39,20 @@ const PrestationUseCase = require("../domain/usecases/prestation/PrestationUseCa
 
 const PieceUseCase = require("../domain/usecases/piece/PieceUseCase");
 
+/***************************************************************************/
+// SPECIALITY USECASES IMPORT
+/***************************************************************************/
+
+const SpecialityUseCase = require("../domain/usecases/speciality/SpecialityUseCase");
 
 /****************************************************************************/
 // APPOINTMENT USECASES IMPORT
 /****************************************************************************/
+
 const AppointmentCreateUseCase = require("../domain/usecases/appointment/AppointmentCreateUseCase");
 const AppointmentRetrieveUseCase = require("../domain/usecases/appointment/AppointmentRetrieveUseCase");
 const AppointmentUpdateUseCase = require("../domain/usecases/appointment/AppointmentUpdateUseCase");
+
 /****************************************************************************/
 // ADAPTER INSTANCE
 /****************************************************************************/
@@ -56,6 +63,7 @@ const vehicleAdapter = new VehicleAdapter();
 const prestationAdapter = new PrestationAdapter();
 const appointmentAdapter = new AppointmentAdapter();
 const pieceAdapter = new PieceAdapter();
+const specialityAdapter = new SpecialityAdapter();
 
 /****************************************************************************/
 //  USER USECASES INSTANCE
@@ -78,7 +86,13 @@ const vehicleUpdateUseCase = new VehicleUpdateUseCase(vehicleAdapter,customerAda
 //  PRESTATION USECASES INSTANCE
 /****************************************************************************/
 
-const prestationUseCase = new PrestationUseCase(prestationAdapter);
+const prestationUseCase = new PrestationUseCase(prestationAdapter,specialityAdapter);
+
+/****************************************************************************/
+//  SPECIALITY USECASES INSTANCE
+/****************************************************************************/
+
+const specialityUseCase = new SpecialityUseCase(specialityAdapter);
 
 /****************************************************************************/
 //  PIECE USECASES INSTANCE
@@ -106,5 +120,6 @@ module.exports = {
     appointmentCreateUseCase,
     appointmentRetrieveUseCase,
     appointmentUpdateUseCase,
-    pieceUseCase
+    pieceUseCase,
+    specialityUseCase
 }

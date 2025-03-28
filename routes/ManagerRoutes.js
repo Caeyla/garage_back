@@ -5,7 +5,7 @@ const {prestationUseCase,pieceUseCase,userRetrieveUseCase} = require('../config/
 const PrestationRequestDto = require('../dto/prestation/PrestationRequestDto');
 const UserType = require('../domain/enumeration/UserType');
 /*********************************************************/
-// VIEW CUSTOMER ENDPOINTS        
+// VIEW CUSTOMERS ENDPOINTS        
 /*******************************************************/
 router.get('/customers', async (req, res) => {
     try {
@@ -16,6 +16,9 @@ router.get('/customers', async (req, res) => {
     }
 });
 
+/*********************************************************/
+// VIEW MECHANICS ENDPOINTS        
+/*******************************************************/
 router.get('/mechanics', async (req, res) => {
     try {
         const mechanics = await userRetrieveUseCase.retrieveByUserType(UserType.MECHANIC);

@@ -1,11 +1,12 @@
 const User = require('./User');
 
 class Employee extends User{
-    constructor(id,name,firstName,email,password,income,isActive,unvailableDates,userType) {
+    constructor(id,name,firstName,email,password,income,isActive,unvailableDates,userType,specialities) {
         super(id,name,firstName,email,password,isActive);
         this.unvailableDates = unvailableDates;   
         this.income = income;
-        this.userType = userType
+        this.userType = userType;
+        this.specialities = specialities
     }
 
     static get Builder() {
@@ -19,7 +20,8 @@ class Employee extends User{
                 this.income = 0;
                 this.isActive = false;
                 this.unvailableDates = [];
-                this.type = undefined
+                this.type = undefined;
+                this.specialities = [];
             }
     
             setId(id) { this.id = id; return this; }
@@ -31,6 +33,7 @@ class Employee extends User{
             setIsActive(isActive) { this.isActive = isActive; return this; }
             setUnavailableDates(dates) { this.unvailableDates = dates; return this; }
             setType(type) { this.type = type; return this; }
+            setSpecialities(specialities) { this.specialities = specialities; return this; }
             build() {
                 return new Employee(
                     this.id,
@@ -41,7 +44,8 @@ class Employee extends User{
                     this.income,
                     this.isActive,
                     this.unvailableDates,
-                    this.type
+                    this.type,
+                    this.specialities
                 );
             }
         }

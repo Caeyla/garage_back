@@ -32,7 +32,7 @@ class CustomerAdapter {
   }
 
   async retrieveAll() {
-    return await this.model.find({isActive: true });
+    return await this.model.find();
   }
 
   async findByEmail(email) {

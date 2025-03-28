@@ -5,6 +5,7 @@ const PrestationSchema = new mongoose.Schema({
   description: { type: String, required: false },
   price: { type: Number, required: true },
   duration: { type: Number, required: true },
+  specialities: [{ type: mongoose.Types.ObjectId, required: true, ref: "Speciality" }],
   isActive: {type: Boolean, required: true, default: true}
 },
   {
@@ -29,15 +30,18 @@ class PrestationAdapter {
   }
 
   async findById(id) {
-    return await this.model.findOne({ _id: id, isActive: true });
+    return await this.model
+      .findOne({ _id: id, isActive: true })
+      .populate("specialities");
   }
 
   async findByIds(ids) {
-    return await this.model.find({ _id: { $in: ids }, isActive: true });
+    return await this.model
+      .find({ _id: { $in: ids }, isActive: true }).populate("specialities");
   }
 
   async findAll() {
-    return await this.model.find({ isActive: true });
+    return await this.model.find({ isActive: true }).populate("specialities");
   }
 
   async update(id, updatesToPrestation) {
