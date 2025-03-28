@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const UserType = require('../domain/enumeration/UserType');
 
 
 
@@ -39,6 +40,10 @@ class EmployeeAdapter {
 
   async findById(id) {
     return await this.model.findOne({ _id: id, isActive: true });
+  }
+
+  async retrieveAllMechanic() {
+    return await this.model.find({ userType: UserType.MECHANIC, isActive: true });
   }
 
   async update(id,updatesToEmployee){
