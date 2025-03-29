@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Scope = require('../constant/Scope');
 
 const AppointmentSchema = new mongoose.Schema({
+  numAppointment: { type: Number , required: true , autoIncrement: true, unique: true},
   customerId: { type: mongoose.Types.ObjectId, required: true, ref: "Customer" },
   vehicleId: { type: mongoose.Types.ObjectId, required: true, ref: "Vehicle" },
   prestationIds: [{ type: mongoose.Types.ObjectId, required: true, ref: "Prestation" }],

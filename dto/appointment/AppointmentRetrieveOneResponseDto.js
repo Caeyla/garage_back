@@ -2,8 +2,9 @@ const VehicleRetrieveOneResponseDto = require("../vehicle/VehicleRetrieveOneResp
 const PrestationRetrieveManyResponseDto = require("../prestation/PrestationRetrieveManyResponseDto");
 const AppointmentStatus = require("../../domain/enumeration/AppointmentStatus");
 class AppointmentRetrieveOneResponseDto {
-    constructor({_id,customerId,vehicleId,prestationIds,appointmentDate,status}) {
+    constructor({_id,customerId,vehicleId,prestationIds,appointmentDate,status,numAppointment}) {
         this.id = _id;
+        this.numAppointment = numAppointment;
         this.customerId = customerId;
         this.vehicle = new VehicleRetrieveOneResponseDto(vehicleId);
         this.prestations = new PrestationRetrieveManyResponseDto(prestationIds).prestations;
