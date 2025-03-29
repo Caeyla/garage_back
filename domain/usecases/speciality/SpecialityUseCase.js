@@ -1,3 +1,5 @@
+const SpecialityRetrieveOneResponseDto = require("../../../dto/speciality/SpecialityRetrieveOneResponseDto");
+const SpecialityRetrieveManyResponseDto = require("../../../dto/speciality/SpecialityRetrieveManyResponseDto");
 class SpecialityUseCase{
     constructor(specialityAdapter){
         this.specialityAdapter = specialityAdapter;
@@ -5,17 +7,17 @@ class SpecialityUseCase{
 
     async create({name}) {
         const newSpeciality = await this.specialityAdapter.create({name});
-        return newSpeciality;
+        return new SpecialityRetrieveOneResponseDto(newSpeciality);
     }
 
     async retrieveAll() {
         const specialities = await this.specialityAdapter.findAll();
-        return specialities;
+        return new SpecialityRetrieveManyResponseDto(specialities);
     }
 
     async retrieveById(id) {
         const speciality = await this.specialityAdapter.findById(id);
-        return speciality;
+        return new SpecialityRetrieveOneResponseDto(speciality);
     }
 }
 

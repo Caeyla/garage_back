@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const handleErrorThrowing = require('../error/CustomErrorUtil');
-const {prestationUseCase,pieceUseCase,userRetrieveUseCase} = require('../config/Container');
+const {prestationUseCase,pieceUseCase,userRetrieveUseCase,chargeUseCase,specialityUseCase} = require('../config/Container');
 const PrestationRequestDto = require('../dto/prestation/PrestationRequestDto');
 const UserType = require('../domain/enumeration/UserType');
 /*********************************************************/
@@ -122,4 +122,67 @@ router.get('/pieces', async (req, res) => {
     }
 });
 
+/***************************************************************************************/
+// charge ENDPOINTS
+/***************************************************************************************/
+
+router.post('/charge', async (req, res) => {
+    try {
+        const createdCharge = await chargeUseCase.createCharge(req.body);
+        res.status(201).json(createdCharge);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.get('/charges', async (req, res) => {
+    try {
+        const charges = await chargeUseCase.findAll();
+        res.status(200).json(charges.charges);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.get('/charge/:chargeId', async (req, res) => {
+    try {
+        const chargeId = req.params.chargeId;
+        const charge = await chargeUseCase.findById(chargeId);
+        res.status(200).json(charge);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+/***************************************************************************************/
+// Speciality ENDPOINTS
+/***************************************************************************************/
+
+router.get('/specialities', async (req, res) => {
+    try {
+        const specialities = await specialityUseCase.retrieveAll();
+        res.status(200).json(specialities.specialities);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.get('/speciality/:specialityId', async (req, res) => {
+    try {
+        const specialityId = req.params.specialityId;
+        const speciality = await specialityUseCase.retrieveById(specialityId);
+        res.status(200).json(speciality);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
+
+router.post('/speciality', async (req, res) => {
+    try {
+        const createdSpeciality = await specialityUseCase.create(req.body);
+        res.status(201).json(createdSpeciality);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+})
 module.exports = router;

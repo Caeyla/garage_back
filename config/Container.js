@@ -9,6 +9,7 @@ const PrestationAdapter = require("../adapters/PrestationAdapter");
 const AppointmentAdapter = require("../adapters/AppointmentAdapter");
 const PieceAdapter = require("../adapters/PieceAdapter");
 const SpecialityAdapter = require("../adapters/SpecialityAdapter");
+const ChargeAdapter = require("../adapters/ChargeAdapter");
 
 /**************************************************************************/
 // USER USECASES IMPORT
@@ -39,6 +40,12 @@ const PrestationUseCase = require("../domain/usecases/prestation/PrestationUseCa
 
 const PieceUseCase = require("../domain/usecases/piece/PieceUseCase");
 
+/****************************************************************************/
+// CHARGE USECASES IMPORT
+/****************************************************************************/
+
+const ChargeUseCase = require("../domain/usecases/charge/ChargeUseCase");
+
 /***************************************************************************/
 // SPECIALITY USECASES IMPORT
 /***************************************************************************/
@@ -64,6 +71,7 @@ const prestationAdapter = new PrestationAdapter();
 const appointmentAdapter = new AppointmentAdapter();
 const pieceAdapter = new PieceAdapter();
 const specialityAdapter = new SpecialityAdapter();
+const chargeAdapter = new ChargeAdapter();
 
 /****************************************************************************/
 //  USER USECASES INSTANCE
@@ -100,6 +108,12 @@ const specialityUseCase = new SpecialityUseCase(specialityAdapter);
 
 const pieceUseCase = new PieceUseCase(pieceAdapter);
 
+/***************************************************************************/
+//  CHARGE USECASES INSTANCE
+/***************************************************************************/
+
+const chargeUseCase = new ChargeUseCase(chargeAdapter);
+
 /****************************************************************************/
 //  APPOINTMENT USECASES INSTANCE
 /****************************************************************************/
@@ -121,5 +135,6 @@ module.exports = {
     appointmentRetrieveUseCase,
     appointmentUpdateUseCase,
     pieceUseCase,
-    specialityUseCase
+    specialityUseCase,
+    chargeUseCase
 }
