@@ -11,8 +11,8 @@ const EmployeeSchema = new mongoose.Schema({
   income: { type: Number, required: true },
   userType: { type: String, required: true },
   isActive: { type: Boolean, required: true, default: true },
-  specialities: [{ type: mongoose.Types.ObjectId, required: true, ref: "Speciality" }]
-  // unvailableDate:[unvailables]
+  specialities: [{ type: mongoose.Types.ObjectId, required: true, ref: "Speciality" }],
+  unvailableDate:[{ type: Date, required: false }]
 },
   {
     timestamps: true

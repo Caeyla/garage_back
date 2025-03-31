@@ -6,13 +6,12 @@ class AppointmentProviderUseCase {
 
     async retrieveMechanicsBySpeciality(specialityId){
         const mechanicList = await this.appointmentAdapter.retriveMechanicsBySpeciality(specialityId);
-
         return mechanicList;
     }
 
-    getUnavailableDates(mechanic){
-        const addUnvailableDates = mechanic.getUnavailableDates();
-        return addUnvailableDates;
+    async provideFirstUnavailability(mechanic){
+        const unavailability = [];
+        unavailability.push.apply(unavailability, mechanic.getUnavailableDates());
     }
 
     getAppointmentDates(mechanicId,currentDate){
