@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const chargeSchema = new mongoose.Schema({
-    name: { type: String, required: true ,unique: true}
+    name: { type: String, required: true ,unique: true},
+    amount: { type: Number, required: true }
 },
 { timestamps: true } 
 )
@@ -11,8 +12,8 @@ class ChargeAdapter {
         this.model = mongoose.model('Charge', chargeSchema);
     }
 
-    create({ name }) {
-        return this.model.create({ name });
+    create({ name ,amount}) {
+        return this.model.create({ name,amount });
     }
 
     findAll() {

@@ -8,13 +8,13 @@ const schedule = {
 const mecha1 = {
     id: 1,
     specialities: ["speciality 1", "speciality 2"],
-    unavailableDates: ["2025-03-30", "2025-03-31"]
+    unavailableDates: ["2025-04-5", "2025-03-31"]
 }
 
 const mecha2 = {
     id: 2,
-    specialities: ["speciality 3", "speciality 4"],
-    unavailableDates: ["2025-03-30", "2025-03-31"]
+    specialities: ["speciality 1", "speciality 4"],
+    unavailableDates: ["2025-04-30", "2025-04-31"]
 }
 
 const appointments = [
@@ -44,9 +44,29 @@ class DateTimeInterval{
             this.endDate = new Date(startDate+" "+schedule.closingTime);
         }else{
             // specificaly for appointments
-            this.startDate = startDate;
-            this.endDate = endDate;
-        }   
+            this.startDate = new Date(startDate);
+            this.endDate = new Date(endDate);
+        }  
+    }
+
+    getIntersectionInterval(anotherDateTimeInterval) {
+        if (
+            this.startDate.getTime() <= anotherDateTimeInterval.endDate.getTime() && anotherDateTimeInterval.startDate.getTime() <= this.endDate.getTime()
+            ){
+            const startDate = Math.max(this.startDate, anotherDateTimeInterval.startDate);
+            const endDate = Math.min(this.endDate, anotherDateTimeInterval.endDate);
+            return new DateTimeInterval(startDate, endDate);
+        }
+        return null;
+    }
+
+    getUnionInterval(anotherDateTimeInterval) {
+        if(this.startDate.getTime() <= anotherDateTimeInterval.endDate.getTime() || anotherDateTimeInterval.startDate.getTime() <= this.endDate.getTime()){
+            const startDate = Math.min(this.startDate, anotherDateTimeInterval.startDate);
+            const endDate = Math.max(this.endDate, anotherDateTimeInterval.endDate);
+            return new DateTimeInterval(startDate, endDate);
+        }
+        return null;
     }
 }
 
@@ -67,16 +87,18 @@ function buildUnavailabilityArray(mecha) {
     return unavailabilityArray;
 }
 
-function transformUnavailabilityDatesToDateTime(unavailabilityArray) {
-    const dateTimeArray = [];
-    for (const date of unavailabilityArray) {
-        dateTimeArray.push(new Date(date));
-    }
-    return dateTimeArray;
-}
-
-const mechaFind = getMechaBySpeciality("speciality 1");
-console.log(mechaFind);
-
+const mechaFinds = getMechaBySpeciality("speciality 1");
+console.log("*********************Mecha find*************************")
+console.log(mechaFinds[0]);
+console.log("*********************Unavailability array*************************")
 const unavailabilityArray = buildUnavailabilityArray(mecha1);
 console.log(unavailabilityArray);
+
+/*****************interval */
+console.log("*********************Interval*************************")
+//datediff
+const date1 = new DateTimeInterval("2025-04-05T07:30:00","2025-04-05T08:30:00");
+const date2 = new DateTimeInterval("2025-04-05T08:30:00","2025-04-05T12:30:00");
+console.log("interval 1 : ",date1);
+console.log("interval 2 : ",date2);
+console.log("intersection ",date1.getUnionInterval(date2));

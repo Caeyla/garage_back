@@ -6,9 +6,15 @@ class ChargeUseCase {
         this.chargeAdapter = chargeAdapter;
     }
 
-    async createCharge({name}) {
-        const createdCharge = await this.chargeAdapter.create({name});
+    async createCharge({name,amount}) {
+        const createdCharge = await this.chargeAdapter.create({name,amount});
         return new ChargeRetrieveOneDto(createdCharge);
+    }   
+
+    expectThatAmountIsGreaterThanZero(amount) {
+        if(amount <= 0) {
+            throw new CustomError("Amount must be greater than zero",400);
+        }
     }
 
     async findAll() {
