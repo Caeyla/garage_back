@@ -1,7 +1,9 @@
 const UserType = require("../../domain/enumeration/UserType");
+const PrestationRetrieveManyResponseDto = require("../prestation/PrestationRetrieveManyResponseDto");
 
 class UserRetrieveDto {
     constructor(userType,user) {
+        console.log(user);
         this.id = user.id;
         this.lastname = user.name;
         this.firstname = user.firstName;
@@ -17,7 +19,7 @@ class UserRetrieveDto {
             this.extraData = {
                 income :  user.income,
                 unavailableDates : user.unavailableDates,
-                specialities : user.specialities
+                prestations : new PrestationRetrieveManyResponseDto(user.prestations).prestations
             }
         }
     }

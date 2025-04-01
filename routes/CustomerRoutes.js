@@ -6,6 +6,8 @@ const {vehicleCreateUseCase,vehicleUpdateUseCase,vehicleRetrieveUseCase} = requi
 const handleErrorThrowing = require('../error/CustomErrorUtil');
 const AppointmentRequestDto = require("../dto/appointment/AppointmentRequestDto");
 const {appointmentCreateUseCase,appointmentRetrieveUseCase,appointmentUpdateUseCase} = require('../config/Container');
+const {unavailabilityProviderUseCase} = require('../config/Container');
+const UserType = require('../domain/enumeration/UserType');
 
 /*********************************************************/
 // APPOINTMENT ENDPOINTS        
@@ -25,8 +27,18 @@ router.post('/appointment', async (req, res) => {
 router.get("/appointments", async (req, res) => {
     try {
         const customerId = JwtService.decodeTokenFromRequest(req).id;
-        const response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(customerId);
-        res.status(200).json(response.appointments); 
+        const userType = JwtService.decodeTokenFromRequest(req).userType;
+        let response=null;
+        if(userType === UserType.MANAGER){
+            //retrieve all customers appointments scheduled
+            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(null);
+            res.status(200).json(response.appointments); 
+        }else if(userType === UserType.CUSTOMER){
+            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(customerId);
+            res.status(200).json(response.appointments); 
+        }else{
+            res.status(403).json({message:"Unauthorized"});
+        }
     } catch (error) {
         handleErrorThrowing(res,error);
     }
@@ -127,8 +139,16 @@ router.delete("/vehicle/:vehicleId", async (req, res) => {
 });
 
 /*********************************************************/
-// END OF VEHICLE ENDPOINTS        
+// PRESTATION ENDPOINTS        
 /**************************************************** **/
 
-
+router.get("/unaivailability/:prestationId", async (req, res) => {
+    try {
+        const prestationId = req.params.prestationId;
+        const prestation = await unavailabilityProviderUseCase.getUnavailableDates(prestationId);
+        res.status(200).json(prestation); 
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
 module.exports = router;

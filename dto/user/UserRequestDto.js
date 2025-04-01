@@ -29,7 +29,7 @@ class UserRequestDto {
             .setPassword(this.password)
             .setIncome(this.extraData? this.extraData.income : null)
             .setUnavailableDates(this.extraData? this.extraData.unavailableDates : null)
-            .setSpecialities(this.extraData? this.extraData.specialities : null)
+            .setPrestations(this.extraData? this.extraData.prestations : null)
             .setType(this.userType)
             .build();
     }

@@ -8,7 +8,6 @@ const VehicleAdapter = require("../adapters/VehicleAdapter");
 const PrestationAdapter = require("../adapters/PrestationAdapter");
 const AppointmentAdapter = require("../adapters/AppointmentAdapter");
 const PieceAdapter = require("../adapters/PieceAdapter");
-const SpecialityAdapter = require("../adapters/SpecialityAdapter");
 const ChargeAdapter = require("../adapters/ChargeAdapter");
 
 /**************************************************************************/
@@ -46,12 +45,6 @@ const PieceUseCase = require("../domain/usecases/piece/PieceUseCase");
 
 const ChargeUseCase = require("../domain/usecases/charge/ChargeUseCase");
 
-/***************************************************************************/
-// SPECIALITY USECASES IMPORT
-/***************************************************************************/
-
-const SpecialityUseCase = require("../domain/usecases/speciality/SpecialityUseCase");
-
 /****************************************************************************/
 // APPOINTMENT USECASES IMPORT
 /****************************************************************************/
@@ -59,6 +52,13 @@ const SpecialityUseCase = require("../domain/usecases/speciality/SpecialityUseCa
 const AppointmentCreateUseCase = require("../domain/usecases/appointment/AppointmentCreateUseCase");
 const AppointmentRetrieveUseCase = require("../domain/usecases/appointment/AppointmentRetrieveUseCase");
 const AppointmentUpdateUseCase = require("../domain/usecases/appointment/AppointmentUpdateUseCase");
+
+/****************************************************************************/
+//  UNAVAILABILITY PROVIDER USECASES INSTANCE
+/***************************************************************************/
+
+const UnavailabilityProviderUseCase = require("../domain/usecases/mechanic/UnavailabilityProviderUseCase");
+const AddUnavailabilityUseCase = require("../domain/usecases/mechanic/addUnavailabilityUseCase");
 
 /****************************************************************************/
 // ADAPTER INSTANCE
@@ -70,7 +70,6 @@ const vehicleAdapter = new VehicleAdapter();
 const prestationAdapter = new PrestationAdapter();
 const appointmentAdapter = new AppointmentAdapter();
 const pieceAdapter = new PieceAdapter();
-const specialityAdapter = new SpecialityAdapter();
 const chargeAdapter = new ChargeAdapter();
 
 /****************************************************************************/
@@ -94,13 +93,8 @@ const vehicleUpdateUseCase = new VehicleUpdateUseCase(vehicleAdapter,customerAda
 //  PRESTATION USECASES INSTANCE
 /****************************************************************************/
 
-const prestationUseCase = new PrestationUseCase(prestationAdapter,specialityAdapter);
+const prestationUseCase = new PrestationUseCase(prestationAdapter);
 
-/****************************************************************************/
-//  SPECIALITY USECASES INSTANCE
-/****************************************************************************/
-
-const specialityUseCase = new SpecialityUseCase(specialityAdapter);
 
 /****************************************************************************/
 //  PIECE USECASES INSTANCE
@@ -122,6 +116,13 @@ const appointmentCreateUseCase = new AppointmentCreateUseCase(appointmentAdapter
 const appointmentRetrieveUseCase = new AppointmentRetrieveUseCase(appointmentAdapter);
 const appointmentUpdateUseCase = new AppointmentUpdateUseCase(appointmentAdapter);
 
+/*****************************************************************************/
+//  UNAVAILABILITY PROVIDER USECASES INSTANCE
+/*****************************************************************************/
+
+const unavailabilityProviderUseCase = new UnavailabilityProviderUseCase(appointmentAdapter,employeeAdapter);
+const addUnavailabilityUseCase = new AddUnavailabilityUseCase(employeeAdapter); 
+
 module.exports = {
     userCreateUseCase,
     userLoginUseCase,
@@ -135,6 +136,7 @@ module.exports = {
     appointmentRetrieveUseCase,
     appointmentUpdateUseCase,
     pieceUseCase,
-    specialityUseCase,
-    chargeUseCase
+    chargeUseCase,
+    unavailabilityProviderUseCase,
+    addUnavailabilityUseCase
 }

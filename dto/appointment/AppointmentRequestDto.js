@@ -1,15 +1,15 @@
 const Appointment = require("../../domain/models/Appointment");
 class AppointmentRequestDto{
-    constructor({vehicleId,prestationIds,appointmentDate}) {
+    constructor({vehicleId,prestationId,appointmentDate}) {
         this.vehicleId = vehicleId;
-        this.prestationIds = prestationIds;
+        this.prestationId = prestationId;
         this.appointmentDate = appointmentDate;
     }
 
     toAppointmentModel(){
         return new Appointment.Builder()
             .setVehicleId(this.vehicleId)
-            .setPrestationIds(this.prestationIds)
+            .setPrestationId(this.prestationId)
             .setAppointmentDate(this.appointmentDate)
             .build();
     }

@@ -11,8 +11,8 @@ const EmployeeSchema = new mongoose.Schema({
   income: { type: Number, required: true },
   userType: { type: String, required: true },
   isActive: { type: Boolean, required: true, default: true },
-  specialities: [{ type: mongoose.Types.ObjectId, required: true, ref: "Speciality" }]
-  // unvailableDate:[unvailables]
+  prestations: [{ type: mongoose.Types.ObjectId, required: true, ref: "Prestation" }],
+  unavailableDates:[{ type: Date, required: true }]
 },
   {
     timestamps: true
@@ -23,7 +23,7 @@ class EmployeeAdapter {
     this.model = mongoose.model('Employee', EmployeeSchema);
   }
 
-  async create({name,firstName,email,password,income,userType,specialities}) {
+  async create({name,firstName,email,password,income,userType,prestations}) {
     const newEmployee = new this.model({
       name,
       firstName,
@@ -31,7 +31,7 @@ class EmployeeAdapter {
       password,
       income,
       userType,
-      specialities
+      prestations
     });
     return await newEmployee.save();
   }
@@ -41,15 +41,15 @@ class EmployeeAdapter {
   }
 
   async findById(id) {
-    return await this.model.findOne({ _id: id, isActive: true }).populate("specialities");
+    return await this.model.findOne({ _id: id, isActive: true }).populate("prestations");
   }
 
   async retrieveAllMechanic() {
-    return await this.model.find({ userType: UserType.MECHANIC}).populate("specialities");
+    return await this.model.find({ userType: UserType.MECHANIC}).populate("prestations");
   }
 
-  async retriveMechanicsBySpeciality(specialityId) {
-    return await this.model.find({ userType: UserType.MECHANIC, specialities: specialityId}).populate("specialities");
+  async retrieveMechanicsByPrestationId(prestationId) {
+    return await this.model.find({ userType: UserType.MECHANIC, prestations: prestationId}).populate("prestations");
   }
   
   async update(id,updatesToEmployee){

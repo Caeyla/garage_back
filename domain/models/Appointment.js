@@ -1,10 +1,10 @@
 class Appointment {
-    constructor(id,customerId,vehicleId,prestationIds ,appointmentDate,status,numAppointment) {
+    constructor(id,customerId,vehicleId,prestationId ,appointmentDate,status,numAppointment) {
         this.numAppointment = numAppointment;
         this.id = id;
         this.customerId = customerId;
         this.vehicleId = vehicleId;
-        this.prestationIds = prestationIds;
+        this.prestationId = prestationId;
         this.appointmentDate = appointmentDate;
         this.status = status;
     }
@@ -16,7 +16,7 @@ class Appointment {
             constructor() {
                 this.vehicleId = null;
                 this.customerId = null;
-                this.prestationIds = [];
+                this.prestationId = null;
                 this.appointmentDate = null;
                 this.id = null;
                 this.status = null;
@@ -26,7 +26,7 @@ class Appointment {
             setId(id) { this.id = id; return this; }
             setCustomerId(customerId) { this.customerId = customerId; return this; }
             setVehicleId(vehicleId) { this.vehicleId = vehicleId; return this; }
-            setPrestationIds(prestationIds) { this.prestationIds = prestationIds; return this; }
+            setPrestationId(prestationId) { this.prestationId = prestationId; return this; }
             setAppointmentDate(appointmentDate) { this.appointmentDate = appointmentDate; return this; }
             setStatus(status) { this.status = status; return this; }
             setNumAppointment(numAppointment) { this.numAppointment = numAppointment; return this; }
@@ -35,7 +35,7 @@ class Appointment {
                     this.id,
                     this.customerId,
                     this.vehicleId,
-                    this.prestationIds,
+                    this.prestationId,
                     this.appointmentDate,
                     this.status,
                     this.numAppointment

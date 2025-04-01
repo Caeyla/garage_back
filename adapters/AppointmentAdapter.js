@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 const Scope = require('../constant/Scope');
 
 const AppointmentSchema = new mongoose.Schema({
-  numAppointment: { type: Number , required: true , autoIncrement: true, unique: true},
+  numAppointment: { type: Number , required: false , autoIncrement: true, unique: true},
   customerId: { type: mongoose.Types.ObjectId, required: true, ref: "Customer" },
   vehicleId: { type: mongoose.Types.ObjectId, required: true, ref: "Vehicle" },
-  prestationIds: [{ type: mongoose.Types.ObjectId, required: true, ref: "Prestation" }],
+  prestationId: { type: mongoose.Types.ObjectId, required: true, ref: "Prestation" },
+  mechanicId: { type: mongoose.Types.ObjectId, required: false, ref: "Employee" },
   appointmentDate: { type: Date, required: true },
   appointmentParentId: { type: mongoose.Types.ObjectId, required: false, ref: "Appointment" },
   status: { type: Number, required: true }
@@ -20,18 +21,23 @@ class AppointmentAdapter {
     this.model = mongoose.model('Appointment', AppointmentSchema);
   }
 
-  async create({ customerId, vehicleId, prestationIds, appointmentDate, status }) {
+  async create({ customerId, vehicleId, prestationId, appointmentDate, status }) {
     const newAppointment = new this.model({
       customerId,
       vehicleId,
-      prestationIds,
+      prestationId,
       appointmentDate,
       status
     });
     await newAppointment.save();
     return await this.model.findById(newAppointment._id)
       .populate("vehicleId")
-      .populate("prestationIds");
+      .populate("prestationId");
+  }
+
+  async retrieveAppointmentsByMechanicId(mechanicId, scope = Scope.EXTENDED) {
+    const query = this.model.find({ mechanicId });
+    return this.handleScope(scope, query);
   }
 
   async findByIdAndCustomerId(id, customerId, scope = Scope.EXTENDED) {
@@ -58,7 +64,8 @@ class AppointmentAdapter {
   async handleScope(scope,query) {
     if (scope === Scope.EXTENDED && query) {
         query.populate("vehicleId")
-        .populate("prestationIds");
+        .populate("prestationId")
+        .populate("customerId");
     }
     return await query;
   }
