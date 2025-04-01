@@ -6,6 +6,7 @@ const {vehicleCreateUseCase,vehicleUpdateUseCase,vehicleRetrieveUseCase} = requi
 const handleErrorThrowing = require('../error/CustomErrorUtil');
 const AppointmentRequestDto = require("../dto/appointment/AppointmentRequestDto");
 const {appointmentCreateUseCase,appointmentRetrieveUseCase,appointmentUpdateUseCase} = require('../config/Container');
+const {unavailabilityProviderUseCase} = require('../config/Container');
 
 /*********************************************************/
 // APPOINTMENT ENDPOINTS        
@@ -127,8 +128,16 @@ router.delete("/vehicle/:vehicleId", async (req, res) => {
 });
 
 /*********************************************************/
-// END OF VEHICLE ENDPOINTS        
+// PRESTATION ENDPOINTS        
 /**************************************************** **/
 
-
+router.get("/unaivailability/:prestationId", async (req, res) => {
+    try {
+        const prestationId = req.params.prestationId;
+        const prestation = await unavailabilityProviderUseCase.getUnavailableDates(prestationId);
+        res.status(200).json(prestation); 
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+});
 module.exports = router;
