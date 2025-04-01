@@ -5,7 +5,7 @@ const AppointmentSchema = new mongoose.Schema({
   numAppointment: { type: Number , required: true , autoIncrement: true, unique: true},
   customerId: { type: mongoose.Types.ObjectId, required: true, ref: "Customer" },
   vehicleId: { type: mongoose.Types.ObjectId, required: true, ref: "Vehicle" },
-  prestationIds: [{ type: mongoose.Types.ObjectId, required: true, ref: "Prestation" }],
+  prestationId: { type: mongoose.Types.ObjectId, required: true, ref: "Prestation" },
   appointmentDate: { type: Date, required: true },
   appointmentParentId: { type: mongoose.Types.ObjectId, required: false, ref: "Appointment" },
   status: { type: Number, required: true }
@@ -31,7 +31,7 @@ class AppointmentAdapter {
     await newAppointment.save();
     return await this.model.findById(newAppointment._id)
       .populate("vehicleId")
-      .populate("prestationIds");
+      .populate("prestationId");
   }
 
   async findByIdAndCustomerId(id, customerId, scope = Scope.EXTENDED) {
@@ -58,7 +58,7 @@ class AppointmentAdapter {
   async handleScope(scope,query) {
     if (scope === Scope.EXTENDED && query) {
         query.populate("vehicleId")
-        .populate("prestationIds");
+        .populate("prestationId");
     }
     return await query;
   }

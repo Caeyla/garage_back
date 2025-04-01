@@ -11,8 +11,8 @@ const EmployeeSchema = new mongoose.Schema({
   income: { type: Number, required: true },
   userType: { type: String, required: true },
   isActive: { type: Boolean, required: true, default: true },
-  specialities: [{ type: mongoose.Types.ObjectId, required: true, ref: "Speciality" }],
-  unvailableDate:[{ type: Date, required: false }]
+  prestations: [{ type: mongoose.Types.ObjectId, required: true, ref: "Prestation" }],
+  unvailableDates:[{ type: Date, required: false }]
 },
   {
     timestamps: true
@@ -41,15 +41,15 @@ class EmployeeAdapter {
   }
 
   async findById(id) {
-    return await this.model.findOne({ _id: id, isActive: true }).populate("specialities");
+    return await this.model.findOne({ _id: id, isActive: true }).populate("prestations");
   }
 
   async retrieveAllMechanic() {
-    return await this.model.find({ userType: UserType.MECHANIC}).populate("specialities");
+    return await this.model.find({ userType: UserType.MECHANIC}).populate("prestations");
   }
 
-  async retriveMechanicsBySpeciality(specialityId) {
-    return await this.model.find({ userType: UserType.MECHANIC, specialities: specialityId}).populate("specialities");
+  async retriveMechanicsByPrestation(prestationId) {
+    return await this.model.find({ userType: UserType.MECHANIC, prestations: prestationId}).populate("prestations");
   }
   
   async update(id,updatesToEmployee){

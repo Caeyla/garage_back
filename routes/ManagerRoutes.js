@@ -153,36 +153,4 @@ router.get('/charge/:chargeId', async (req, res) => {
         handleErrorThrowing(res,error);
     }
 });
-
-/***************************************************************************************/
-// Speciality ENDPOINTS
-/***************************************************************************************/
-
-router.get('/specialities', async (req, res) => {
-    try {
-        const specialities = await specialityUseCase.retrieveAll();
-        res.status(200).json(specialities.specialities);
-    } catch (error) {
-        handleErrorThrowing(res,error);
-    }
-});
-
-router.get('/speciality/:specialityId', async (req, res) => {
-    try {
-        const specialityId = req.params.specialityId;
-        const speciality = await specialityUseCase.retrieveById(specialityId);
-        res.status(200).json(speciality);
-    } catch (error) {
-        handleErrorThrowing(res,error);
-    }
-});
-
-router.post('/speciality', async (req, res) => {
-    try {
-        const createdSpeciality = await specialityUseCase.create(req.body);
-        res.status(201).json(createdSpeciality);
-    } catch (error) {
-        handleErrorThrowing(res,error);
-    }
-})
 module.exports = router;

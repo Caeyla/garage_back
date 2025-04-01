@@ -9,7 +9,7 @@ class AppointmentCreateUseCase {
     }
 
     async create(appointmentRequestDto,customerId) {
-        await this.checkIfPrestationsExist(appointmentRequestDto.prestationIds);
+        await this.checkIfPrestationExists(appointmentRequestDto.prestationId);
         await this.checkIfVehicleExists(appointmentRequestDto.vehicleId,customerId);
         this.exceptThatAppointmentDateIsValid(appointmentRequestDto.appointmentDate);
         
@@ -27,21 +27,14 @@ class AppointmentCreateUseCase {
         }
     }
 
-    async checkIfPrestationsExist(prestationIds) {
-        if(!prestationIds || prestationIds.length === 0){
+    async checkIfPrestationExists(prestationId) {
+        if(!prestationId){
             throw new CustomError("Prestations must be provided", 500);
         }
-        const prestationsFromDb = await this.prestationAdapter.findByIds(prestationIds);
-        const prestationNotfound = [];
+        const prestationFromDb = await this.prestationAdapter.findById(prestationId);
         
-        for(const prestationId of prestationIds){
-            if(!prestationsFromDb.find(prestation => prestation._id == prestationId)){
-                prestationNotfound.push(prestationId);
-            }
-        }
-        
-        if(prestationNotfound.length > 0){
-            throw new CustomError("Prestations not found: "+prestationNotfound.join(", "), 404);
+        if (!prestationFromDb) {
+            throw new CustomError("Prestation not found "+ prestationId, 404);
         }
     }
 
