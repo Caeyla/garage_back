@@ -12,7 +12,7 @@ const EmployeeSchema = new mongoose.Schema({
   userType: { type: String, required: true },
   isActive: { type: Boolean, required: true, default: true },
   prestations: [{ type: mongoose.Types.ObjectId, required: true, ref: "Prestation" }],
-  unvailableDates:[{ type: Date, required: true }]
+  unavailableDates:[{ type: Date, required: true }]
 },
   {
     timestamps: true

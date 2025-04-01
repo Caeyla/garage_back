@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const handleErrorThrowing = require('../error/CustomErrorUtil');
-const {prestationUseCase,pieceUseCase,userRetrieveUseCase,chargeUseCase,specialityUseCase} = require('../config/Container');
+const {prestationUseCase,pieceUseCase,userRetrieveUseCase,chargeUseCase,addUnavailabilityUseCase} = require('../config/Container');
 const PrestationRequestDto = require('../dto/prestation/PrestationRequestDto');
 const UserType = require('../domain/enumeration/UserType');
 /*********************************************************/
@@ -153,4 +153,17 @@ router.get('/charge/:chargeId', async (req, res) => {
         handleErrorThrowing(res,error);
     }
 });
+/****************************************************************************************/
+// unavailability Routes
+/****************************************************************************************/
+router.post('/unavailability/:employeeId', async (req, res) => {
+    try {
+        const employeeId = req.params.employeeId;
+        const createdUnavailability = await addUnavailabilityUseCase.addUnavailabilities(employeeId,req.body);
+        res.status(201).json(createdUnavailability);
+    } catch (error) {
+        handleErrorThrowing(res,error);
+    }
+})
+
 module.exports = router;

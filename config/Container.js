@@ -58,6 +58,7 @@ const AppointmentUpdateUseCase = require("../domain/usecases/appointment/Appoint
 /***************************************************************************/
 
 const UnavailabilityProviderUseCase = require("../domain/usecases/mechanic/UnavailabilityProviderUseCase");
+const AddUnavailabilityUseCase = require("../domain/usecases/mechanic/addUnavailabilityUseCase");
 
 /****************************************************************************/
 // ADAPTER INSTANCE
@@ -120,6 +121,7 @@ const appointmentUpdateUseCase = new AppointmentUpdateUseCase(appointmentAdapter
 /*****************************************************************************/
 
 const unavailabilityProviderUseCase = new UnavailabilityProviderUseCase(appointmentAdapter,employeeAdapter);
+const addUnavailabilityUseCase = new AddUnavailabilityUseCase(employeeAdapter); 
 
 module.exports = {
     userCreateUseCase,
@@ -135,5 +137,6 @@ module.exports = {
     appointmentUpdateUseCase,
     pieceUseCase,
     chargeUseCase,
-    unavailabilityProviderUseCase
+    unavailabilityProviderUseCase,
+    addUnavailabilityUseCase
 }

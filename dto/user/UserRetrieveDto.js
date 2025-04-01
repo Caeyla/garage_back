@@ -3,6 +3,7 @@ const PrestationRetrieveManyResponseDto = require("../prestation/PrestationRetri
 
 class UserRetrieveDto {
     constructor(userType,user) {
+        console.log(user);
         this.id = user.id;
         this.lastname = user.name;
         this.firstname = user.firstName;
