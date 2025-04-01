@@ -174,6 +174,7 @@ router.post('/unavailability/:employeeId', async (req, res) => {
     } catch (error) {
         handleErrorThrowing(res,error);
     }
-})
+});
+
 
 module.exports = router;

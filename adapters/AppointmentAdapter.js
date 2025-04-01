@@ -64,7 +64,8 @@ class AppointmentAdapter {
   async handleScope(scope,query) {
     if (scope === Scope.EXTENDED && query) {
         query.populate("vehicleId")
-        .populate("prestationId");
+        .populate("prestationId")
+        .populate("customerId");
     }
     return await query;
   }
