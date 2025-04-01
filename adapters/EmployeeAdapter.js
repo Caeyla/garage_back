@@ -12,7 +12,7 @@ const EmployeeSchema = new mongoose.Schema({
   userType: { type: String, required: true },
   isActive: { type: Boolean, required: true, default: true },
   prestations: [{ type: mongoose.Types.ObjectId, required: true, ref: "Prestation" }],
-  unvailableDates:[{ type: Date, required: false }]
+  unvailableDates:[{ type: Date, required: true }]
 },
   {
     timestamps: true
@@ -23,7 +23,7 @@ class EmployeeAdapter {
     this.model = mongoose.model('Employee', EmployeeSchema);
   }
 
-  async create({name,firstName,email,password,income,userType,specialities}) {
+  async create({name,firstName,email,password,income,userType,prestations}) {
     const newEmployee = new this.model({
       name,
       firstName,
@@ -31,7 +31,7 @@ class EmployeeAdapter {
       password,
       income,
       userType,
-      specialities
+      prestations
     });
     return await newEmployee.save();
   }

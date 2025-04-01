@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Scope = require('../constant/Scope');
 
 const AppointmentSchema = new mongoose.Schema({
-  numAppointment: { type: Number , required: true , autoIncrement: true, unique: true},
+  numAppointment: { type: Number , required: false , autoIncrement: true, unique: true},
   customerId: { type: mongoose.Types.ObjectId, required: true, ref: "Customer" },
   vehicleId: { type: mongoose.Types.ObjectId, required: true, ref: "Vehicle" },
   prestationId: { type: mongoose.Types.ObjectId, required: true, ref: "Prestation" },
@@ -20,11 +20,11 @@ class AppointmentAdapter {
     this.model = mongoose.model('Appointment', AppointmentSchema);
   }
 
-  async create({ customerId, vehicleId, prestationIds, appointmentDate, status }) {
+  async create({ customerId, vehicleId, prestationId, appointmentDate, status }) {
     const newAppointment = new this.model({
       customerId,
       vehicleId,
-      prestationIds,
+      prestationId,
       appointmentDate,
       status
     });
