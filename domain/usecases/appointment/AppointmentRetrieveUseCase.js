@@ -16,13 +16,15 @@ class AppointmentRetrieveUseCase {
         return new AppointmentRetrieveOneResponseDto(appointment);
     }
 
-    async retrieveRemainingAppointmentByCustomerId(customerId) {
+    async retrieveRemainingAppointmentByCustomerId(customerId,mechanicId) {
         const filter = {
             status: { $eq: AppointmentStatus.SCHEDULED }
         };
-        //TODO refactor
         if(customerId) {
             filter.customerId = customerId;
+        }
+        if(mechanicId) {
+            filter.mechanicId = mechanicId;
         }
         const appointments = await this.appointmentAdapter.findByCustomerIdAndFilter(filter);
         return new AppointmentRetrieveManyResponseDto(appointments);

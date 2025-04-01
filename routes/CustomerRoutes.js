@@ -26,18 +26,19 @@ router.post('/appointment', async (req, res) => {
 
 router.get("/appointments", async (req, res) => {
     try {
-        const customerId = JwtService.decodeTokenFromRequest(req).id;
+        const userId = JwtService.decodeTokenFromRequest(req).id;
         const userType = JwtService.decodeTokenFromRequest(req).userType;
         let response=null;
         if(userType === UserType.MANAGER){
             //retrieve all customers appointments scheduled
-            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(null);
+            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(null,null);
             res.status(200).json(response.appointments); 
         }else if(userType === UserType.CUSTOMER){
-            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(customerId);
+            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(userId,null);
             res.status(200).json(response.appointments); 
-        }else{
-            res.status(403).json({message:"Unauthorized"});
+        }else if (userType === UserType.MECHANIC){
+            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(null,userId);
+            res.status(200).json(response.appointments);
         }
     } catch (error) {
         handleErrorThrowing(res,error);
