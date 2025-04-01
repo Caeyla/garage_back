@@ -69,7 +69,6 @@ const vehicleAdapter = new VehicleAdapter();
 const prestationAdapter = new PrestationAdapter();
 const appointmentAdapter = new AppointmentAdapter();
 const pieceAdapter = new PieceAdapter();
-const specialityAdapter = new SpecialityAdapter();
 const chargeAdapter = new ChargeAdapter();
 
 /****************************************************************************/
@@ -93,7 +92,7 @@ const vehicleUpdateUseCase = new VehicleUpdateUseCase(vehicleAdapter,customerAda
 //  PRESTATION USECASES INSTANCE
 /****************************************************************************/
 
-const prestationUseCase = new PrestationUseCase(prestationAdapter,specialityAdapter);
+const prestationUseCase = new PrestationUseCase(prestationAdapter);
 
 
 /****************************************************************************/
