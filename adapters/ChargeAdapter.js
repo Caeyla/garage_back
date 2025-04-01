@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 
+const chargeDetailsSchema = new mongoose.Schema({
+    date: { type: Date, required: true },
+    amount: { type: Number, required: true },
+    description: { type: String, required: false }
+})
 const chargeSchema = new mongoose.Schema({
     name: { type: String, required: true ,unique: true},
-    amount: { type: Number, required: true }
+    details: [chargeDetailsSchema]
 },
 { timestamps: true } 
 )
@@ -12,16 +17,22 @@ class ChargeAdapter {
         this.model = mongoose.model('Charge', chargeSchema);
     }
 
-    create({ name ,amount}) {
-        return this.model.create({ name,amount });
+    async create({ name }) {
+        return await this.model.create({name});
     }
 
-    findAll() {
-        return this.model.find();
+    async addDetailsUsingChargeId({ chargeId, date, amount, description }) {
+        const charge = await this.model.findById(chargeId);
+        charge.details.push({ date, amount, description });
+        return await charge.save();
     }
 
-    findById(id) {
-        return this.model.findById(id);
+    async findAll() {
+        return await this.model.find();
+    }
+
+    async findById(id) {
+        return await  this.model.findById(id);
     }
 }
 
