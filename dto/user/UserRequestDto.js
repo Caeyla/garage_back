@@ -19,6 +19,7 @@ class UserRequestDto {
             .setEmail(this.email)
             .setPassword(this.password)
             .setPhone(this.extraData? this.extraData.phone : null)
+            .setIsActive(this.isActive? true : false)
             .build();
     }
 
@@ -32,6 +33,7 @@ class UserRequestDto {
             .setUnavailableDates(this.extraData? this.extraData.unavailableDates : null)
             .setPrestations(this.extraData? this.extraData.prestations : null)
             .setType(this.userType)
+            .setIsActive(this.isActive? true : false)
             .build();
     }
 }

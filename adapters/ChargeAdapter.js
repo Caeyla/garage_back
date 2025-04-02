@@ -31,6 +31,10 @@ class ChargeAdapter {
         return await this.model.find();
     }
 
+    async updateName(id, name) {
+        return await this.model.updateOne({ _id: id }, { $set: { name } });
+    }
+
     async findById(id) {
         return await  this.model.findById(id);
     }

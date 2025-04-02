@@ -135,15 +135,15 @@ router.post('/charge', async (req, res) => {
     }
 });
 
-router.post('/charge/:chargeId/detail', async (req, res) => {
+router.patch('/charge/:chargeId', async (req, res) => {
     try {
         const chargeId = req.params.chargeId;
-        const updatedCharge = await chargeUseCase.addChargeDetail(chargeId,req.body);
+        const updatedCharge = await chargeUseCase.updateCharge(chargeId,req.body);
         res.status(200).json(updatedCharge);
     } catch (error) {
         handleErrorThrowing(res,error);
     }
-})
+});
 
 router.get('/charges', async (req, res) => {
     try {

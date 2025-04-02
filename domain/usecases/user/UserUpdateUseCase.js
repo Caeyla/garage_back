@@ -39,7 +39,7 @@ class UserUpdateteUseCase {
             name: updateData.name || userFromDb.name,
             firstName: updateData.firstName || userFromDb.firstName,
             phone: updateData.phone || userFromDb.phone,
-            isActive: updateData.isActive || userFromDb.isActive
+            isActive: updateData.isActive ?? userFromDb.isActive
         }
         await this.customerAdapter.update(userFromDb._id,customerUpdates);
         const updatedCustomer = await this.customerAdapter.findById(userFromDb._id);
@@ -52,7 +52,7 @@ class UserUpdateteUseCase {
             firstName: updateData.firstName || userFromDb.firstName,
             income: updateData.income || userFromDb.income,
             unavailableDates: updateData.unavailableDates || userFromDb.unavailableDates,
-            isActive: updateData.isActive || userFromDb.isActive
+            isActive: updateData.isActive ?? userFromDb.isActive
         }
         await this.employeeAdapter.update(userFromDb._id,employeeUpdates);
         const updatedEmployee = await this.employeeAdapter.findById(userFromDb._id);
