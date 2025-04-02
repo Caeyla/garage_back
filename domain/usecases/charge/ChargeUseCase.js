@@ -6,17 +6,33 @@ class ChargeUseCase {
         this.chargeAdapter = chargeAdapter;
     }
 
-    async createCharge({name}) {
+    async createCharge({name, details = []}) {
         const createdCharge = await this.chargeAdapter.create({name});
-        return new ChargeRetrieveOneDto(createdCharge);
+        for(const detail of details) {
+            await this.addChargeDetail(createdCharge._id,detail);
+        }
+        const createdChargeWithDetails = await this.chargeAdapter.findById(createdCharge._id);
+        return new ChargeRetrieveOneDto(createdChargeWithDetails);
     }   
+
+    async updateCharge(chargeId,updatesToCharge) {
+        await this.checkIfChargeExists(chargeId);
+        if(updatesToCharge.name) {
+            await this.chargeAdapter.updateName(chargeId,updatesToCharge.name);
+        }
+        if(updatesToCharge.details) {
+            for(const detail of updatesToCharge.details) {
+                await this.addChargeDetail(chargeId,detail);
+            }
+        }
+        const updatedCharge = await this.chargeAdapter.findById(chargeId);
+        return new ChargeRetrieveOneDto(updatedCharge);
+    }
+
     async addChargeDetail(chargeId,{date,amount,description}) {
         this.expectThatAmountIsGreaterThanZero(amount);
         this.expectThatDateIsValid(date);
-        await this.checkIfChargeExists(chargeId);
-        const updatedCharge = await this.chargeAdapter.addDetailsUsingChargeId({chargeId,date,amount,description});
-        console.log(updatedCharge);
-        return new ChargeRetrieveOneDto(updatedCharge);
+        await this.chargeAdapter.addDetailsUsingChargeId({chargeId,date,amount,description});
     }
 
     async checkIfChargeExists(chargeId) {
