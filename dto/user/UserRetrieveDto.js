@@ -17,7 +17,7 @@ class UserRetrieveDto {
         }else if(userType === UserType.MANAGER || UserType.MECHANIC){
             this.extraData = {
                 income :  user.income,
-                unavailableDates : new UnavailableDateRetrieveManyResponseDto(user.unavailableDates),
+                unavailableDates : new UnavailableDateRetrieveManyResponseDto(user.unavailableDates).unavailableDates,
                 prestations : new PrestationRetrieveManyResponseDto(user.prestations).prestations
             }
         }
