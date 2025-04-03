@@ -9,7 +9,7 @@ class AppointmentRetrieveOneResponseDto {
         this.numAppointment = numAppointment;
         this.customer = new UserRetrieveDto(UserType.CUSTOMER,customerId);
         this.vehicle = new VehicleRetrieveOneResponseDto(vehicleId);
-        this.mechanic = new UserRetrieveDto(UserType.MECHANIC,mechanicId);
+        this.mechanic = mechanicId!=null || mechanicId!=undefined ? new UserRetrieveDto(UserType.MECHANIC,mechanicId) : null;
         this.prestation = new PrestationRetrieveOneResponseDto(prestationId);
         this.appointmentDate = appointmentDate;
         this.status = this.getStatusKey(status);

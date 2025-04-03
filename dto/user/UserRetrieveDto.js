@@ -3,7 +3,7 @@ const PrestationRetrieveManyResponseDto = require("../prestation/PrestationRetri
 const { UnavailableDateRetrieveManyResponseDto } = require("../unavailableDate/UnavailableDateRetrieveResponseDto");
 class UserRetrieveDto {
     constructor(userType,user) {
-        this.id = user.id;
+        this.id =  user.id;
         this.lastname = user.name;
         this.firstname = user.firstName;
         this.email = user.email;
