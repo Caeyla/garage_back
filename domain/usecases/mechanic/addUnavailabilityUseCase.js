@@ -1,8 +1,8 @@
 const DateTimeInterval = require("../../models/DateTimeInterval");
 const CustomError = require("../../../error/CustomError");
-const UserType = require("../../../domain/enumeration/UserType");
+const UserType = require("../../enumeration/UserType");
 const UserRetrieveDto = require("../../../dto/user/UserRetrieveDto");
-const e = require("express");
+
 class AddUnavailabilityUseCase {
     constructor(employeeAdapter) {
         this.employeeAdapter = employeeAdapter;

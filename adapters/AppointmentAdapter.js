@@ -56,6 +56,11 @@ class AppointmentAdapter {
     return this.handleScope(scope, query);
   }
 
+  async findByMechanicId(mechanicId, scope = Scope.EXTENDED) {
+    const query = this.model.find({ mechanicId });
+    return this.handleScope(scope, query);
+  }
+
   async update(id, updateAppointment) {
     return await this.model.updateOne({ _id: id }, { $set: { ...updateAppointment } });
   }

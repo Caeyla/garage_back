@@ -6,21 +6,13 @@ const schedule = {
 }
 
 class DateTimeInterval{
-    //does not support overreading so i use some bypass mechanism
-    constructor(startDate, endDate = null){
-        if(!endDate){
-            // specificaly for unavailability of mechanic 
-            this.startDate = new Date(startDate+" "+schedule.openingTime);
-            this.endDate = new Date(startDate+" "+schedule.closingTime);
-        }else{
-            // specificaly for appointments
+    constructor(startDate, endDate){
             this.startDate = new Date(startDate);
-            this.endDate = new Date(endDate);
-        }  
+            this.endDate = new Date(endDate);  
     }
 
     getIntersectionInterval(anotherDateTimeInterval) {
-        if(!this.isSameDay(anotherDateTimeInterval)) return null;
+        // if(!this.isSameDay(anotherDateTimeInterval)) return null;
         if (
             this.startDate.getTime() <= anotherDateTimeInterval.endDate.getTime() 
             && anotherDateTimeInterval.startDate.getTime() <= this.endDate.getTime()
