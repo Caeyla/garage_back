@@ -1,5 +1,5 @@
 class Appointment {
-    constructor(id,customerId,vehicleId,prestationId ,appointmentDate,status,numAppointment) {
+    constructor(id,customerId,vehicleId,prestationId ,appointmentDate,status,numAppointment,mechanicId) {
         this.numAppointment = numAppointment;
         this.id = id;
         this.customerId = customerId;
@@ -7,10 +7,12 @@ class Appointment {
         this.prestationId = prestationId;
         this.appointmentDate = appointmentDate;
         this.status = status;
+        this.mechanicId = mechanicId;
     }
 
     setStatus(status) { this.status = status;}
     setCustomerId(customerId) { this.customerId = customerId; }
+    setMechanicId(mechanicId) { this.mechanicId = mechanicId; }
     static get Builder() {
         class Builder {
             constructor() {
@@ -21,6 +23,7 @@ class Appointment {
                 this.id = null;
                 this.status = null;
                 this.numAppointment = null;
+                this.mechanicId = null;
             }
             
             setId(id) { this.id = id; return this; }
@@ -30,6 +33,7 @@ class Appointment {
             setAppointmentDate(appointmentDate) { this.appointmentDate = appointmentDate; return this; }
             setStatus(status) { this.status = status; return this; }
             setNumAppointment(numAppointment) { this.numAppointment = numAppointment; return this; }
+            setMechanicId(mechanicId) { this.mechanicId = mechanicId; return this; }
             build() {
                 return new Appointment(
                     this.id,
@@ -38,7 +42,8 @@ class Appointment {
                     this.prestationId,
                     this.appointmentDate,
                     this.status,
-                    this.numAppointment
+                    this.numAppointment,
+                    this.mechanicId
                 );
             }
         }
