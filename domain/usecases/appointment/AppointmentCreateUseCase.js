@@ -28,10 +28,10 @@ class AppointmentCreateUseCase {
         // TODO implement this method
     }
 
-
     async getMechanic(prestationId) {
         // TODO implement this method
     }
+
     async checkIfVehicleExists(vehicleId, customerId) {
         const vehicle = await this.vehicleAdapter.findByIdAndCustomerId(vehicleId, customerId);
         if (!vehicle) {

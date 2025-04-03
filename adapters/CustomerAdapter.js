@@ -46,6 +46,8 @@ class CustomerAdapter {
     return await this.model.updateOne({ _id: id, isActive: true }, { $set: { ...updatesToCustomer } });
   }
 
+  async findByIdWithoutSoftDelete(id) { return await this.model.findById(id); }
+
 }
 
 module.exports = CustomerAdapter;
