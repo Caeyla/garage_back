@@ -2,6 +2,7 @@ const DateTimeInterval = require("../../models/DateTimeInterval");
 const CustomError = require("../../../error/CustomError");
 const UserType = require("../../enumeration/UserType");
 const UserRetrieveDto = require("../../../dto/user/UserRetrieveDto");
+const { UnavailableDateRetrieveManyResponseDto } = require("../../../dto/unavailableDate/UnavailableDateRetrieveResponseDto");
 
 class AddUnavailabilityUseCase {
     constructor(employeeAdapter) {
@@ -22,7 +23,7 @@ class AddUnavailabilityUseCase {
 
         await this.employeeAdapter.update(employeeId, update);
         const employeeUpdated = await this.employeeAdapter.findById(employeeId)
-        return new UserRetrieveDto(UserType.MECHANIC,employeeUpdated);
+        return new UnavailableDateRetrieveManyResponseDto(employeeUpdated.unavailableDates)
     }
 
     expectThatBodyIsValid(unavailabilities) {
