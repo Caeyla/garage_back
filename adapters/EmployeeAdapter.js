@@ -60,6 +60,8 @@ class EmployeeAdapter {
   async update(id,updatesToEmployee){
     return await this.model.updateOne({ _id: id, isActive: true }, { $set: {...updatesToEmployee} });
   }
+
+  async findByIdWithoutSoftDelete(id) { return await this.model.findById(id); }
 }
 
 module.exports = EmployeeAdapter;

@@ -55,7 +55,7 @@ class UserUpdateteUseCase {
             isActive: updateData.isActive ?? userFromDb.isActive
         }
         await this.employeeAdapter.update(userFromDb._id,employeeUpdates);
-        const updatedEmployee = await this.employeeAdapter.findById(userFromDb._id);
+        const updatedEmployee = await this.employeeAdapter.findByIdWithoutSoftDelete(userFromDb._id);
         return new UserRetrieveDto(userFromDb.userType,updatedEmployee);
     }
 }
