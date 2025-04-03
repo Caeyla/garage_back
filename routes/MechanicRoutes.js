@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const handleErrorThrowing = require('../error/CustomErrorUtil');
 const JwtService = require('../domain/services/JwtService');
-const {retrieveUnavailabilityUseCase} = require('../config/Container');
+const UnavailableDateRequestDto = require('../dto/unavailableDate/UnavailableDateRequestDto');
+const {retrieveUnavailabilityUseCase,addUnavailabilityUseCase} = require('../config/Container');
 router.get('/unaivailabilities', async (req, res) => {
     try {
         const mechanicId = JwtService.decodeTokenFromRequest(req).id;
@@ -27,7 +28,7 @@ router.post('/unavailability', async (req, res) => {
     try {
         const employeeId = JwtService.decodeTokenFromRequest(req).id;
         const createdUnavailability = await addUnavailabilityUseCase.addUnavailabilities(employeeId,new UnavailableDateRequestDto(req.body));
-        res.status(201).json(createdUnavailability);
+        res.status(201).json(createdUnavailability.unavailableDates);
     } catch (error) {
         handleErrorThrowing(res,error);
     }
