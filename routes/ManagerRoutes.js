@@ -4,6 +4,7 @@ const handleErrorThrowing = require('../error/CustomErrorUtil');
 const {prestationUseCase,pieceUseCase,userRetrieveUseCase,chargeUseCase,addUnavailabilityUseCase} = require('../config/Container');
 const PrestationRequestDto = require('../dto/prestation/PrestationRequestDto');
 const UserType = require('../domain/enumeration/UserType');
+const UnavailableDateRequestDto = require('../dto/unavailableDate/UnavailableDateRequestDto');
 /*********************************************************/
 // VIEW CUSTOMERS ENDPOINTS        
 /*******************************************************/
@@ -169,7 +170,7 @@ router.get('/charge/:chargeId', async (req, res) => {
 router.post('/unavailability/:employeeId', async (req, res) => {
     try {
         const employeeId = req.params.employeeId;
-        const createdUnavailability = await addUnavailabilityUseCase.addUnavailabilities(employeeId,req.body);
+        const createdUnavailability = await addUnavailabilityUseCase.addUnavailabilities(employeeId,new UnavailableDateRequestDto(req.body));
         res.status(201).json(createdUnavailability);
     } catch (error) {
         handleErrorThrowing(res,error);

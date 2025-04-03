@@ -30,7 +30,7 @@ class UserRequestDto {
             .setEmail(this.email)
             .setPassword(this.password)
             .setIncome(this.extraData? this.extraData.income : null)
-            .setUnavailableDates(this.extraData? this.extraData.unavailableDates : null)
+            // .setUnavailableDates(this.extraData? this.extraData.unavailableDates : null)
             .setPrestations(this.extraData? this.extraData.prestations : null)
             .setType(this.userType)
             .setIsActive(this.isActive? true : false)

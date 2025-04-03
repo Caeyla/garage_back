@@ -2,7 +2,12 @@ const mongoose = require('mongoose');
 const UserType = require('../domain/enumeration/UserType');
 
 
-
+const UnavailabilitySchema = new mongoose.Schema({
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
+  motif: { type: String, required: false },
+  description: { type: String, required: false }
+});
 const EmployeeSchema = new mongoose.Schema({
   name: { type: String, required: true },
   firstName: { type: String, required: true },
@@ -12,7 +17,7 @@ const EmployeeSchema = new mongoose.Schema({
   userType: { type: String, required: true },
   isActive: { type: Boolean, required: true, default: true },
   prestations: [{ type: mongoose.Types.ObjectId, required: true, ref: "Prestation" }],
-  unavailableDates:[{ type: Date, required: true }]
+  unavailableDates:[UnavailabilitySchema]
 },
   {
     timestamps: true

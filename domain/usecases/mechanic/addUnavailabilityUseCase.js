@@ -8,16 +8,16 @@ class AddUnavailabilityUseCase {
         this.employeeAdapter = employeeAdapter;
     }
 
-    async addUnavailabilities(employeeId,unavailabilities) {
-        this.expectThatBodyIsValid(unavailabilities);
+    async addUnavailabilities(employeeId,unavailableDate) {
+        this.expectThatBodyIsValid(unavailableDate);
         const employee = await this.employeeAdapter.findById(employeeId);
         if (!employee || employee.userType != UserType.MECHANIC) {
             throw new CustomError("Mechanic does not exist", 404);
         }
         const unavailabilitiesFromDb = employee.unavailableDates || [];
-
+        unavailabilitiesFromDb.push(unavailableDate)
         const update = {
-            unavailableDates:  unavailabilitiesFromDb.concat(unavailabilities),
+            unavailableDates:  unavailabilitiesFromDb,
         };
 
         await this.employeeAdapter.update(employeeId, update);
@@ -29,9 +29,32 @@ class AddUnavailabilityUseCase {
         if(!unavailabilities) {
             throw new CustomError("Unavailabilities required", 400);
         }
-
+        let requiredFields = [];
+        if(!unavailabilities.startDate) {
+            requiredFields.push("startDate");
+        }
+        if(!unavailabilities.endDate) {
+            requiredFields.push("endDate");
+        }
+        if(requiredFields.length > 0) {
+            throw new CustomError(`The following fields are required: ${requiredFields.join(", ")}`, 400);
+        }
+        this.expectThatStartDateIsBeforeEndDate(unavailabilities);
+        this.expectThatStartDateIsAfterNow(unavailabilities);
     }
 
+    expectThatStartDateIsBeforeEndDate(unavailabilities) {
+        if(unavailabilities.startDate > unavailabilities.endDate) {
+            throw new CustomError("Start date must be before end date", 400);
+        }
+    }
+
+    expectThatStartDateIsAfterNow(unavailabilities) {
+        const now = new Date();
+        if(unavailabilities.startDate < now) {
+            throw new CustomError("Start date must be in the future", 400);
+        }
+    }
 }
 
 module.exports = AddUnavailabilityUseCase;
