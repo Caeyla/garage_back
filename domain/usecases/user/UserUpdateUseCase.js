@@ -1,11 +1,13 @@
 const UserType = require("../../enumeration/UserType");
 const CustomError = require("../../../error/CustomError");
 const UserRetrieveDto = require("../../../dto/user/UserRetrieveDto");
+const PrestationService = require("../../services/PrestationService");
 
 class UserUpdateteUseCase {
-    constructor(customerAdapter, employeeAdapter) {
+    constructor(customerAdapter, employeeAdapter, prestationAdapter) {
         this.customerAdapter = customerAdapter;
         this.employeeAdapter = employeeAdapter;
+        this.prestationAdapter = prestationAdapter;
     }
 
     async update(userId,updateUserData) {
@@ -47,12 +49,16 @@ class UserUpdateteUseCase {
     }
 
     async handleUpdateEmployee(userFromDb,updateData) {
+        if(!updateData.prestations) {
+            PrestationService.expectThatPrestationsExist(this.prestationAdapter,updateData.prestations);
+        }
         const employeeUpdates = {
             name: updateData.name || userFromDb.name,
             firstName: updateData.firstName || userFromDb.firstName,
             income: updateData.income || userFromDb.income,
             unavailableDates: updateData.unavailableDates || userFromDb.unavailableDates,
-            isActive: updateData.isActive ?? userFromDb.isActive
+            isActive: updateData.isActive ?? userFromDb.isActive,
+            prestations: updateData.prestations || userFromDb.prestations
         }
         await this.employeeAdapter.update(userFromDb._id,employeeUpdates);
         const updatedEmployee = await this.employeeAdapter.findByIdWithoutSoftDelete(userFromDb._id);

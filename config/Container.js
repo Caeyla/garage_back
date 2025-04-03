@@ -77,10 +77,10 @@ const chargeAdapter = new ChargeAdapter();
 //  USER USECASES INSTANCE
 /****************************************************************************/
 
-const userCreateUseCase = new UserCreateUseCase(customerAdapter, employeeAdapter);
+const userCreateUseCase = new UserCreateUseCase(customerAdapter, employeeAdapter,prestationAdapter);
 const userLoginUseCase = new UserLoginUseCase(customerAdapter, employeeAdapter);
 const userRetrieveUseCase = new UserRetrieveUseCase(customerAdapter, employeeAdapter);
-const userUpdateUseCase =  new UserUpdateteUseCase(customerAdapter, employeeAdapter);
+const userUpdateUseCase =  new UserUpdateteUseCase(customerAdapter, employeeAdapter, prestationAdapter);
 
 /****************************************************************************/
 //  VEHICLE USECASES INSTANCE

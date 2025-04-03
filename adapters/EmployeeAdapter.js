@@ -52,7 +52,7 @@ class EmployeeAdapter {
   async retrieveAllMechanic() {
     return await this.model.find({ userType: UserType.MECHANIC}).populate("prestations");
   }
-
+  
   async retrieveMechanicsByPrestationId(prestationId) {
     return await this.model.find({ userType: UserType.MECHANIC, prestations: prestationId}).populate("prestations");
   }
