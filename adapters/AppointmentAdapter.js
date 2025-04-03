@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const Scope = require('../constant/Scope');
+const AutoIncrement = require("mongoose-sequence")(mongoose)
 
 const AppointmentSchema = new mongoose.Schema({
-  numAppointment: { type: Number , required: false , autoIncrement: true, unique: true},
+  numAppointment: { type: Number, unique: true },
   customerId: { type: mongoose.Types.ObjectId, required: true, ref: "Customer" },
   vehicleId: { type: mongoose.Types.ObjectId, required: true, ref: "Vehicle" },
   prestationId: { type: mongoose.Types.ObjectId, required: true, ref: "Prestation" },
@@ -15,7 +16,7 @@ const AppointmentSchema = new mongoose.Schema({
     timestamps: true
   }
 );
-
+AppointmentSchema.plugin(AutoIncrement, { inc_field: "numAppointment" });
 class AppointmentAdapter {
   constructor() {
     this.model = mongoose.model('Appointment', AppointmentSchema);
@@ -30,9 +31,13 @@ class AppointmentAdapter {
       status
     });
     await newAppointment.save();
-    return await this.model.findById(newAppointment._id)
+    
+    const retrieved = await this.model.findById(newAppointment._id)
       .populate("vehicleId")
       .populate("prestationId");
+    console.log(retrieved);
+
+    return retrieved;
   }
 
   async retrieveAppointmentsByMechanicId(mechanicId, scope = Scope.EXTENDED) {
