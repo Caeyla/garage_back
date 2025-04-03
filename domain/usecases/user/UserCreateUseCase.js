@@ -4,12 +4,14 @@ const SecurityConstant = require("../../../constant/SecurityConstant");
 const UserService = require("../../services/UserService");
 const CustomError = require("../../../error/CustomError");
 const UserRetrieveDto = require("../../../dto/user/UserRetrieveDto");
+const PrestationService = require("../../services/PrestationService");
 const SALT_ROUNDS = SecurityConstant.SALT_ROUNDS;
 
 class UserCreateUseCase {
-    constructor(customerAdapter, employeeAdapter) {
+    constructor(customerAdapter, employeeAdapter,prestationAdapter) {
         this.customerAdapter = customerAdapter;
         this.employeeAdapter = employeeAdapter;
+        this.prestationAdapter = prestationAdapter;
     }
 
     async create(userRequestDto) {
@@ -35,6 +37,12 @@ class UserCreateUseCase {
     }
 
     async handleCreateEmployee(userRequestDto,hashedPassword) {
+        if(userRequestDto.userType === UserType.MECHANIC) {
+            if(!userRequestDto.prestations) {
+                throw new CustomError("Prestations are required",500);
+            }
+            PrestationService.expectThatPrestationsExist(this.prestationAdapter,userRequestDto.prestations);
+        }
         const employee = userRequestDto.toEmployeeModel();
         employee.setPassword(hashedPassword);
         employee.setIsActive(true);
