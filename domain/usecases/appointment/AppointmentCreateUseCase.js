@@ -11,24 +11,25 @@ class AppointmentCreateUseCase {
     async create(appointmentRequestDto,customerId) {
         await this.checkIfPrestationExists(appointmentRequestDto.prestationId);
         await this.checkIfVehicleExists(appointmentRequestDto.vehicleId,customerId);
-        await this.expectThatDurationMeetsRequirements(appointmentRequestDto.prestationId);
+        await this.expectThatDurationMeetsRequirements(appointmentRequestDto.prestationId,appointmentRequestDto.appointmentDate);
         this.exceptThatAppointmentDateIsValid(appointmentRequestDto.appointmentDate);
-        const assignedMechanic = await this.getMechanic(appointmentRequestDto.prestationId);
+        //const assignedMechanic = await this.getMechanic(appointmentRequestDto.prestationId);
         
         const newAppointment = appointmentRequestDto.toAppointmentModel();
         newAppointment.setCustomerId(customerId);
         newAppointment.setStatus(AppointmentStatus.SCHEDULED);
-        newAppointment.setMechanicId(assignedMechanic.id);
-        
+        // newAppointment.setMechanicId(assignedMechanic.id);
+
         const savedAppointment =  await this.appointmentAdapter.create(newAppointment);
         return new AppointmentRetrieveOneResponseDto(savedAppointment);
     }
 
-    async expectThatDurationMeetsRequirements(prestationId) {
+    async expectThatDurationMeetsRequirements(prestationId, appointmentDate) {
         // TODO implement this method
     }
 
-    async exceptThatDurationMeetsRequirements(prestationId) {
+
+    async getMechanic(prestationId) {
         // TODO implement this method
     }
     async checkIfVehicleExists(vehicleId, customerId) {

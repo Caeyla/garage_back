@@ -7,7 +7,7 @@ const AppointmentSchema = new mongoose.Schema({
   customerId: { type: mongoose.Types.ObjectId, required: true, ref: "Customer" },
   vehicleId: { type: mongoose.Types.ObjectId, required: true, ref: "Vehicle" },
   prestationId: { type: mongoose.Types.ObjectId, required: true, ref: "Prestation" },
-  mechanicId: { type: mongoose.Types.ObjectId, required: true, ref: "Employee" },
+  mechanicId: { type: mongoose.Types.ObjectId, required: false, ref: "Employee" }, // set to true after implementation
   appointmentDate: { type: Date, required: true },
   appointmentParentId: { type: mongoose.Types.ObjectId, required: false, ref: "Appointment" },
   status: { type: Number, required: true }
