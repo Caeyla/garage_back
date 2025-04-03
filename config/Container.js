@@ -59,6 +59,7 @@ const AppointmentUpdateUseCase = require("../domain/usecases/appointment/Appoint
 
 const UnavailabilityProviderUseCase = require("../domain/usecases/mechanic/UnavailabilityProviderUseCase");
 const AddUnavailabilityUseCase = require("../domain/usecases/mechanic/AddUnavailabilityUseCase");
+
 const RetrieveUnavailabilityUseCase = require("../domain/usecases/mechanic/RetrieveUnavailabilityUseCase");
 
 /****************************************************************************/
