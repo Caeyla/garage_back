@@ -1,9 +1,8 @@
 const UserType = require("../../domain/enumeration/UserType");
 const PrestationRetrieveManyResponseDto = require("../prestation/PrestationRetrieveManyResponseDto");
-
+const { UnavailableDateRetrieveManyResponseDto } = require("../unavailableDate/UnavailableDateRetrieveResponseDto");
 class UserRetrieveDto {
     constructor(userType,user) {
-        console.log(user);
         this.id = user.id;
         this.lastname = user.name;
         this.firstname = user.firstName;
@@ -18,7 +17,7 @@ class UserRetrieveDto {
         }else if(userType === UserType.MANAGER || UserType.MECHANIC){
             this.extraData = {
                 income :  user.income,
-                unavailableDates : user.unavailableDates,
+                unavailableDates : new UnavailableDateRetrieveManyResponseDto(user.unavailableDates),
                 prestations : new PrestationRetrieveManyResponseDto(user.prestations).prestations
             }
         }
