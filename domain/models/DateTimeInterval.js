@@ -12,7 +12,7 @@ class DateTimeInterval{
     }
 
     getIntersectionInterval(anotherDateTimeInterval) {
-        if(!this.isSameDay(anotherDateTimeInterval)) return null;
+        // if(!this.isSameDay(anotherDateTimeInterval)) return null;
         if (
             this.startDate.getTime() <= anotherDateTimeInterval.endDate.getTime() 
             && anotherDateTimeInterval.startDate.getTime() <= this.endDate.getTime()
