@@ -28,18 +28,16 @@ router.get("/appointments", async (req, res) => {
     try {
         const userId = JwtService.decodeTokenFromRequest(req).id;
         const userType = JwtService.decodeTokenFromRequest(req).userType;
-        let response=null;
+        let results=null;
         if(userType === UserType.MANAGER){
             //retrieve all customers appointments scheduled
-            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(null,null);
-            res.status(200).json(response.appointments); 
+            results = await appointmentRetrieveUseCase.retrieveRemainingAppointment(null,null);
         }else if(userType === UserType.CUSTOMER){
-            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(userId,null);
-            res.status(200).json(response.appointments); 
+            results = await appointmentRetrieveUseCase.retrieveRemainingAppointment(userId,null);
         }else if (userType === UserType.MECHANIC){
-            response = await appointmentRetrieveUseCase.retrieveRemainingAppointmentByCustomerId(null,userId);
-            res.status(200).json(response.appointments);
+            results = await appointmentRetrieveUseCase.retrieveRemainingAppointment(null,userId);
         }
+        res.status(200).json(results.appointments);
     } catch (error) {
         handleErrorThrowing(res,error);
     }
@@ -69,9 +67,20 @@ router.put("/appointment/:appointmentId/cancel", async (req, res) => {
 router.get("/appointment/:appointmentId", async (req, res) => {
     try {
         const appointmentId = req.params.appointmentId;
-        const customerId = JwtService.decodeTokenFromRequest(req).id;
-        const response = await appointmentRetrieveUseCase.retrieveByIdAndCustomerId(appointmentId,customerId);
-        res.status(200).json(response); 
+        const userId = JwtService.decodeTokenFromRequest(req).id;
+        const userType = JwtService.decodeTokenFromRequest(req).userType;
+        let result = null; 
+        if(userType == UserType.CUSTOMER) {
+            result = await appointmentRetrieveUseCase.retrieveById(appointmentId,userId);
+        }
+        if(userType == UserType.MECHANIC) {
+            result = await appointmentRetrieveUseCase.retrieveById(appointmentId,null,userId);
+        }
+        if(userType == UserType.MANAGER) {
+            result = await appointmentRetrieveUseCase.retrieveById(appointmentId,null,null,userId);
+        }
+
+        res.status(200).json(result); 
     } catch (error) {
         handleErrorThrowing(res,error);
     }

@@ -1,4 +1,3 @@
-const DateTimeInterval = require("../../models/DateTimeInterval");
 const CustomError = require("../../../error/CustomError");
 const UserType = require("../../enumeration/UserType");
 const { UnavailableDateRetrieveManyResponseDto } = require("../../../dto/unavailableDate/UnavailableDateRetrieveResponseDto");

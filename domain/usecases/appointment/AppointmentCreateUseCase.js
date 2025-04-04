@@ -11,8 +11,12 @@ class AppointmentCreateUseCase {
     async create(appointmentRequestDto,customerId) {
         await this.checkIfPrestationExists(appointmentRequestDto.prestationId);
         await this.checkIfVehicleExists(appointmentRequestDto.vehicleId,customerId);
-        await this.expectThatDurationMeetsRequirements(appointmentRequestDto.prestationId,appointmentRequestDto.appointmentDate);
         this.exceptThatAppointmentDateIsValid(appointmentRequestDto.appointmentDate);
+
+        const prestation = await this.prestationAdapter.findById(appointmentRequestDto.prestationId);
+        
+        this.expectThatPrestationIsValid(prestation,appointmentRequestDto.appointmentDate);
+        
         //const assignedMechanic = await this.getMechanic(appointmentRequestDto.prestationId);
         
         const newAppointment = appointmentRequestDto.toAppointmentModel();
@@ -24,11 +28,19 @@ class AppointmentCreateUseCase {
         return new AppointmentRetrieveOneResponseDto(savedAppointment);
     }
 
-    async expectThatDurationMeetsRequirements(prestationId, appointmentDate) {
-        // TODO implement this method
+    async expectThatPrestationIsValid(prestation,appointmentDate) {
+        if(!prestation){
+            throw new CustomError("Prestation not found", 404);
+        }
+        this.expectThatDurationMeetsRequirements(prestation.duration,appointmentDate);
     }
 
-    async getMechanic(prestationId) {
+    expectThatDurationMeetsRequirements(duration,appointmentDateAsString) {
+        const appointmentDate = new Date(appointmentDateAsString);
+        
+    }
+
+    async getMechanicToAssign(prestationId) {
         // TODO implement this method
     }
 
