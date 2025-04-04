@@ -26,10 +26,10 @@ class UnavailabilityProviderUseCase {
     async buildUnavailabilityArray(mecha) {
         const unavailabilityArray = [];
         for (const date of mecha.unavailableDates) {
-            unavailabilityArray.push(new DateTimeInterval(date));
+            unavailabilityArray.push(new DateTimeInterval(date.startDate, date.endDate));
         }
         const retrievedAppointments = await this.appointmentAdapter.retrieveAppointmentsByMechanicId(mecha.id);
-        const mechaAppointments =  retrievedAppointments.map(appointment => new DateTimeInterval(appointment.startDate, appointment.endDate));
+        const mechaAppointments =  retrievedAppointments.map(appointment => new DateTimeInterval(appointment.appointmentDate, appointment.endDate));
     
         unavailabilityArray.push(...mechaAppointments);
         return unavailabilityArray;

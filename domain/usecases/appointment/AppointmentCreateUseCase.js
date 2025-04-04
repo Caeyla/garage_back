@@ -1,76 +1,81 @@
-const CustomError = require('../../../error/CustomError');
+
 const AppointmentRetrieveOneResponseDto = require('../../../dto/appointment/AppointmentRetrieveOneResponseDto');
 const AppointmentStatus = require('../../enumeration/AppointmentStatus');
+const AppointmentService = require('../../services/AppointmentService');
+const DateTimeInterval = require('../../models/DateTimeInterval');
+const ScheduleService = require('../../services/ScheduleService');
+const CustomError = require('../../../error/CustomError');
 class AppointmentCreateUseCase {
-    constructor(appointmentAdapter,vehicleAdapter,prestationAdapter) {
+    constructor(appointmentAdapter,vehicleAdapter,prestationAdapter,employeeAdapter) {
         this.appointmentAdapter = appointmentAdapter;
         this.vehicleAdapter = vehicleAdapter;
         this.prestationAdapter = prestationAdapter;
+        this.employeeAdapter = employeeAdapter;
     }
 
     async create(appointmentRequestDto,customerId) {
-        await this.checkIfPrestationExists(appointmentRequestDto.prestationId);
-        await this.checkIfVehicleExists(appointmentRequestDto.vehicleId,customerId);
-        this.exceptThatAppointmentDateIsValid(appointmentRequestDto.appointmentDate);
+        await AppointmentService.checkIfPrestationExists(this.prestationAdapter,appointmentRequestDto.prestationId);
+        await AppointmentService.checkIfVehicleExists(this.vehicleAdapter,appointmentRequestDto.vehicleId,customerId);
+        AppointmentService.exceptThatAppointmentDateIsValid(appointmentRequestDto.appointmentDate);
 
         const prestation = await this.prestationAdapter.findById(appointmentRequestDto.prestationId);
+        const intervalAppointment = this.buildInterval(appointmentRequestDto.appointmentDate,prestation.duration);
+        ScheduleService.expectThatDateIsInDailyOpeningHours(intervalAppointment);
         
-        this.expectThatPrestationIsValid(prestation,appointmentRequestDto.appointmentDate);
-        
-        //const assignedMechanic = await this.getMechanic(appointmentRequestDto.prestationId);
+        const assignedMechanic = await this.getMechanicToAssign(prestation._id,intervalAppointment);
         
         const newAppointment = appointmentRequestDto.toAppointmentModel();
         newAppointment.setCustomerId(customerId);
         newAppointment.setStatus(AppointmentStatus.SCHEDULED);
-        // newAppointment.setMechanicId(assignedMechanic.id);
+        newAppointment.setEndDate(intervalAppointment.endDate);
+        newAppointment.setMechanicId(assignedMechanic.id);
 
         const savedAppointment =  await this.appointmentAdapter.create(newAppointment);
         return new AppointmentRetrieveOneResponseDto(savedAppointment);
     }
 
-    async expectThatPrestationIsValid(prestation,appointmentDate) {
-        if(!prestation){
-            throw new CustomError("Prestation not found", 404);
-        }
-        this.expectThatDurationMeetsRequirements(prestation.duration,appointmentDate);
-    }
-
-    expectThatDurationMeetsRequirements(duration,appointmentDateAsString) {
+    buildInterval(appointmentDateAsString,duration) {
         const appointmentDate = new Date(appointmentDateAsString);
-        
+        const endDate = new Date(appointmentDate.getTime() + duration * 60 * 60 * 1000);
+        return new DateTimeInterval(appointmentDate,endDate);
     }
 
-    async getMechanicToAssign(prestationId) {
-        // TODO implement this method
+    async getMechanicToAssign(prestationId,intervalAppointment) {
+        const mechanics = await this.employeeAdapter.retrieveMechanicsByPrestationId(prestationId);
+        if(mechanics.length === 0) {
+            throw new CustomError("No mechanic have this prestation", 404);
+        }
+        for(let i=0; i<mechanics.length; i++){
+            const unavailabilitiesOfMecha = await this.buildUnavailabilityArray(mechanics[i]);
+            const oneIntervalIntersections = this.getIntersectionWithUnavailabilities(intervalAppointment,unavailabilitiesOfMecha);
+            if(oneIntervalIntersections.length === 0) {
+                return mechanics[i];
+            }
+        }
+        throw new CustomError("No Mechanic available", 500);
     }
 
-    async checkIfVehicleExists(vehicleId, customerId) {
-        const vehicle = await this.vehicleAdapter.findByIdAndCustomerId(vehicleId, customerId);
-        if (!vehicle) {
-            throw new CustomError("Vehicle not found for the customer "+customerId, 404);
+    async buildUnavailabilityArray(mecha) {
+        const unavailabilityArray = [];
+        for (const date of mecha.unavailableDates) {
+            unavailabilityArray.push(new DateTimeInterval(date.startDate, date.endDate));
         }
+        const retrievedAppointments = await this.appointmentAdapter.retrieveAppointmentsByMechanicId(mecha.id);
+        const mechaAppointments =  retrievedAppointments.map(appointment => new DateTimeInterval(appointment.appointmentDate, appointment.endDate));
+    
+        unavailabilityArray.push(...mechaAppointments);
+        return unavailabilityArray;
     }
 
-    async checkIfPrestationExists(prestationId) {
-        if(!prestationId){
-            throw new CustomError("Prestations must be provided", 500);
+    getIntersectionWithUnavailabilities(appointmentDate,unavailabilitiesOfMecha){
+        const oneIntervalIntersections = [];
+        for(let j=0; j<unavailabilitiesOfMecha.length; j++){
+            const intersection = appointmentDate.getIntersectionInterval(unavailabilitiesOfMecha[j]);
+            if(intersection){
+                oneIntervalIntersections.push(intersection);
+            }
         }
-        const prestationFromDb = await this.prestationAdapter.findById(prestationId);
-        
-        if (!prestationFromDb) {
-            throw new CustomError("Prestation not found "+ prestationId, 404);
-        }
-    }
-
-    exceptThatAppointmentDateIsValid(appointmentDateAsString){
-        if(!appointmentDateAsString){
-            throw new CustomError("Appointment date must be provided", 500);
-        }
-        const appointmentDate = new Date(appointmentDateAsString);
-        const now = new Date();
-        if(appointmentDate.getTime() < now.getTime()){
-            throw new CustomError("Appointment date must be in the future", 500);
-        }
+        return oneIntervalIntersections;
     }
 }
 

@@ -4,18 +4,20 @@ const schedule =  {
     // endLunchTime : "13:00",
     closingTime : "17:00"
 }
+const CustomError = require('../../error/CustomError');
 class ScheduleService{
 
     static expectThatDateIsInDailyOpeningHours(date) {
         const [openHour, openMinute] = schedule.openingTime.split(':').map(Number);
         const [closeHour, closeMinute] = schedule.closingTime.split(':').map(Number);
         
-        const openingTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), openHour, openMinute, 0, 0);
-        const closingTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), closeHour, closeMinute, 0, 0);
+        const openingTime = new Date(date.startDate.getFullYear(), date.startDate.getMonth(), date.startDate.getDate(), openHour, openMinute, 0, 0);
+        const closingTime = new Date(date.startDate.getFullYear(), date.startDate.getMonth(), date.startDate.getDate(), closeHour, closeMinute, 0, 0);
         
-        if(now < openingTime || now > closingTime) {
-            throw new CustomError("Date must be in daily opening hours", 400);
+        if(date.startDate < openingTime || date.endDate > closingTime) {
+            throw new CustomError(`appointment must be in daily opening hours : ${schedule.openingTime} and ${schedule.closingTime}`, 400);
         }
     }
-
 }
+
+module.exports = ScheduleService;

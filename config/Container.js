@@ -113,7 +113,7 @@ const chargeUseCase = new ChargeUseCase(chargeAdapter);
 //  APPOINTMENT USECASES INSTANCE
 /****************************************************************************/
 
-const appointmentCreateUseCase = new AppointmentCreateUseCase(appointmentAdapter,vehicleAdapter,prestationAdapter);
+const appointmentCreateUseCase = new AppointmentCreateUseCase(appointmentAdapter,vehicleAdapter,prestationAdapter,employeeAdapter);
 const appointmentRetrieveUseCase = new AppointmentRetrieveUseCase(appointmentAdapter);
 const appointmentUpdateUseCase = new AppointmentUpdateUseCase(appointmentAdapter);
 
