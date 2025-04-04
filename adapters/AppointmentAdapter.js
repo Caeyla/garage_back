@@ -52,6 +52,17 @@ class AppointmentAdapter {
     return this.handleScope(scope, query);
   }
 
+  async findById(id, scope = Scope.EXTENDED) {
+    const query = this.model.findById(id);
+    return this.handleScope(scope, query);
+  }
+
+  async findByIdAndMechanicId(id, mechanicId, scope = Scope.EXTENDED) {
+    const query = this.model
+      .findOne({ _id: id, mechanicId });
+    return this.handleScope(scope, query);
+  }
+
   async findByCustomerIdAndFilter(filter, scope = Scope.EXTENDED) {
     const query = this.model.find({ ...filter });
     return this.handleScope(scope, query);
