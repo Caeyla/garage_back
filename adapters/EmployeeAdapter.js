@@ -54,7 +54,7 @@ class EmployeeAdapter {
   }
   
   async retrieveMechanicsByPrestationId(prestationId) {
-    return await this.model.find({ userType: UserType.MECHANIC, prestations: prestationId}).populate("prestations");
+    return await this.model.find({ userType: UserType.MECHANIC, prestations: prestationId , isActive: true}).populate("prestations");
   }
   
   async update(id,updatesToEmployee){

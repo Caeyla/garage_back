@@ -9,6 +9,7 @@ const AppointmentSchema = new mongoose.Schema({
   prestationId: { type: mongoose.Types.ObjectId, required: true, ref: "Prestation" },
   mechanicId: { type: mongoose.Types.ObjectId, required: false, ref: "Employee" }, // set to true after implementation
   appointmentDate: { type: Date, required: true },
+  endDate: { type: Date, required: false },
   appointmentParentId: { type: mongoose.Types.ObjectId, required: false, ref: "Appointment" },
   status: { type: Number, required: true }
 },
@@ -22,12 +23,13 @@ class AppointmentAdapter {
     this.model = mongoose.model('Appointment', AppointmentSchema);
   }
 
-  async create({ customerId, vehicleId, prestationId, appointmentDate, status, mechanicId }) {
+  async create({ customerId, vehicleId, prestationId, appointmentDate, endDate, status, mechanicId }) {
     const newAppointment = new this.model({
       customerId,
       vehicleId,
       prestationId,
       appointmentDate,
+      endDate,
       mechanicId,
       status
     });
@@ -35,7 +37,10 @@ class AppointmentAdapter {
     
     const retrieved = await this.model.findById(newAppointment._id)
       .populate("vehicleId")
-      .populate("prestationId");
+      .populate("prestationId")
+      .populate("customerId")
+      .populate("mechanicId")
+      ;
     console.log(retrieved);
 
     return retrieved;
@@ -87,7 +92,8 @@ class AppointmentAdapter {
     if (scope === Scope.EXTENDED && query) {
         query.populate("vehicleId")
         .populate("prestationId")
-        .populate("customerId");
+        .populate("customerId")
+        .populate("mechanicId");
     }
     return await query;
   }
